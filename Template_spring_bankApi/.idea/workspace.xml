@@ -34,7 +34,27 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Pascalle/BankApi_project" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Downloads/BankApi_project" />
+  </component>
+  <component name="RunManager">
+    <configuration name="Swagger2SpringBoot" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="io.swagger.Swagger2SpringBoot" />
+      <module name="swagger-spring" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="io.swagger.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Swagger2SpringBoot" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -66,10 +86,39 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="811" y="411" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1588246300814" />
+    <state x="740" y="277" key="FileChooserDialogImpl" timestamp="1588251854742">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="740" y="277" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1588251854742" />
+    <state width="1877" height="282" key="GridCell.Tab.0.bottom" timestamp="1588252111403">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="282" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1588252111403" />
+    <state width="1877" height="282" key="GridCell.Tab.0.center" timestamp="1588252111403">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="282" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1588252111403" />
+    <state width="1877" height="282" key="GridCell.Tab.0.left" timestamp="1588252111403">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="282" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1588252111403" />
+    <state width="1877" height="282" key="GridCell.Tab.0.right" timestamp="1588252111403">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="282" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1588252111403" />
+    <state width="1918" height="1038" key="com.intellij.byteCodeViewer.ShowByteCodeAction" timestamp="1588252134893">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1918" height="1038" key="com.intellij.byteCodeViewer.ShowByteCodeAction/0.0.1920.1040@0.0.1920.1040" timestamp="1588252134893" />
     <state x="702" y="154" key="refactoring.ChangeSignatureDialog" timestamp="1588250729991">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="702" y="154" key="refactoring.ChangeSignatureDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1588250729991" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/swagger_spring$Swagger2SpringBoot.ic" NAME="Swagger2SpringBoot Coverage Results" MODIFIED="1588252111181" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>io.swagger.*</FILTER>
+    </SUITE>
   </component>
   <component name="masterDetails">
     <states>

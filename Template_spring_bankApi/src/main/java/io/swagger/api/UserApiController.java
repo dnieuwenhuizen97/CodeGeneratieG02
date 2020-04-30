@@ -43,6 +43,7 @@ public class UserApiController implements UserApi {
         this.request = request;
 
         service.createUser(new User(1, "Dylan", "Nieuwenhuizen", "test123", "dylan@test.nl"));
+        System.out.println(service.getUserById(1));
     }
 
     public ResponseEntity<Void> createAccountByUser(@ApiParam(value = "user of a specific account",required=true) @PathVariable("userId") Integer userId
