@@ -9,15 +9,21 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
+
+import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
  * User
  */
+@Entity
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-28T15:21:59.457Z[GMT]")
 public class User   {
+  @Id
+  @SequenceGenerator(name="seq", initialValue = 100001)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq")
   @JsonProperty("user_id")
   private Integer userId = null;
 
@@ -33,8 +39,11 @@ public class User   {
   @JsonProperty("email")
   private String email = null;
 
-  public User(Integer userId, String firstName, String lastName, String password, String email) {
-    this.userId = userId;
+  public User() {
+
+  }
+
+  public User(String firstName, String lastName, String password, String email, UserTypeEnum userType) {
     this.firstName = firstName;
     this.lastName = lastName;
     this.password = password;
@@ -76,7 +85,7 @@ public class User   {
   }
   @JsonProperty("user_type")
   @Valid
-  private List<UserTypeEnum> userType = null;
+  private UserTypeEnum userType = null;
 
   public User userId(Integer userId) {
     this.userId = userId;
@@ -173,16 +182,16 @@ public class User   {
     this.email = email;
   }
 
-  public User userType(List<UserTypeEnum> userType) {
+  public User userType(UserTypeEnum userType) {
     this.userType = userType;
     return this;
   }
 
   public User addUserTypeItem(UserTypeEnum userTypeItem) {
     if (this.userType == null) {
-      this.userType = new ArrayList<UserTypeEnum>();
+      this.userType = userTypeItem;
     }
-    this.userType.add(userTypeItem);
+    this.userType = userTypeItem;
     return this;
   }
 
@@ -192,11 +201,11 @@ public class User   {
   **/
   @ApiModelProperty(value = "")
   
-    public List<UserTypeEnum> getUserType() {
+    public UserTypeEnum getUserType() {
     return userType;
   }
 
-  public void setUserType(List<UserTypeEnum> userType) {
+  public void setUserType(UserTypeEnum userType) {
     this.userType = userType;
   }
 

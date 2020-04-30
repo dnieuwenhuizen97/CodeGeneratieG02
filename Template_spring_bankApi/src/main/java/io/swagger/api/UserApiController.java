@@ -38,12 +38,16 @@ public class UserApiController implements UserApi {
     private UserService service;
 
     @org.springframework.beans.factory.annotation.Autowired
-    public UserApiController(ObjectMapper objectMapper, HttpServletRequest request) {
+    public UserApiController(ObjectMapper objectMapper, HttpServletRequest request, UserService service) {
         this.objectMapper = objectMapper;
         this.request = request;
+        this.service = service;
 
-        service.createUser(new User(1, "Dylan", "Nieuwenhuizen", "test123", "dylan@test.nl"));
-        System.out.println(service.getUserById(1));
+        service.createUser(new User("Dylan", "Nieuwenhuizen", "test123", "dylan@test.nl", User.UserTypeEnum.EMPLOYEE));
+        service.createUser(new User("Test", "User", "test123", "test@test.nl", User.UserTypeEnum.CUSTOMER));
+
+        for (User u : service.getAllUsers())
+            System.out.println(u);
     }
 
     public ResponseEntity<Void> createAccountByUser(@ApiParam(value = "user of a specific account",required=true) @PathVariable("userId") Integer userId
