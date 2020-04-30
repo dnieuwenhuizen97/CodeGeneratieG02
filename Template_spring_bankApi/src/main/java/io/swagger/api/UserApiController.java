@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
+import io.swagger.service.UserService;
 
 import javax.validation.constraints.*;
 import javax.validation.Valid;
@@ -34,10 +35,14 @@ public class UserApiController implements UserApi {
 
     private final HttpServletRequest request;
 
+    private UserService service;
+
     @org.springframework.beans.factory.annotation.Autowired
     public UserApiController(ObjectMapper objectMapper, HttpServletRequest request) {
         this.objectMapper = objectMapper;
         this.request = request;
+
+        service.createUser(new User(1, "Dylan", "Nieuwenhuizen", "test123", "dylan@test.nl"));
     }
 
     public ResponseEntity<Void> createAccountByUser(@ApiParam(value = "user of a specific account",required=true) @PathVariable("userId") Integer userId
@@ -86,7 +91,7 @@ public class UserApiController implements UserApi {
     public ResponseEntity<Void> getUserById(@ApiParam(value = "The id from the user",required=true) @PathVariable("userId") Integer userId
 ) {
         String accept = request.getHeader("Accept");
-        return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<Void>(HttpStatus.OK);
     }
 
     public ResponseEntity<Void> machineTransfer(@ApiParam(value = "",required=true) @PathVariable("userId") Integer userId

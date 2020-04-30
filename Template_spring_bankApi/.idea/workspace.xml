@@ -54,10 +54,22 @@
     <option name="version" value="1" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="414" y="177" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1588250652504">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="414" y="177" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1588250652504" />
+    <state x="765" y="238" key="#com.intellij.ide.util.MemberChooser" timestamp="1588250966855">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="765" y="238" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1588250966855" />
     <state x="811" y="411" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog" timestamp="1588246300814">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="811" y="411" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1588246300814" />
+    <state x="702" y="154" key="refactoring.ChangeSignatureDialog" timestamp="1588250729991">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="702" y="154" key="refactoring.ChangeSignatureDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1588250729991" />
   </component>
   <component name="masterDetails">
     <states>

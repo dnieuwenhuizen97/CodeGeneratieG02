@@ -33,6 +33,15 @@ public class User   {
   @JsonProperty("email")
   private String email = null;
 
+  public User(Integer userId, String firstName, String lastName, String password, String email) {
+    this.userId = userId;
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.password = password;
+    this.email = email;
+    this.userType = userType;
+  }
+
   /**
    * Gets or Sets userType
    */
