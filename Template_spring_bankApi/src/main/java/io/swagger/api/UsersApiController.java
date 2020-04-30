@@ -3,6 +3,7 @@ package io.swagger.api;
 import io.swagger.model.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
+import io.swagger.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -32,10 +33,19 @@ public class UsersApiController implements UsersApi {
 
     private final HttpServletRequest request;
 
+    private UserService service;
+
     @org.springframework.beans.factory.annotation.Autowired
-    public UsersApiController(ObjectMapper objectMapper, HttpServletRequest request) {
+    public UsersApiController(ObjectMapper objectMapper, HttpServletRequest request, UserService service) {
         this.objectMapper = objectMapper;
         this.request = request;
+        this.service = service;
+
+        service.createUser(new User("Dylan", "Nieuwenhuizen", "test123", "dylan@test.nl", User.UserTypeEnum.EMPLOYEE));
+        service.createUser(new User("Test", "User", "test123", "test@test.nl", User.UserTypeEnum.CUSTOMER));
+
+        for (User u : service.getAllUsers())
+            System.out.println(u);
     }
 
     public ResponseEntity<Void> createUser(@ApiParam(value = "Created user object" ,required=true )  @Valid @RequestBody User body
@@ -61,7 +71,7 @@ public class UsersApiController implements UsersApi {
             }
         }
 
-        return new ResponseEntity<List<User>>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<List<User>>(service.getAllUsers(), HttpStatus.OK);
     }
 
 }
