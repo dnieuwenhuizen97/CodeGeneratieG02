@@ -46,6 +46,10 @@ public class TransactionsApiController implements TransactionsApi {
 
     public ResponseEntity<Void> createTransaction(@ApiParam(value = "Created transaction object" ,required=true )  @Valid @RequestBody Transaction body
 ) {
+        String apiKeyAuth = request.getHeader("ApiKeyAuth");
+        if(!authService.IsUserAuthenticated(apiKeyAuth))
+            return new ResponseEntity(HttpStatus.FORBIDDEN);
+        
         String accept = request.getHeader("Accept");
         return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
     }
