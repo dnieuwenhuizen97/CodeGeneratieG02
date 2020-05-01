@@ -24,8 +24,8 @@ public class Transaction   {
 
   public Transaction() {
   }
-  public Transaction(TransactionTypeEnum transactionType, String timestamp, String accountFrom, String accountTo, Double amount, Integer userPerforming) {
-    this.transactionType = transactionType;
+  public Transaction(String transactionType, String timestamp, String accountFrom, String accountTo, Double amount, Integer userPerforming) {
+    this.transactionType = TransactionTypeEnum.fromValue(transactionType);
     this.timestamp = timestamp;
     this.accountFrom = accountFrom;
     this.accountTo = accountTo;

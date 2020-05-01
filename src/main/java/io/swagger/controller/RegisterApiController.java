@@ -37,7 +37,8 @@ public class RegisterApiController implements RegisterApi {
     public ResponseEntity<Void> registerUser(@ApiParam(value = ""  )  @Valid @RequestBody User body
 ) {
         String accept = request.getHeader("Accept");
-        return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
+        authService.SignUpUser(body);
+        return new ResponseEntity<Void>(HttpStatus.valueOf(201));
     }
 
 }

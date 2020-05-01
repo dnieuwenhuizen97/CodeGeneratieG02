@@ -21,6 +21,13 @@ public class AuthenticationService {
         this.userRepository = userRepository;
     }
 
+    public void SignUpUser(User user)
+    {
+        userRepository.save(user);
+        userRepository.findAll()
+                .forEach(System.out::println);
+    }
+
     public boolean IsUserAuthenticated(String token)
     {
       AuthToken authToken = authTokenRepository.findAuthTokenByToken(token);
