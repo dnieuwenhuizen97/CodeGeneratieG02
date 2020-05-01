@@ -14,11 +14,7 @@ public class AuthenticationService {
     private AuthTokenRepository authTokenRepository;
 
     public AuthenticationService(AuthTokenRepository authTokenRepository) {
-
-        String token = "1234-abcd-5678-efgh";
         this.authTokenRepository = authTokenRepository;
-
-        authTokenRepository.save(new AuthToken(token, 1000001, LocalDateTime.now()));
 
     }
 

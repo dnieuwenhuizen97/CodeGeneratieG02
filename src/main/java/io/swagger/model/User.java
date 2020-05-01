@@ -9,15 +9,21 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
+
+import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
  * User
  */
+@Entity
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-28T15:21:59.457Z[GMT]")
 public class User   {
+  @Id
+  @SequenceGenerator(name="seq", initialValue = 100001)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq")
   @JsonProperty("user_id")
   private Integer userId = null;
 
@@ -33,14 +39,26 @@ public class User   {
   @JsonProperty("email")
   private String email = null;
 
+  public User() {
+
+  }
+
+  public User(String firstName, String lastName, String password, String email, UserTypeEnum userType) {
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.password = password;
+    this.email = email;
+    this.userType = userType;
+  }
+
   /**
    * Gets or Sets userType
    */
   public enum UserTypeEnum {
     CUSTOMER("customer"),
-    
+
     EMPLOYEE("employee"),
-    
+
     CUSTOMERANDEMPLOYEE("customerAndEmployee");
 
     private String value;
@@ -67,7 +85,7 @@ public class User   {
   }
   @JsonProperty("user_type")
   @Valid
-  private List<UserTypeEnum> userType = null;
+  private UserTypeEnum userType = null;
 
   public User userId(Integer userId) {
     this.userId = userId;
@@ -77,10 +95,10 @@ public class User   {
   /**
    * Get userId
    * @return userId
-  **/
+   **/
   @ApiModelProperty(example = "1", value = "")
-  
-    public Integer getUserId() {
+
+  public Integer getUserId() {
     return userId;
   }
 
@@ -96,10 +114,10 @@ public class User   {
   /**
    * Get firstName
    * @return firstName
-  **/
+   **/
   @ApiModelProperty(example = "John", value = "")
-  
-    public String getFirstName() {
+
+  public String getFirstName() {
     return firstName;
   }
 
@@ -115,10 +133,10 @@ public class User   {
   /**
    * Get lastName
    * @return lastName
-  **/
+   **/
   @ApiModelProperty(example = "van Vuuren", value = "")
-  
-    public String getLastName() {
+
+  public String getLastName() {
     return lastName;
   }
 
@@ -134,10 +152,10 @@ public class User   {
   /**
    * Get password
    * @return password
-  **/
+   **/
   @ApiModelProperty(example = "thisismypassword3485", value = "")
-  
-    public String getPassword() {
+
+  public String getPassword() {
     return password;
   }
 
@@ -153,10 +171,10 @@ public class User   {
   /**
    * Get email
    * @return email
-  **/
+   **/
   @ApiModelProperty(example = "john@vanVuuren.com", value = "")
-  
-    public String getEmail() {
+
+  public String getEmail() {
     return email;
   }
 
@@ -164,30 +182,30 @@ public class User   {
     this.email = email;
   }
 
-  public User userType(List<UserTypeEnum> userType) {
+  public User userType(UserTypeEnum userType) {
     this.userType = userType;
     return this;
   }
 
   public User addUserTypeItem(UserTypeEnum userTypeItem) {
     if (this.userType == null) {
-      this.userType = new ArrayList<UserTypeEnum>();
+      this.userType = userTypeItem;
     }
-    this.userType.add(userTypeItem);
+    this.userType = userTypeItem;
     return this;
   }
 
   /**
    * Get userType
    * @return userType
-  **/
+   **/
   @ApiModelProperty(value = "")
-  
-    public List<UserTypeEnum> getUserType() {
+
+  public UserTypeEnum getUserType() {
     return userType;
   }
 
-  public void setUserType(List<UserTypeEnum> userType) {
+  public void setUserType(UserTypeEnum userType) {
     this.userType = userType;
   }
 
@@ -202,11 +220,11 @@ public class User   {
     }
     User user = (User) o;
     return Objects.equals(this.userId, user.userId) &&
-        Objects.equals(this.firstName, user.firstName) &&
-        Objects.equals(this.lastName, user.lastName) &&
-        Objects.equals(this.password, user.password) &&
-        Objects.equals(this.email, user.email) &&
-        Objects.equals(this.userType, user.userType);
+            Objects.equals(this.firstName, user.firstName) &&
+            Objects.equals(this.lastName, user.lastName) &&
+            Objects.equals(this.password, user.password) &&
+            Objects.equals(this.email, user.email) &&
+            Objects.equals(this.userType, user.userType);
   }
 
   @Override
@@ -218,7 +236,7 @@ public class User   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class User {\n");
-    
+
     sb.append("    userId: ").append(toIndentedString(userId)).append("\n");
     sb.append("    firstName: ").append(toIndentedString(firstName)).append("\n");
     sb.append("    lastName: ").append(toIndentedString(lastName)).append("\n");
