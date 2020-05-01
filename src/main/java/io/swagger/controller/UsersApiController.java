@@ -4,6 +4,7 @@ import io.swagger.api.UsersApi;
 import io.swagger.model.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
+import io.swagger.service.AuthenticationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -27,15 +28,23 @@ public class UsersApiController implements UsersApi {
 
     private final HttpServletRequest request;
 
+    private AuthenticationService authService;
+
     @org.springframework.beans.factory.annotation.Autowired
-    public UsersApiController(ObjectMapper objectMapper, HttpServletRequest request) {
+    public UsersApiController(ObjectMapper objectMapper, HttpServletRequest request, AuthenticationService authService) {
         this.objectMapper = objectMapper;
         this.request = request;
+        this.authService = authService;
     }
 
     public ResponseEntity<Void> createUser(@ApiParam(value = "Created user object" ,required=true )  @Valid @RequestBody User body
 ) {
         String accept = request.getHeader("Accept");
+
+        String apiKeyAuth = request.getHeader("ApiKeyAuth");
+        if(!authService.IsUserAuthenticated(apiKeyAuth))
+            return new ResponseEntity(HttpStatus.FORBIDDEN);
+
         return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
     }
 
@@ -47,6 +56,11 @@ public class UsersApiController implements UsersApi {
 ,@ApiParam(value = "The email the user should have") @Valid @RequestParam(value = "email", required = false) String email
 ) {
         String accept = request.getHeader("Accept");
+
+        String apiKeyAuth = request.getHeader("ApiKeyAuth");
+        if(!authService.IsUserAuthenticated(apiKeyAuth))
+            return new ResponseEntity(HttpStatus.FORBIDDEN);
+
         if (accept != null && accept.contains("application/json")) {
             try {
                 return new ResponseEntity<List<User>>(objectMapper.readValue("[ {\n  \"firstName\" : \"John\",\n  \"lastName\" : \"van Vuuren\",\n  \"password\" : \"thisismypassword3485\",\n  \"user_type\" : [ \"customer\", \"customer\" ],\n  \"user_id\" : 1,\n  \"email\" : \"john@vanVuuren.com\"\n}, {\n  \"firstName\" : \"John\",\n  \"lastName\" : \"van Vuuren\",\n  \"password\" : \"thisismypassword3485\",\n  \"user_type\" : [ \"customer\", \"customer\" ],\n  \"user_id\" : 1,\n  \"email\" : \"john@vanVuuren.com\"\n} ]", List.class), HttpStatus.NOT_IMPLEMENTED);

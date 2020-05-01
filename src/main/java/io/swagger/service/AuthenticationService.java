@@ -2,7 +2,9 @@ package io.swagger.service;
 
 import io.swagger.model.AuthToken;
 import io.swagger.model.Login;
+import io.swagger.model.User;
 import io.swagger.repository.AuthTokenRepository;
+import io.swagger.repository.UserRepository;
 import jdk.nashorn.internal.parser.Token;
 import org.springframework.stereotype.Service;
 
@@ -12,10 +14,11 @@ import java.util.*;
 @Service
 public class AuthenticationService {
     private AuthTokenRepository authTokenRepository;
+    private UserRepository userRepository;
 
-    public AuthenticationService(AuthTokenRepository authTokenRepository) {
+    public AuthenticationService(AuthTokenRepository authTokenRepository, UserRepository userRepository) {
         this.authTokenRepository = authTokenRepository;
-
+        this.userRepository = userRepository;
     }
 
     public boolean IsUserAuthenticated(String token)
@@ -29,14 +32,14 @@ public class AuthenticationService {
     public AuthToken ValidateUserAndReturnAuthToken(Login login)
     {
         AuthToken authToken = null;
-        //TO-DO:user repo check if user and return userId
-        int userId = 1;
+        User user = userRepository.findUserByUserCredentials(login.getUsername(), login.getPassword());
 
-        if(userId != 0)
-        {
-            authToken = new AuthToken(CreateAuthToken(), userId, LocalDateTime.now());
-            authTokenRepository.save(authToken);
-        }
+        if(user == null)
+            return authToken;
+
+        authToken = new AuthToken(CreateAuthToken(), user.getUserId(), LocalDateTime.now());
+        authTokenRepository.save(authToken);
+
         return authToken;
     }
     private String CreateAuthToken()

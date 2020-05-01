@@ -41,11 +41,13 @@ public class TransactionsApiController implements TransactionsApi {
 
     public ResponseEntity<Void> createTransaction(@ApiParam(value = "Created transaction object" ,required=true )  @Valid @RequestBody Transaction body
 ) {
+        String accept = request.getHeader("Accept");
+
         String apiKeyAuth = request.getHeader("ApiKeyAuth");
         if(!authService.IsUserAuthenticated(apiKeyAuth))
             return new ResponseEntity(HttpStatus.FORBIDDEN);
 
-        String accept = request.getHeader("Accept");
+
         return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
     }
 
@@ -55,10 +57,9 @@ public class TransactionsApiController implements TransactionsApi {
 ,@ApiParam(value = "The iban that should be involved within the transactions") @Valid @RequestParam(value = "iban", required = false) String iban
 ) {
         //get auth token
-        String apiKeyAuth = request.getHeader("ApiKeyAuth");
+        String accept = request.getHeader("Accept");
 
-
-        if (apiKeyAuth != null && apiKeyAuth.contains("application/json")) {
+        if (accept != null && accept.contains("application/json")) {
             try {
                 return new ResponseEntity<List<Transaction>>(objectMapper.readValue("[ {\n  \"transaction_id\" : 10034,\n  \"amount\" : 22.30,\n  \"account_to\" : \"NL39ING008451843\",\n  \"account_from\" : \"NL39INGB007801007\",\n  \"transaction_type\" : [ \"withdraw\", \"withdraw\" ],\n  \"user_performing\" : 1,\n  \"timestamp\" : \"995-09-07T10:40:52Z\"\n}, {\n  \"transaction_id\" : 10034,\n  \"amount\" : 22.30,\n  \"account_to\" : \"NL39ING008451843\",\n  \"account_from\" : \"NL39INGB007801007\",\n  \"transaction_type\" : [ \"withdraw\", \"withdraw\" ],\n  \"user_performing\" : 1,\n  \"timestamp\" : \"995-09-07T10:40:52Z\"\n} ]", List.class), HttpStatus.NOT_IMPLEMENTED);
             } catch (IOException e) {
@@ -66,12 +67,12 @@ public class TransactionsApiController implements TransactionsApi {
                 return new ResponseEntity<List<Transaction>>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
-
-        //if not authenticated test
+        //if not authenticated
+        String apiKeyAuth = request.getHeader("ApiKeyAuth");
         if(!authService.IsUserAuthenticated(apiKeyAuth))
             return new ResponseEntity(HttpStatus.FORBIDDEN);
-        else
-            return new ResponseEntity<List<Transaction>>(service.getAllTransactions(), HttpStatus.OK);
+
+        return new ResponseEntity<List<Transaction>>(service.getAllTransactions(), HttpStatus.OK);
 
     }
 

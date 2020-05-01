@@ -29,15 +29,16 @@ public class myApplicationRunner implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments applicationArguments) throws Exception {
         transactionRepository.save(new Transaction( Transaction.TransactionTypeEnum.TRANSACTION, "00:00", "NL12INHO1234567890", "NL13INHO1234567890", 44.44, 1 ));
-        transactionRepository.save(new Transaction( Transaction.TransactionTypeEnum.TRANSACTION, "10:00", "NL12INHO1234567890", "NL13INHO1234567890", 88.44, 1 ));
         transactionRepository.findAll()
                 .forEach(System.out::println);
 
-        userRepository.save(new User("Pascalle", "Schipper", "pascalle.schipper@test.com", "password", User.UserTypeEnum.CUSTOMERANDEMPLOYEE));
+        userRepository.save(new User("Pietje", "Drop", "password","email",  User.UserTypeEnum.CUSTOMERANDEMPLOYEE));
         userRepository.findAll()
                 .forEach(System.out::println);
 
-        System.out.println("test");
+        authTokenRepository.save(new AuthToken("1234-abcd-5678-efgh", 100001, LocalDateTime.now()));
+        authTokenRepository.findAll()
+                .forEach(System.out::println);
     }
 }
 

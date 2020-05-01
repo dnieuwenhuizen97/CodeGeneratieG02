@@ -2,6 +2,7 @@ package io.swagger.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.api.LogoutApi;
+import io.swagger.service.AuthenticationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -20,14 +21,22 @@ public class LogoutApiController implements LogoutApi {
 
     private final HttpServletRequest request;
 
+    private AuthenticationService authService;
+
     @org.springframework.beans.factory.annotation.Autowired
-    public LogoutApiController(ObjectMapper objectMapper, HttpServletRequest request) {
+    public LogoutApiController(ObjectMapper objectMapper, HttpServletRequest request, AuthenticationService authService) {
         this.objectMapper = objectMapper;
         this.request = request;
+        this.authService = authService;
     }
 
     public ResponseEntity<Void> logoutUser() {
         String accept = request.getHeader("Accept");
+
+        String apiKeyAuth = request.getHeader("ApiKeyAuth");
+        if(!authService.IsUserAuthenticated(apiKeyAuth))
+            return new ResponseEntity(HttpStatus.FORBIDDEN);
+
         return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
     }
 
