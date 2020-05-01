@@ -68,7 +68,7 @@ public class TransactionsApiController implements TransactionsApi {
             }
         }
 
-        //if not authenticated
+        //if not authenticated test
         if(!authService.IsUserAuthenticated(apiKeyAuth))
             return new ResponseEntity(HttpStatus.FORBIDDEN);
         else
