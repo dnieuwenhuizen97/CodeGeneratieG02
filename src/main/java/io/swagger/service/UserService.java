@@ -9,22 +9,39 @@ import java.util.List;
 @Service
 public class UserService {
 
-    private UserRepository repository;
+    private UserRepository userRepository;
 
-    public UserService (UserRepository repository) {
-        this.repository = repository;
+    public UserService (UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    public Integer SignUpUser(User user)
+    {
+        //user already exist
+        if(findUserByEmail(user.getEmail()) != null)
+            return 406;
+
+        //to do: valid email check, valid password check
+
+        userRepository.save(user);
+        return 201;
+    }
+
+    private User findUserByEmail(String email)
+    {
+        return userRepository.findUserByEmail(email);
     }
 
     public List<User> getAllUsers() {
-        return (List<User>)repository.findAll();
+        return (List<User>)userRepository.findAll();
     }
 
     public void createUser(User u) {
-        repository.save(u);
+        userRepository.save(u);
     }
 
     public void deleteUser(User u) {
-        repository.delete(u);
+        userRepository.delete(u);
     }
 
 }

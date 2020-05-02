@@ -5,6 +5,7 @@ import io.swagger.model.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
 import io.swagger.service.AuthenticationService;
+import io.swagger.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -25,20 +26,21 @@ public class RegisterApiController implements RegisterApi {
 
     private final HttpServletRequest request;
 
-    private AuthenticationService authService;
+    private UserService userService;
 
     @org.springframework.beans.factory.annotation.Autowired
-    public RegisterApiController(ObjectMapper objectMapper, HttpServletRequest request, AuthenticationService authService) {
+    public RegisterApiController(ObjectMapper objectMapper, HttpServletRequest request, UserService userService) {
         this.objectMapper = objectMapper;
         this.request = request;
-        this.authService = authService;
+        this.userService = userService;
     }
 
     public ResponseEntity<Void> registerUser(@ApiParam(value = ""  )  @Valid @RequestBody User body
 ) {
         String accept = request.getHeader("Accept");
-        authService.SignUpUser(body);
-        return new ResponseEntity<Void>(HttpStatus.valueOf(201));
+
+        //sign up user will return respond code 406: already exist, 201: created
+        return new ResponseEntity<Void>(HttpStatus.valueOf(userService.SignUpUser(body)));
     }
 
 }

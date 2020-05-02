@@ -11,4 +11,8 @@ import org.springframework.data.jpa.repository.Query;
 public interface UserRepository extends CrudRepository<User, Long> {
     @Query("SELECT u FROM User u WHERE u.email =:email AND u.password = :password")
     User findUserByUserCredentials(@Param("email") String email,@Param("password") String password);
+
+    @Query("SELECT u FROM User u WHERE u.email =:email")
+    User findUserByEmail(@Param("email") String email);
+
 }

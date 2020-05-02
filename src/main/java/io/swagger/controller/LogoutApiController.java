@@ -34,10 +34,11 @@ public class LogoutApiController implements LogoutApi {
         String accept = request.getHeader("Accept");
 
         String apiKeyAuth = request.getHeader("ApiKeyAuth");
+
         if(!authService.IsUserAuthenticated(apiKeyAuth))
             return new ResponseEntity(HttpStatus.FORBIDDEN);
 
-        return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<Void>(HttpStatus.valueOf(authService.signOutUser(apiKeyAuth)));
     }
 
 }

@@ -39,6 +39,7 @@ public class LoginApiController implements LoginApi {
     public ResponseEntity<AuthToken> loginUser(@ApiParam(value = ""  )  @Valid @RequestBody Login body
 ) {
         String accept = request.getHeader("Accept");
+        //bad json format
         if (accept != null && accept.contains("application/json")) {
             try {
                 return new ResponseEntity<AuthToken>(objectMapper.readValue("{\n  \"AuthToken\" : \"1234-abcd-5678-efgh\"\n}", AuthToken.class), HttpStatus.NOT_IMPLEMENTED);

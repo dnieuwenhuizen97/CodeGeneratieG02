@@ -21,17 +21,16 @@ public class AuthenticationService {
         this.userRepository = userRepository;
     }
 
-    public void SignUpUser(User user)
+    public Integer signOutUser(String authToken)
     {
-        userRepository.save(user);
-        userRepository.findAll()
-                .forEach(System.out::println);
+        authTokenRepository.DeleteAuthToken(authToken);
+        return 200;
     }
+
 
     public boolean IsUserAuthenticated(String token)
     {
-      AuthToken authToken = authTokenRepository.findAuthTokenByToken(token);
-        if(authToken != null)
+        if(authTokenRepository.findAuthTokenByToken(token) != null)
             return true;
         return false;
     }
