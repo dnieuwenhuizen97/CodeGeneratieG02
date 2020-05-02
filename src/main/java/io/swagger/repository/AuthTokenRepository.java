@@ -16,6 +16,9 @@ public interface AuthTokenRepository extends CrudRepository<AuthToken,Long> {
     @Query("SELECT t FROM AuthToken t WHERE t.authToken =:authToken")
     AuthToken findAuthTokenByToken(@Param("authToken") String authToken);
 
+    @Query("SELECT t FROM AuthToken t WHERE t.userId =:userId")
+    AuthToken findAuthTokenByUser(@Param("userId") int userId);
+
     @Modifying
     @Transactional
     @Query("DELETE FROM AuthToken t WHERE t.authToken = :authToken")

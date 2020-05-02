@@ -18,7 +18,7 @@ public class UserService {
     public Integer SignUpUser(User user)
     {
         //user already exist
-        if(findUserByEmail(user.getEmail()) != null)
+        if(FindUserByEmail(user.getEmail()) != null)
             return 406;
 
         //to do: valid email check, valid password check
@@ -26,8 +26,12 @@ public class UserService {
         userRepository.save(user);
         return 201;
     }
+    public User FindUserById(int userId)
+    {
+        return userRepository.findById(userId).get();
+    }
 
-    private User findUserByEmail(String email)
+    private User FindUserByEmail(String email)
     {
         return userRepository.findUserByEmail(email);
     }

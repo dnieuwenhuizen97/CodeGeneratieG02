@@ -26,6 +26,7 @@ public class AuthToken   {
 
 
   private Integer userId = null;
+
   @Id
   @SequenceGenerator(name="seq", initialValue = 100001)
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq")
@@ -41,6 +42,10 @@ public class AuthToken   {
   public AuthToken()
   {
 
+  }
+
+  public Integer getUserId() {
+    return userId;
   }
 
   public AuthToken authToken(String authToken) {

@@ -28,19 +28,36 @@ public class AuthenticationService {
     }
 
 
-    public boolean IsUserAuthenticated(String token)
+    public boolean IsUserAuthenticated(String token, int userId)
     {
-        if(authTokenRepository.findAuthTokenByToken(token) != null)
+        AuthToken authToken = authTokenRepository.findAuthTokenByToken(token);
+        //token exist
+        if(authToken == null)
+            return false;
+        //if user in path given check if user connected to token is requesting
+        else if(userId != 0) {
+            //customer request
+            if(userId == authToken.getUserId())
+                return true;
+            //employee request
+            else if (userRepository.findById(authToken.getUserId()).get().getUserType() == User.UserTypeEnum.EMPLOYEE || userRepository.findById(authToken.getUserId()).get().getUserType() == User.UserTypeEnum.CUSTOMERANDEMPLOYEE)
+                return true;
+            else
+                return false;
+        }
+        else
             return true;
-        return false;
     }
 
     public AuthToken ValidateUserAndReturnAuthToken(Login login)
     {
-        AuthToken authToken = null;
         User user = userRepository.findUserByUserCredentials(login.getUsername(), login.getPassword());
-
+        AuthToken authToken = authTokenRepository.findAuthTokenByUser(user.getUserId());
+        //no user found with credentials
         if(user == null)
+            return authToken;
+        //user already has token
+        else if(authToken != null)
             return authToken;
 
         authToken = new AuthToken(CreateAuthToken(), user.getUserId(), LocalDateTime.now());

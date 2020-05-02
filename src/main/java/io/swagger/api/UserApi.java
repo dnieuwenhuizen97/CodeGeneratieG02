@@ -109,7 +109,7 @@ public interface UserApi {
         @ApiResponse(code = 429, message = "You have tried too many times to search a user, please wait a minute before you try again.") })
     @RequestMapping(value = "/user/{userId}",
         method = RequestMethod.GET)
-    ResponseEntity<Void> getUserById(@ApiParam(value = "The id from the user",required=true) @PathVariable("userId") Integer userId
+    ResponseEntity<User> getUserById(@ApiParam(value = "The id from the user",required=true) @PathVariable("userId") Integer userId
 );
 
 

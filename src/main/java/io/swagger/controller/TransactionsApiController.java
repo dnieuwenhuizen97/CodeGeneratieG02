@@ -44,7 +44,7 @@ public class TransactionsApiController implements TransactionsApi {
         String accept = request.getHeader("Accept");
 
         String apiKeyAuth = request.getHeader("ApiKeyAuth");
-        if(!authService.IsUserAuthenticated(apiKeyAuth))
+        if(!authService.IsUserAuthenticated(apiKeyAuth, 0))
             return new ResponseEntity(HttpStatus.FORBIDDEN);
 
 
@@ -69,7 +69,7 @@ public class TransactionsApiController implements TransactionsApi {
         }
         //if not authenticated
         String apiKeyAuth = request.getHeader("ApiKeyAuth");
-        if(!authService.IsUserAuthenticated(apiKeyAuth))
+        if(!authService.IsUserAuthenticated(apiKeyAuth, 0))
             return new ResponseEntity(HttpStatus.FORBIDDEN);
 
         return new ResponseEntity<List<Transaction>>(service.getAllTransactions(), HttpStatus.OK);
