@@ -2,8 +2,10 @@ package io.swagger.service;
 
 import io.swagger.model.AuthToken;
 import io.swagger.model.Login;
+import io.swagger.model.RegisterRequest;
 import io.swagger.model.User;
 import io.swagger.repository.AuthTokenRepository;
+import io.swagger.repository.RegisterRequestRepository;
 import io.swagger.repository.UserRepository;
 import jdk.nashorn.internal.parser.Token;
 import org.springframework.stereotype.Service;
@@ -15,10 +17,22 @@ import java.util.*;
 public class AuthenticationService {
     private AuthTokenRepository authTokenRepository;
     private UserRepository userRepository;
+    private RegisterRequestRepository registerRequestRepository;
 
-    public AuthenticationService(AuthTokenRepository authTokenRepository, UserRepository userRepository) {
+    public AuthenticationService(AuthTokenRepository authTokenRepository, UserRepository userRepository, RegisterRequestRepository registerRequestRepository) {
         this.authTokenRepository = authTokenRepository;
         this.userRepository = userRepository;
+        this.registerRequestRepository = registerRequestRepository;
+    }
+
+    public Integer CreateRegisterRequest(RegisterRequest registerRequest)
+    {
+        //if user already reguested
+        if(registerRequestRepository.findUserByEmail(registerRequest.getEmail()) != null)
+            return  406;
+
+        registerRequestRepository.save(registerRequest);
+        return 201;
     }
 
     public Integer signOutUser(String authToken)

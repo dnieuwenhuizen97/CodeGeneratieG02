@@ -19,11 +19,23 @@ import javax.validation.constraints.*;
  */
 @Entity
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-28T15:21:59.457Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-05-03T10:32:36.707Z[GMT]")
 public class User   {
-  @Id
-  @SequenceGenerator(name="seq", initialValue = 100001)
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq")
+ public User() {
+
+  }
+
+  public User(String firstName, String lastName, String password, String email, String userType) {
+
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.password = password;
+    this.email = email;
+    this.userType = UserTypeEnum.fromValue(userType);
+  }
+ @Id
+ @SequenceGenerator(name="seq", initialValue = 100001)
+ @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq")
   @JsonProperty("user_id")
   private Integer userId = null;
 
@@ -38,19 +50,6 @@ public class User   {
 
   @JsonProperty("email")
   private String email = null;
-
-  public User() {
-
-  }
-
-  public User(String firstName, String lastName, String password, String email, String userType) {
-
-    this.firstName = firstName;
-    this.lastName = lastName;
-    this.password = password;
-    this.email = email;
-    this.userType = UserTypeEnum.fromValue(userType);
-  }
 
   /**
    * Gets or Sets userType

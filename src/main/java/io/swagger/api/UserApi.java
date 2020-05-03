@@ -25,7 +25,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-28T15:21:59.457Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-05-03T10:32:36.707Z[GMT]")
 @Api(value = "user", description = "the user API")
 public interface UserApi {
 
@@ -90,17 +90,17 @@ public interface UserApi {
         @ApiResponse(code = 404, message = "Something went wrong with your request."),
         @ApiResponse(code = 406, message = "Double check the values of the fields and try again"),
         @ApiResponse(code = 429, message = "You have tried too many times to retrieve all transactions from user, please wait a minute before you try again.") })
-    @RequestMapping(value = "/user/{userId}/transaction",
+    @RequestMapping(value = "/user/{userId}/transactions",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
     ResponseEntity<List<Transaction>> getAllTransactionsFromUser(@ApiParam(value = "Get details of transaction based on iban",required=true) @PathVariable("userId") Integer userId
 );
 
 
-    @ApiOperation(value = "Get user by id", nickname = "getUserById", notes = "Get user by the given id from the database", authorizations = {
+    @ApiOperation(value = "Get user by id", nickname = "getUserById", notes = "Get user by the given id from the database", response = User.class, authorizations = {
         @Authorization(value = "ApiKeyAuth")    }, tags={ "Users","Customer operation", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "User have been found."),
+        @ApiResponse(code = 200, message = "User have been found.", response = User.class),
         @ApiResponse(code = 400, message = "Bad Request."),
         @ApiResponse(code = 401, message = "You are not authorized to search for a specific user."),
         @ApiResponse(code = 403, message = "You do not have the right function to search for a user, please contact your employer."),
@@ -108,6 +108,7 @@ public interface UserApi {
         @ApiResponse(code = 406, message = "Invalid input, double check the values of the fields and try again."),
         @ApiResponse(code = 429, message = "You have tried too many times to search a user, please wait a minute before you try again.") })
     @RequestMapping(value = "/user/{userId}",
+        produces = { "application/json" }, 
         method = RequestMethod.GET)
     ResponseEntity<User> getUserById(@ApiParam(value = "The id from the user",required=true) @PathVariable("userId") Integer userId
 );
@@ -126,7 +127,7 @@ public interface UserApi {
     @RequestMapping(value = "/user/{userId}/machine",
         method = RequestMethod.POST)
     ResponseEntity<Void> machineTransfer(@ApiParam(value = "",required=true) @PathVariable("userId") Integer userId
-,@NotNull @ApiParam(value = "Amount that has to be transfered", required = true) @Valid @RequestParam(value = "amount", required = true) Float amount
+,@NotNull @ApiParam(value = "Amount that has to be transfered", required = true) @Valid @RequestParam(value = "amount", required = true) double amount
 ,@NotNull @ApiParam(value = "Tranfer type withdraw or deposit", required = true, allowableValues = "deposit, withdraw") @Valid @RequestParam(value = "transfer_type", required = true) String transferType
 );
 

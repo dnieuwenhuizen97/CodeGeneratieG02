@@ -17,7 +17,7 @@ import javax.validation.constraints.*;
  * Account
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-28T15:21:59.457Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-05-03T10:32:36.707Z[GMT]")
 public class Account   {
   @JsonProperty("iban")
   private String iban = null;
@@ -54,7 +54,7 @@ public class Account   {
   }
   @JsonProperty("account_type")
   @Valid
-  private List<AccountTypeEnum> accountType = null;
+  private List<AccountTypeEnum> accountType = new ArrayList<AccountTypeEnum>();
 
   @JsonProperty("balance")
   private Float balance = null;
@@ -96,9 +96,6 @@ public class Account   {
   }
 
   public Account addAccountTypeItem(AccountTypeEnum accountTypeItem) {
-    if (this.accountType == null) {
-      this.accountType = new ArrayList<AccountTypeEnum>();
-    }
     this.accountType.add(accountTypeItem);
     return this;
   }
@@ -107,8 +104,9 @@ public class Account   {
    * Get accountType
    * @return accountType
   **/
-  @ApiModelProperty(value = "")
-  
+  @ApiModelProperty(required = true, value = "")
+      @NotNull
+
     public List<AccountTypeEnum> getAccountType() {
     return accountType;
   }
@@ -126,8 +124,9 @@ public class Account   {
    * Get balance
    * @return balance
   **/
-  @ApiModelProperty(example = "200", value = "")
-  
+  @ApiModelProperty(example = "200", required = true, value = "")
+      @NotNull
+
     public Float getBalance() {
     return balance;
   }
@@ -145,8 +144,9 @@ public class Account   {
    * Get transactionDayLimit
    * @return transactionDayLimit
   **/
-  @ApiModelProperty(example = "100", value = "")
-  
+  @ApiModelProperty(example = "100", required = true, value = "")
+      @NotNull
+
     public Integer getTransactionDayLimit() {
     return transactionDayLimit;
   }
@@ -184,8 +184,9 @@ public class Account   {
    * Get balanceLimit
    * @return balanceLimit
   **/
-  @ApiModelProperty(example = "-1200", value = "")
-  
+  @ApiModelProperty(example = "-1200", required = true, value = "")
+      @NotNull
+
     @Valid
     public BigDecimal getBalanceLimit() {
     return balanceLimit;
@@ -204,8 +205,9 @@ public class Account   {
    * id of owning user
    * @return owner
   **/
-  @ApiModelProperty(example = "1", value = "id of owning user")
-  
+  @ApiModelProperty(required = true, value = "id of owning user")
+      @NotNull
+
     public Integer getOwner() {
     return owner;
   }

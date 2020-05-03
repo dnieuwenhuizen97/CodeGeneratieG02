@@ -15,17 +15,20 @@ import javax.validation.constraints.*;
 /**
  * AuthToken that gets returned if the specified username and password is correct.
  */
-@Entity
 @ApiModel(description = "AuthToken that gets returned if the specified username and password is correct.")
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-28T15:21:59.457Z[GMT]")
+@Entity
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-05-03T10:32:36.707Z[GMT]")
 public class AuthToken   {
-
   @JsonProperty("AuthToken")
   private String authToken = null;
 
+  public AuthToken authToken(String authToken) {
+    this.authToken = authToken;
+    return this;
+  }
 
-  private Integer userId = null;
+ private Integer userId = null;
 
   @Id
   @SequenceGenerator(name="seq", initialValue = 100001)
@@ -44,16 +47,19 @@ public class AuthToken   {
 
   }
 
-  public Integer getUserId() {
-    return userId;
-  }
+    public Integer getUserId() {
+        return userId;
+    }
 
-  public AuthToken authToken(String authToken) {
-    this.authToken = authToken;
-    return this;
-  }
+    public Long getAuthTokenId() {
+        return authTokenId;
+    }
 
-  /**
+    public LocalDateTime getTokenCreated() {
+        return tokenCreated;
+    }
+
+    /**
    * Get authToken
    * @return authToken
   **/
@@ -94,6 +100,7 @@ public class AuthToken   {
             ", tokenCreated=" + tokenCreated +
             '}';
   }
+
 
   /**
    * Convert the given object to string with each line indented by 4 spaces

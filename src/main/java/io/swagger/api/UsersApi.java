@@ -5,6 +5,7 @@
  */
 package io.swagger.api;
 
+import io.swagger.model.RegisterRequest;
 import io.swagger.model.User;
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +24,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-28T15:21:59.457Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-05-03T10:32:36.707Z[GMT]")
 @Api(value = "users", description = "the users API")
 public interface UsersApi {
 
@@ -42,6 +43,22 @@ public interface UsersApi {
         method = RequestMethod.POST)
     ResponseEntity<Void> createUser(@ApiParam(value = "Created user object" ,required=true )  @Valid @RequestBody User body
 );
+
+
+    @ApiOperation(value = "Get all user register requests", nickname = "getAllRegisterRequests", notes = "gets al user sign up requesten, an employee is able to accept these requests en sign up the user.", response = RegisterRequest.class, responseContainer = "List", authorizations = {
+        @Authorization(value = "ApiKeyAuth")    }, tags={ "Employee operation", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "Successful operation", response = RegisterRequest.class, responseContainer = "List"),
+        @ApiResponse(code = 400, message = "Bad Request."),
+        @ApiResponse(code = 401, message = "Unauthorized"),
+        @ApiResponse(code = 403, message = "Forbidden."),
+        @ApiResponse(code = 404, message = "Not found"),
+        @ApiResponse(code = 406, message = "Invalid input"),
+        @ApiResponse(code = 429, message = "Too Many Requests.") })
+    @RequestMapping(value = "/users/requests",
+        produces = { "application/json" }, 
+        method = RequestMethod.GET)
+    ResponseEntity<List<RegisterRequest>> getAllRegisterRequests();
 
 
     @ApiOperation(value = "Get all users", nickname = "getAllUsers", notes = "Gets all users from database, could be filtered by offset, limit, name, iban, user id and email", response = User.class, responseContainer = "List", authorizations = {

@@ -24,7 +24,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-28T15:21:59.457Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-05-03T10:32:36.707Z[GMT]")
 @Api(value = "login", description = "the login API")
 public interface LoginApi {
 
@@ -41,6 +41,7 @@ public interface LoginApi {
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    ResponseEntity<AuthToken> loginUser(@ApiParam(value = ""  )  @Valid @RequestBody Login body);
+    ResponseEntity<AuthToken> loginUser(@ApiParam(value = ""  )  @Valid @RequestBody Login body
+);
 
 }

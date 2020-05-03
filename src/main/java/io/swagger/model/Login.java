@@ -6,8 +6,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.validation.annotation.Validated;
-
-import javax.persistence.Entity;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
@@ -15,7 +13,7 @@ import javax.validation.constraints.*;
  * Login
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-28T15:21:59.457Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-05-03T10:32:36.707Z[GMT]")
 public class Login   {
   @JsonProperty("username")
   private String username = null;

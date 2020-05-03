@@ -7,6 +7,7 @@ import io.swagger.model.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
 import io.swagger.service.AuthenticationService;
+import io.swagger.service.TransactionService;
 import io.swagger.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,12 +38,15 @@ public class UserApiController implements UserApi {
 
     private UserService userService;
 
+    private TransactionService transactionService;
+
     @org.springframework.beans.factory.annotation.Autowired
-    public UserApiController(ObjectMapper objectMapper, HttpServletRequest request, AuthenticationService authService, UserService userService) {
+    public UserApiController(ObjectMapper objectMapper, HttpServletRequest request, AuthenticationService authService, UserService userService, TransactionService transactionService) {
         this.objectMapper = objectMapper;
         this.request = request;
         this.authService = authService;
         this.userService = userService;
+        this.transactionService = transactionService;
     }
 
     public ResponseEntity<Void> createAccountByUser(@ApiParam(value = "user of a specific account",required=true) @PathVariable("userId") Integer userId
@@ -121,7 +125,7 @@ public class UserApiController implements UserApi {
     }
 
     public ResponseEntity<Void> machineTransfer(@ApiParam(value = "",required=true) @PathVariable("userId") Integer userId
-,@NotNull @ApiParam(value = "Amount that has to be transfered", required = true) @Valid @RequestParam(value = "amount", required = true) Float amount
+,@NotNull @ApiParam(value = "Amount that has to be transfered", required = true) @Valid @RequestParam(value = "amount", required = true) double amount
 ,@NotNull @ApiParam(value = "Tranfer type withdraw or deposit", required = true, allowableValues = "deposit, withdraw") @Valid @RequestParam(value = "transfer_type", required = true) String transferType
 ) {
         String accept = request.getHeader("Accept");
@@ -130,7 +134,7 @@ public class UserApiController implements UserApi {
         if(!authService.IsUserAuthenticated(apiKeyAuth, userId))
             return new ResponseEntity(HttpStatus.FORBIDDEN);
 
-        return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<Void>(HttpStatus.valueOf(transactionService.createMachineTransfer(userId ,amount, transferType)));
     }
 
     public ResponseEntity<Void> updateUserById(@ApiParam(value = "" ,required=true )  @Valid @RequestBody User body

@@ -1,6 +1,8 @@
 package io.swagger.service;
 
+import io.swagger.model.RegisterRequest;
 import io.swagger.model.User;
+import io.swagger.repository.RegisterRequestRepository;
 import io.swagger.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
@@ -10,11 +12,14 @@ import java.util.List;
 public class UserService {
 
     private UserRepository userRepository;
+    private RegisterRequestRepository registerRequestRepository;
 
-    public UserService (UserRepository userRepository) {
+    public UserService (UserRepository userRepository, RegisterRequestRepository registerRequestRepository) {
         this.userRepository = userRepository;
-    }
+        this.registerRequestRepository = registerRequestRepository;
 
+    }
+    public List<RegisterRequest> FindAllRegisterRequests(){return (List<RegisterRequest>) registerRequestRepository.findAll();};
     public Integer SignUpUser(User user)
     {
         //user already exist

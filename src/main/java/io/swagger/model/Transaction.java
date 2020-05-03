@@ -1,5 +1,6 @@
 package io.swagger.model;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -19,12 +20,11 @@ import javax.validation.constraints.*;
  */
 @Entity
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-28T15:21:59.457Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-05-03T10:32:36.707Z[GMT]")
 public class Transaction   {
-
-  public Transaction() {
+ public Transaction() {
   }
-  public Transaction(String transactionType, String timestamp, String accountFrom, String accountTo, Double amount, Integer userPerforming) {
+  public Transaction(String transactionType, LocalDateTime timestamp, String accountFrom, String accountTo, Double amount, Integer userPerforming) {
     this.transactionType = TransactionTypeEnum.fromValue(transactionType);
     this.timestamp = timestamp;
     this.accountFrom = accountFrom;
@@ -32,7 +32,6 @@ public class Transaction   {
     this.amount = amount;
     this.userPerforming = userPerforming;
   }
-
   @Id
   @SequenceGenerator(name="seq", initialValue = 100001)
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq")
@@ -76,7 +75,7 @@ public class Transaction   {
   private TransactionTypeEnum transactionType = null;
 
   @JsonProperty("timestamp")
-  private String timestamp = null;
+  private LocalDateTime timestamp = null;
 
   @JsonProperty("account_from")
   private String accountFrom = null;
@@ -95,7 +94,7 @@ public class Transaction   {
     return this;
   }
 
-  /**
+   /**
    * Unique transaction id
    * @return transactionId
   **/
@@ -126,7 +125,7 @@ public class Transaction   {
     this.transactionType = transactionType;
   }
 
-  public Transaction timestamp(String timestamp) {
+  public Transaction LocalDateTime(LocalDateTime timestamp) {
     this.timestamp = timestamp;
     return this;
   }
@@ -137,11 +136,11 @@ public class Transaction   {
   **/
   @ApiModelProperty(example = "995-09-07T10:40:52Z", value = "Date time of transaction creation")
   
-    public String getTimestamp() {
+    public LocalDateTime getTimestamp() {
     return timestamp;
   }
 
-  public void setTimestamp(String timestamp) {
+  public void setTimestamp(LocalDateTime timestamp) {
     this.timestamp = timestamp;
   }
 

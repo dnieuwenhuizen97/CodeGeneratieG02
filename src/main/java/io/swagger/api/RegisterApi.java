@@ -5,7 +5,7 @@
  */
 package io.swagger.api;
 
-import io.swagger.model.User;
+import io.swagger.model.RegisterRequest;
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -23,11 +23,11 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-28T15:21:59.457Z[GMT]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-05-03T10:32:36.707Z[GMT]")
 @Api(value = "register", description = "the register API")
 public interface RegisterApi {
 
-    @ApiOperation(value = "Registers user", nickname = "registerUser", notes = "Registers a new user and stores their information in the database.", tags={ "Authentication","Customer operation", })
+    @ApiOperation(value = "Registers user by starting user sign up request", nickname = "registerUser", notes = "Registers user by starting user sign up request, if the employee accepts the request the user will be created", tags={ "Authentication","Customer operation", })
     @ApiResponses(value = { 
         @ApiResponse(code = 201, message = "You have succesfully created your account."),
         @ApiResponse(code = 400, message = "Something went wrong, your request could not be understood. Please try to register again."),
@@ -39,7 +39,7 @@ public interface RegisterApi {
     @RequestMapping(value = "/register",
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    ResponseEntity<Void> registerUser(@ApiParam(value = ""  )  @Valid @RequestBody User body
+    ResponseEntity<Void> registerUser(@ApiParam(value = ""  )  @Valid @RequestBody RegisterRequest body
 );
 
 }
