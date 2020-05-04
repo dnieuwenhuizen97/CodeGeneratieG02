@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/swagger-spring.iml" filepath="$PROJECT_DIR$/swagger-spring.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/CodeGeneratieG02.iml" filepath="$PROJECT_DIR$/.idea/CodeGeneratieG02.iml" />
     </modules>
   </component>
 </project>
