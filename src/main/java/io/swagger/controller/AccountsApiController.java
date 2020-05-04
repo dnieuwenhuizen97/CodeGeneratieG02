@@ -34,6 +34,8 @@ public class AccountsApiController implements AccountsApi {
         this.objectMapper = objectMapper;
         this.request = request;
         this.authService = authService;
+
+
     }
 
     public ResponseEntity<List<Account>> getAllAccounts(@ApiParam(value = "The number of items to skip before starting to collect the result set") @Valid @RequestParam(value = "offset", required = false) Integer offset
