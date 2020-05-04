@@ -5,8 +5,11 @@
  */
 package io.swagger.api;
 
+import io.swagger.model.ResponseWrapper;
 import io.swagger.model.Transaction;
 import io.swagger.annotations.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -62,5 +65,37 @@ public interface TransactionsApi {
 ,@ApiParam(value = "The id of the user thats should ne involved within the transaction") @Valid @RequestParam(value = "userId", required = false) Integer userId
 ,@ApiParam(value = "The iban that should be involved within the transactions") @Valid @RequestParam(value = "iban", required = false) String iban
 );
+
+
+
+    @ApiOperation(value = "Gets all transactions for user", nickname = "getUserTransactions", notes = "", response = ResponseWrapper.class, responseContainer = "List", authorizations = {
+            @Authorization(value = "ApiKeyAuth")}, tags = {"Transactions", "Employee operation",})
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "All transactions have been found.", response = ResponseWrapper.class, responseContainer = "List"),
+            @ApiResponse(code = 400, message = "Bad Request."),
+            @ApiResponse(code = 401, message = "You are not authorized to search for all transactions."),
+            @ApiResponse(code = 403, message = "You do not have the right function to search for transactions, please contact your employer.")})
+    @RequestMapping(value = "/transactions/user/{userId}",
+            produces = {"application/json"},
+            method = RequestMethod.GET)
+    ResponseEntity<Page<Transaction>> getAllTransactionsForUser(@ApiParam(value = "The id of the user for with the transactions are being fetched") @Valid @PathVariable(value = "userId") Integer userId,
+                                                                Pageable pageable);
+
+
+    @ApiOperation(value = "Create new transaction for user", nickname = "createTransactionForUser", notes = "Create a transaction to transfer money.", authorizations = {
+            @Authorization(value = "ApiKeyAuth")}, tags = {"Transactions", "Customer operation",})
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Transaction has been created and money has been transferred."),
+            @ApiResponse(code = 400, message = "Bad Request."),
+            @ApiResponse(code = 401, message = "You are not authorized to create transaction."),
+            @ApiResponse(code = 403, message = "You do not have the right function to transfer money, please contact your bank."),
+            @ApiResponse(code = 404, message = "Something went wrong with your request."),
+            @ApiResponse(code = 406, message = "Please check the Iban of the receiver and amount of money you want to transfer and try again."),
+            @ApiResponse(code = 429, message = "You have tried too many times to create a new transaction, please wait a minute before you try again.")})
+    @RequestMapping(value = "/transactions/user/{userId}",
+            consumes = {"application/json"},
+            method = RequestMethod.POST)
+    ResponseEntity<Transaction> createTransactionForUser(@ApiParam(value = "Created transaction object", required = true) @Valid @RequestBody Transaction transaction,
+                                                         @ApiParam(value = "The id of the user for which the transactions is being created") @Valid @PathVariable(value = "userId") Integer userId);
 
 }

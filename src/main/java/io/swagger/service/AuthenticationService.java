@@ -7,11 +7,11 @@ import io.swagger.model.User;
 import io.swagger.repository.AuthTokenRepository;
 import io.swagger.repository.RegisterRequestRepository;
 import io.swagger.repository.UserRepository;
-import jdk.nashorn.internal.parser.Token;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 @Service
 public class AuthenticationService {

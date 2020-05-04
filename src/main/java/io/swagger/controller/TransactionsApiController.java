@@ -1,5 +1,6 @@
 package io.swagger.controller;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import io.swagger.api.TransactionsApi;
 import io.swagger.model.Transaction;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -8,10 +9,13 @@ import io.swagger.service.AuthenticationService;
 import io.swagger.service.TransactionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
@@ -23,6 +27,7 @@ import java.util.List;
 @Controller
 public class TransactionsApiController implements TransactionsApi {
     private TransactionService service;
+
     private static final Logger log = LoggerFactory.getLogger(TransactionsApiController.class);
 
     private final ObjectMapper objectMapper;
@@ -74,6 +79,30 @@ public class TransactionsApiController implements TransactionsApi {
 
         return new ResponseEntity<List<Transaction>>(service.getAllTransactions(), HttpStatus.OK);
 
+    }
+
+    // Pageable added, that allows to have a paginated response for a user.
+    // Instead of pulling all the records at the same time.
+    @Override
+    public ResponseEntity getAllTransactionsForUser(@Valid Integer userId,
+                                                    Pageable pageable) {
+        // Default message to if there are no transactions found.
+        ResponseEntity responseEntity = ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body((JsonNode) objectMapper.createObjectNode()
+                        .put("message", String.format("No transactions found for User ID %s", userId)));
+
+        Page<Transaction> transactions = service.getAllTransactionsOfUser(userId, pageable);
+        // If the transactions are available, then override the detault response.
+        if (!transactions.isEmpty()) {
+          //  responseEntity = ResponseEntity.ok().body(new ResponseWrapper(transactions));
+        }
+        return responseEntity;
+    }
+
+    @Override
+    public ResponseEntity<Transaction> createTransactionForUser(@Valid Transaction transaction, @Valid Integer userId) {
+        return ResponseEntity.ok().body(service.createTransactionForUser(transaction, userId));
     }
 
 }
