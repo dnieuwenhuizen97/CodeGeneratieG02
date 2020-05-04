@@ -7,7 +7,7 @@ import io.swagger.model.User;
 import io.swagger.repository.AuthTokenRepository;
 import io.swagger.repository.RegisterRequestRepository;
 import io.swagger.repository.UserRepository;
-import jdk.nashorn.internal.parser.Token;
+//import jdk.nashorn.internal.parser.Token;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
