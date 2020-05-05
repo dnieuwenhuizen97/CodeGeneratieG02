@@ -1,26 +1,29 @@
 package io.swagger.service;
 
-import com.sun.org.apache.xpath.internal.objects.XString;
 import io.swagger.model.Account;
 import io.swagger.repository.AccountRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class AccountService {
-    private AccountRepository repository;
+    private AccountRepository accountRepository;
 
-    public AccountService(AccountRepository repository) { this.repository = repository; }
+    public AccountService(AccountRepository repository) { this.accountRepository = repository; }
 
-    public List<Account> getAllAccounts() { return (List<Account>)repository.findAll(); }
+    public void saveAccount(Account account) { accountRepository.save(account); }
 
-    public void saveAccount(Account account) { repository.save(account); }
-
-    public Account getAccountByIban (long iban) {
-        Account a = repository.findById(iban);
-        return a;
+    public Account getSpecificAccount(String id)
+    {
+        return accountRepository.findAccountById(id);
     }
 
+    public List<Account> getAllAccounts() {
+        return (List<Account>)accountRepository.findAll();
+    }
+
+    public void createAccount(Account a) { accountRepository.save(a); }
+
+    public void deleteAccount(Account a) { accountRepository.delete(a); }
 }

@@ -4,6 +4,7 @@ import io.swagger.api.AccountApi;
 import io.swagger.model.Account;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
+import io.swagger.service.AccountService;
 import io.swagger.service.AuthenticationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,10 +17,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import javax.validation.Valid;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.math.BigDecimal;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-28T15:21:59.457Z[GMT]")
 @Controller
 public class AccountApiController implements AccountApi {
+
+    private AccountService service;
 
     private static final Logger log = LoggerFactory.getLogger(AccountApiController.class);
 
@@ -34,6 +38,10 @@ public class AccountApiController implements AccountApi {
         this.objectMapper = objectMapper;
         this.request = request;
         this.authService = authService;
+
+        service.createAccount(new Account("NL84INHO0753754372", "savings", 3000f, 200, new BigDecimal(3500), new BigDecimal(35000000), 10002));
+        service.createAccount(new Account("NL84INHO0753764892", "current", 6000f, 200, new BigDecimal(3500), new BigDecimal(35000000), 10003));
+
     }
 
     public ResponseEntity<Void> deleteAccountByIban(@ApiParam(value = "iban of a specific account",required=true) @PathVariable("iban") String iban

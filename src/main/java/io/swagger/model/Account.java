@@ -1,5 +1,6 @@
 package io.swagger.model;
 
+import java.util.Collections;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -10,15 +11,36 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
+
+import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
  * Account
  */
+@Entity
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-05-03T10:32:36.707Z[GMT]")
 public class Account   {
+
+  public Account(){
+
+  }
+
+  public Account(String iban, String accountType, Float balance, Integer transactionDayLimit, BigDecimal transactionAmountLimit, BigDecimal balanceLimit, Integer owner){
+    this.iban = iban;
+    this.accountType = Collections.singletonList(AccountTypeEnum.fromValue(accountType));
+    this.balance = balance;
+    this.transactionDayLimit = transactionDayLimit;
+    this.transactionAmountLimit = transactionAmountLimit;
+    this.balanceLimit = balanceLimit;
+    this.owner = owner;
+  }
+
+  @Id
+  @SequenceGenerator(name="seq", initialValue = 100001)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq")
   @JsonProperty("iban")
   private String iban = null;
 
