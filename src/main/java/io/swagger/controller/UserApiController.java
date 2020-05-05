@@ -70,7 +70,7 @@ public class UserApiController implements UserApi {
         if(!authService.IsUserAuthenticated(apiKeyAuth, userId))
             return new ResponseEntity(HttpStatus.FORBIDDEN);
 
-        return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<Void>(HttpStatus.valueOf(userService.DeleteUserById(userId)));
     }
 
     public ResponseEntity<List<Account>> getAccountsByUser(@ApiParam(value = "user of a specific account",required=true) @PathVariable("userId") Integer userId
@@ -146,7 +146,7 @@ public class UserApiController implements UserApi {
         if(!authService.IsUserAuthenticated(apiKeyAuth, userId))
             return new ResponseEntity(HttpStatus.FORBIDDEN);
 
-        return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<Void>(HttpStatus.valueOf(userService.UpdateUserById(body)));
     }
 
 }

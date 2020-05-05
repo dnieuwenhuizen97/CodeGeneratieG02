@@ -39,6 +39,16 @@ public class UsersApiController implements UsersApi {
         this.request = request;
         this.authService = authService;
         this.userService = userService;
+
+        userService.SignUpUser(new User("Dylan", "Nieuwenhuizen", "TestPassword", "dylan@test.nl", "employee"));
+        userService.SignUpUser(new User("fgf", "sdssf", "hdfv", "sgbdfsg@test.nl", "customer"));
+
+        System.out.println("\nTHIS IS A GET ALL:");
+        for (User u : userService.GetAllUsers())
+            System.out.println(u);
+
+        System.out.println("\nTHIS IS A GET BY EMAIL:\n" + userService.FindUserByEmail("dylan@test.nl"));
+        System.out.println("\nTHIS IS A GET BY ID:\n" + userService.FindUserById(100002));
     }
 
     public ResponseEntity<Void> createUser(@ApiParam(value = "Created user object" ,required=true )  @Valid @RequestBody User body
@@ -52,7 +62,7 @@ public class UsersApiController implements UsersApi {
         //make one for user request aceeptance---only add role
         //make one for cerating user from scratch
 
-        return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<Void>(HttpStatus.valueOf(userService.SignUpUser(body)));
     }
 
     public ResponseEntity<List<RegisterRequest>> getAllRegisterRequests() {
@@ -94,7 +104,7 @@ public class UsersApiController implements UsersApi {
             }
         }
 
-        return new ResponseEntity<List<User>>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<List<User>>(userService.GetAllUsers(), HttpStatus.OK);
     }
 
 }

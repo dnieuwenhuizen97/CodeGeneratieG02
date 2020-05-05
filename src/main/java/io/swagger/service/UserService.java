@@ -33,24 +33,32 @@ public class UserService {
     }
     public User FindUserById(int userId)
     {
-        return userRepository.findById(userId).get();
+        return userRepository.findUserById(userId);
     }
 
-    private User FindUserByEmail(String email)
+    public User FindUserByEmail(String email)
     {
         return userRepository.findUserByEmail(email);
     }
 
-    public List<User> getAllUsers() {
+    public List<User> GetAllUsers() {
         return (List<User>)userRepository.findAll();
     }
 
-    public void createUser(User u) {
-        userRepository.save(u);
+    public Integer DeleteUserById(int userId)
+    {
+
+        if (FindUserById(userId) == null)
+            return 406;
+
+        userRepository.deleteUserById(userId);
+        return 201;
     }
 
-    public void deleteUser(User u) {
-        userRepository.delete(u);
+    public Integer UpdateUserById(User u)
+    {
+        userRepository.updateUser(u);
+        return 201;
     }
 
 }

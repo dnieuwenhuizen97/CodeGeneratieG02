@@ -15,4 +15,13 @@ public interface UserRepository extends CrudRepository<User, Integer> {
     @Query("SELECT u FROM User u WHERE u.email =:email")
     User findUserByEmail(@Param("email") String email);
 
+    @Query("SELECT u FROM User u WHERE u.userId =:userId")
+    User findUserById(@Param("userId") Integer userId);
+
+    @Query("DELETE FROM User u WHERE u.userId =:userId")
+    User deleteUserById(@Param("userId") Integer userId);
+
+    @Query("UPDATE User u SET u.password =:password, u.email =:email WHERE u.userId =:userId")
+    User updateUser(@Param("u") User u);
+
 }
