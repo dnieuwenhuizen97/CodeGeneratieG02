@@ -39,16 +39,6 @@ public class UsersApiController implements UsersApi {
         this.request = request;
         this.authService = authService;
         this.userService = userService;
-
-        userService.SignUpUser(new User("Dylan", "Nieuwenhuizen", "TestPassword", "dylan@test.nl", "employee"));
-        userService.SignUpUser(new User("fgf", "sdssf", "hdfv", "sgbdfsg@test.nl", "customer"));
-
-        System.out.println("\nTHIS IS A GET ALL:");
-        for (User u : userService.GetAllUsers())
-            System.out.println(u);
-
-        System.out.println("\nTHIS IS A GET BY EMAIL:\n" + userService.FindUserByEmail("dylan@test.nl"));
-        System.out.println("\nTHIS IS A GET BY ID:\n" + userService.FindUserById(100002));
     }
 
     public ResponseEntity<Void> createUser(@ApiParam(value = "Created user object" ,required=true )  @Valid @RequestBody User body
