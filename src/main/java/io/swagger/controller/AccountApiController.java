@@ -41,7 +41,6 @@ public class AccountApiController implements AccountApi {
 
         service.createAccount(new Account("NL84INHO0753754372", "savings", 3000f, 200, new BigDecimal(3500), new BigDecimal(35000000), 10002));
         service.createAccount(new Account("NL84INHO0753764892", "current", 6000f, 200, new BigDecimal(3500), new BigDecimal(35000000), 10003));
-
     }
 
     public ResponseEntity<Void> deleteAccountByIban(@ApiParam(value = "iban of a specific account",required=true) @PathVariable("iban") String iban

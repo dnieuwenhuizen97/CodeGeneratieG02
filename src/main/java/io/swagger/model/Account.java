@@ -30,7 +30,7 @@ public class Account   {
 
   public Account(String iban, String accountType, Float balance, Integer transactionDayLimit, BigDecimal transactionAmountLimit, BigDecimal balanceLimit, Integer owner){
     this.iban = iban;
-    this.accountType = Collections.singletonList(AccountTypeEnum.fromValue(accountType));
+    this.accountType = AccountTypeEnum.fromValue(accountType);
     this.balance = balance;
     this.transactionDayLimit = transactionDayLimit;
     this.transactionAmountLimit = transactionAmountLimit;
@@ -39,8 +39,6 @@ public class Account   {
   }
 
   @Id
-  @SequenceGenerator(name="seq", initialValue = 100001)
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq")
   @JsonProperty("iban")
   private String iban = null;
 
@@ -76,7 +74,7 @@ public class Account   {
   }
   @JsonProperty("account_type")
   @Valid
-  private List<AccountTypeEnum> accountType = new ArrayList<AccountTypeEnum>();
+  private AccountTypeEnum accountType = null;
 
   @JsonProperty("balance")
   private Float balance = null;
@@ -112,13 +110,8 @@ public class Account   {
     this.iban = iban;
   }
 
-  public Account accountType(List<AccountTypeEnum> accountType) {
+  public Account accountType(AccountTypeEnum accountType) {
     this.accountType = accountType;
-    return this;
-  }
-
-  public Account addAccountTypeItem(AccountTypeEnum accountTypeItem) {
-    this.accountType.add(accountTypeItem);
     return this;
   }
 
@@ -129,11 +122,11 @@ public class Account   {
   @ApiModelProperty(required = true, value = "")
       @NotNull
 
-    public List<AccountTypeEnum> getAccountType() {
+    public AccountTypeEnum getAccountType() {
     return accountType;
   }
 
-  public void setAccountType(List<AccountTypeEnum> accountType) {
+  public void setAccountType(AccountTypeEnum accountType) {
     this.accountType = accountType;
   }
 

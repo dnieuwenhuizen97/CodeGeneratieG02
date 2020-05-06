@@ -5,13 +5,12 @@ import org.springframework.boot.ExitCodeGenerator;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
-
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
 @EnableSwagger2
 @ComponentScan(basePackages = { "io.swagger", "io.swagger.api" , "io.swagger.configuration"})
-public class fSwagger2SpringBoot implements CommandLineRunner {
+public class Swagger2SpringBoot implements CommandLineRunner {
 
     @Override
     public void run(String... arg0) throws Exception {
