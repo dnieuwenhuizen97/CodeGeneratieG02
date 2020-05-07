@@ -56,6 +56,9 @@ public class UserService {
 
     public Integer UpdateUserById(String newPassword, String newEmail, User u)
     {
+        if (!userRepository.existsById(u.getUserId()))
+            return 406;
+
         u.setPassword(newPassword);
         u.setEmail(newEmail);
         userRepository.save(u);
