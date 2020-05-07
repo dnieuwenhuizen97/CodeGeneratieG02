@@ -1,15 +1,14 @@
 package io.swagger.model;
 
-import java.util.Collections;
-import java.util.Objects;
+import java.util.*;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
+
 import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.*;
@@ -28,10 +27,8 @@ public class Account   {
 
   }
 
-  public Account(String iban, String accountType, Float balance, Integer transactionDayLimit, BigDecimal transactionAmountLimit, BigDecimal balanceLimit, Integer owner){
-    this.iban = iban;
+  public Account(String accountType, Integer transactionDayLimit, BigDecimal transactionAmountLimit, BigDecimal balanceLimit, Integer owner){
     this.accountType = AccountTypeEnum.fromValue(accountType);
-    this.balance = balance;
     this.transactionDayLimit = transactionDayLimit;
     this.transactionAmountLimit = transactionAmountLimit;
     this.balanceLimit = balanceLimit;
@@ -40,7 +37,7 @@ public class Account   {
 
   @Id
   @JsonProperty("iban")
-  private String iban = "";//accountService.CreateIban();
+  private String iban = CreateIban();
 
   /**
    * Gets or Sets accountType
@@ -77,7 +74,7 @@ public class Account   {
   private AccountTypeEnum accountType = null;
 
   @JsonProperty("balance")
-  private Float balance = null;
+  private Float balance = 0f;
 
   @JsonProperty("transactionDayLimit")
   private Integer transactionDayLimit = null;
@@ -106,6 +103,24 @@ public class Account   {
     return iban;
   }
 
+  public String CreateIban()
+  {
+    String iban = "";
+    Random r = new Random();
+
+    iban += "NL";
+    for(int i = 1; i <=2; i++)
+    {
+      iban += Integer.toString(r.nextInt(10));
+    }
+
+    iban += "INHO0";
+    for(int i = 1; i <=9; i++)
+    {
+      iban += Integer.toString(r.nextInt(10));
+    }
+    return iban;
+  }
   public void setIban(String iban) {
     this.iban = iban;
   }

@@ -42,8 +42,8 @@ public class myApplicationRunner implements ApplicationRunner {
         userRepository.findAll()
                 .forEach(System.out::println);
 
-        accountRepository.save(new Account("NL84INHO0753754372", "savings", 3000f, 200, new BigDecimal(3500), new BigDecimal(35000000), 100001));
-        accountRepository.save(new Account("NL84INHO0753764892", "current", 6000f, 200, new BigDecimal(3500), new BigDecimal(35000000), 100001));
+        accountRepository.save(new Account("savings", 200, new BigDecimal(3500), new BigDecimal(35000000), 100001));
+        accountRepository.save(new Account("current", 200, new BigDecimal(3500), new BigDecimal(35000000), 100001));
         accountRepository.findAll()
                 .forEach(System.out::println);
 
