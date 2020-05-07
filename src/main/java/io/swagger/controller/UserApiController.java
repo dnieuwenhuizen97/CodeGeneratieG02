@@ -6,6 +6,7 @@ import io.swagger.model.Transaction;
 import io.swagger.model.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
+import io.swagger.repository.UserRepository;
 import io.swagger.service.AuthenticationService;
 import io.swagger.service.TransactionService;
 import io.swagger.service.UserService;
@@ -137,7 +138,7 @@ public class UserApiController implements UserApi {
         return new ResponseEntity<Void>(HttpStatus.valueOf(transactionService.createMachineTransfer(userId ,amount, transferType)));
     }
 
-    public ResponseEntity<Void> updateUserById(@ApiParam(value = "" ,required=true )  @Valid @RequestBody User body
+    public ResponseEntity<Void> updateUserById(@ApiParam(value = "" ,required=true )  @Valid @RequestBody String newPassword, String newEmail, User body
 ,@ApiParam(value = "The id from the user",required=true) @PathVariable("userId") Integer userId
 ) {
         String accept = request.getHeader("Accept");
@@ -146,7 +147,7 @@ public class UserApiController implements UserApi {
         if(!authService.IsUserAuthenticated(apiKeyAuth, userId))
             return new ResponseEntity(HttpStatus.FORBIDDEN);
 
-        return new ResponseEntity<Void>(HttpStatus.valueOf(userService.UpdateUserById(body)));
+        return new ResponseEntity<Void>(HttpStatus.valueOf(userService.UpdateUserById(newPassword, newEmail, body)));
     }
 
 }

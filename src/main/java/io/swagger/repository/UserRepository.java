@@ -2,6 +2,7 @@ package io.swagger.repository;
 
 import io.swagger.model.User;
 
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -17,11 +18,5 @@ public interface UserRepository extends CrudRepository<User, Integer> {
 
     @Query("SELECT u FROM User u WHERE u.userId =:userId")
     User findUserById(@Param("userId") Integer userId);
-
-    @Query("DELETE FROM User u WHERE u.userId =:userId")
-    User deleteUserById(@Param("userId") Integer userId);
-
-    @Query("UPDATE User u SET u.password =:password, u.email =:email WHERE u.userId =:userId")
-    User updateUser(@Param("u") User u);
 
 }

@@ -50,13 +50,15 @@ public class UserService {
         if (!userRepository.existsById(userId))
             return 406;
 
-        userRepository.deleteUserById(userId);
+        userRepository.deleteById(userId);
         return 201;
     }
 
-    public Integer UpdateUserById(User u)
+    public Integer UpdateUserById(String newPassword, String newEmail, User u)
     {
-        userRepository.updateUser(u);
+        u.setPassword(newPassword);
+        u.setEmail(newEmail);
+        userRepository.save(u);
         return 201;
     }
 

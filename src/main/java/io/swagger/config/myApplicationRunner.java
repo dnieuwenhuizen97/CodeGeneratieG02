@@ -1,5 +1,6 @@
 package io.swagger.config;
 
+import io.swagger.controller.UserApiController;
 import io.swagger.model.AuthToken;
 import io.swagger.model.Transaction;
 
@@ -7,9 +8,12 @@ import io.swagger.model.User;
 import io.swagger.repository.AuthTokenRepository;
 import io.swagger.repository.TransactionRepository;
 import io.swagger.repository.UserRepository;
+import io.swagger.service.UserService;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.http.converter.json.GsonBuilderUtils;
 import org.springframework.stereotype.Component;
+import org.w3c.dom.ls.LSOutput;
 
 import java.time.LocalDateTime;
 
@@ -19,11 +23,13 @@ public class myApplicationRunner implements ApplicationRunner {
     private TransactionRepository transactionRepository;
     private AuthTokenRepository authTokenRepository;
     private UserRepository userRepository;
+    private UserService userService;
 
-    public myApplicationRunner(TransactionRepository transactionRepository, AuthTokenRepository authTokenRepository, UserRepository userRepository) {
+    public myApplicationRunner(TransactionRepository transactionRepository, AuthTokenRepository authTokenRepository, UserRepository userRepository, UserService userService) {
         this.transactionRepository = transactionRepository;
         this.authTokenRepository = authTokenRepository;
         this.userRepository = userRepository;
+        this.userService = userService;
     }
 
     @Override
@@ -34,6 +40,13 @@ public class myApplicationRunner implements ApplicationRunner {
 
         userRepository.save(new User("employee", "employee", "password","employee",  "employee"));
         userRepository.save(new User("customer", "customer", "password","customer",  "customer"));
+        userRepository.findAll()
+                .forEach(System.out::println);
+
+        userService.UpdateUserById("newPassword", "newEmployeeEmail", userRepository.findUserById(100052));
+        userService.UpdateUserById("newPassword", "newCustomerEmail", userRepository.findUserById(100053));
+
+        System.out.println("\n-----> HERE'S THE UPDATED VERSION <-----\n");
         userRepository.findAll()
                 .forEach(System.out::println);
 
