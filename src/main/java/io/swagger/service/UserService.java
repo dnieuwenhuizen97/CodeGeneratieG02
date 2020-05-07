@@ -47,8 +47,7 @@ public class UserService {
 
     public Integer DeleteUserById(int userId)
     {
-
-        if (FindUserById(userId) == null)
+        if (!userRepository.existsById(userId))
             return 406;
 
         userRepository.deleteUserById(userId);
