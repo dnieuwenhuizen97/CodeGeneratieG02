@@ -40,7 +40,7 @@ public class Account   {
 
   @Id
   @JsonProperty("iban")
-  private String iban = null;
+  private String iban = "";
 
   /**
    * Gets or Sets accountType

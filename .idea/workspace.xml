@@ -22,9 +22,15 @@
     <list default="true" id="d049dca3-d6f9-4932-a4e5-24057367c984" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/io/swagger/config/myApplicationRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/swagger/config/myApplicationRunner.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/io/swagger/controller/AccountApiController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/swagger/controller/AccountApiController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/io/swagger/controller/AccountsApiController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/swagger/controller/AccountsApiController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/swagger/model/Account.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/swagger/model/Account.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/swagger/repository/AccountRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/swagger/repository/AccountRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/io/swagger/service/AccountService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/swagger/service/AccountService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/io/swagger/config/myApplicationRunner.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/io/swagger/config/myApplicationRunner.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/io/swagger/controller/AccountsApiController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/io/swagger/controller/AccountsApiController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/io/swagger/model/Account.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/io/swagger/model/Account.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/io/swagger/repository/AccountRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/io/swagger/repository/AccountRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/io/swagger/service/AccountService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/io/swagger/service/AccountService.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,9 +66,12 @@
   <component name="PropertiesComponent">
     <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="coverage" />
   </component>
-  <component name="RunManager" selected="Application.Swagger2SpringBoot">
+  <component name="RunManager">
     <configuration name="Swagger2SpringBoot" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="io.swagger.Swagger2SpringBoot" />
       <module name="CodeGeneratieG02" />
@@ -76,8 +85,11 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="swagger" type="Application" factoryName="Application" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="io.swagger" />
+    <configuration name="Swagger2SpringBoot" type="Application" factoryName="Application" nameIsGenerated="true">
+      <option name="ALTERNATIVE_JRE_PATH" value="11" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="MAIN_CLASS_NAME" value="io.swagger.Swagger2SpringBoot" />
+      <module name="CodeGeneratieG02" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="io.swagger.*" />
@@ -128,47 +140,73 @@
       <screen x="62" y="0" width="1474" height="864" />
     </state>
     <state x="495" y="52" key="#Swagger2SpringBoot/62.0.1474.864@62.0.1474.864" timestamp="1588588546808" />
-    <state x="254" y="87" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1588588652937">
-      <screen x="62" y="0" width="1474" height="864" />
+    <state x="2170" y="105" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1588846251468">
+      <screen x="1920" y="0" width="1920" height="1040" />
     </state>
+    <state x="2170" y="105" key="#com.intellij.execution.impl.EditConfigurationsDialog/62.0.1474.864/1920.0.1920.1040@1920.0.1920.1040" timestamp="1588846251468" />
     <state x="254" y="87" key="#com.intellij.execution.impl.EditConfigurationsDialog/62.0.1474.864@62.0.1474.864" timestamp="1588588652937" />
+    <state x="2496" y="155" key="#com.intellij.ide.macro.MacrosDialog" timestamp="1588846197975">
+      <screen x="1920" y="0" width="1920" height="1040" />
+    </state>
+    <state x="2496" y="155" key="#com.intellij.ide.macro.MacrosDialog/62.0.1474.864/1920.0.1920.1040@1920.0.1920.1040" timestamp="1588846197975" />
     <state x="2685" y="204" key="#com.intellij.ide.util.MemberChooser" timestamp="1588844935863">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
     <state x="2685" y="204" key="#com.intellij.ide.util.MemberChooser/62.0.1474.864/1920.0.1920.1040@1920.0.1920.1040" timestamp="1588844935863" />
+    <state x="2445" y="240" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1588846240541">
+      <screen x="1920" y="0" width="1920" height="1040" />
+    </state>
+    <state x="2445" y="240" key="#com.intellij.ide.util.TreeClassChooserDialog/62.0.1474.864/1920.0.1920.1040@1920.0.1920.1040" timestamp="1588846240541" />
     <state x="559" y="104" key="#swagger" timestamp="1588686215072">
       <screen x="62" y="0" width="1474" height="864" />
     </state>
     <state x="2567" y="153" key="#swagger/62.0.1474.864/1920.0.1920.1040@1920.0.1920.1040" timestamp="1588679599315" />
     <state x="2608" y="159" key="#swagger/62.0.1474.864/1982.0.1858.1080@1982.0.1858.1080" timestamp="1588593050188" />
     <state x="559" y="104" key="#swagger/62.0.1474.864@62.0.1474.864" timestamp="1588686215072" />
-    <state width="1877" height="337" key="GridCell.Tab.0.bottom" timestamp="1588845985374">
+    <state width="1877" height="218" key="GridCell.Tab.0.bottom" timestamp="1588849755663">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="337" key="GridCell.Tab.0.bottom/62.0.1474.864/1920.0.1920.1040@1920.0.1920.1040" timestamp="1588845985374" />
+    <state width="1877" height="218" key="GridCell.Tab.0.bottom/62.0.1474.864/1920.0.1920.1040@1920.0.1920.1040" timestamp="1588849755663" />
     <state width="1431" height="139" key="GridCell.Tab.0.bottom/62.0.1474.864/1920.0.1920.1040@62.0.1474.864" timestamp="1588771180383" />
     <state width="1431" height="67" key="GridCell.Tab.0.bottom/62.0.1474.864@62.0.1474.864" timestamp="1588687249884" />
-    <state width="1877" height="337" key="GridCell.Tab.0.center" timestamp="1588845985374">
+    <state width="1877" height="218" key="GridCell.Tab.0.center" timestamp="1588849755663">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="337" key="GridCell.Tab.0.center/62.0.1474.864/1920.0.1920.1040@1920.0.1920.1040" timestamp="1588845985374" />
+    <state width="1877" height="218" key="GridCell.Tab.0.center/62.0.1474.864/1920.0.1920.1040@1920.0.1920.1040" timestamp="1588849755663" />
     <state width="1431" height="139" key="GridCell.Tab.0.center/62.0.1474.864/1920.0.1920.1040@62.0.1474.864" timestamp="1588771180383" />
     <state width="1431" height="67" key="GridCell.Tab.0.center/62.0.1474.864@62.0.1474.864" timestamp="1588687249884" />
-    <state width="1877" height="337" key="GridCell.Tab.0.left" timestamp="1588845985374">
+    <state width="1877" height="218" key="GridCell.Tab.0.left" timestamp="1588849755663">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="337" key="GridCell.Tab.0.left/62.0.1474.864/1920.0.1920.1040@1920.0.1920.1040" timestamp="1588845985374" />
+    <state width="1877" height="218" key="GridCell.Tab.0.left/62.0.1474.864/1920.0.1920.1040@1920.0.1920.1040" timestamp="1588849755663" />
     <state width="1431" height="139" key="GridCell.Tab.0.left/62.0.1474.864/1920.0.1920.1040@62.0.1474.864" timestamp="1588771180383" />
     <state width="1431" height="67" key="GridCell.Tab.0.left/62.0.1474.864@62.0.1474.864" timestamp="1588687249883" />
-    <state width="1877" height="337" key="GridCell.Tab.0.right" timestamp="1588845985374">
+    <state width="1877" height="218" key="GridCell.Tab.0.right" timestamp="1588849755663">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="337" key="GridCell.Tab.0.right/62.0.1474.864/1920.0.1920.1040@1920.0.1920.1040" timestamp="1588845985374" />
+    <state width="1877" height="218" key="GridCell.Tab.0.right/62.0.1474.864/1920.0.1920.1040@1920.0.1920.1040" timestamp="1588849755663" />
     <state width="1431" height="139" key="GridCell.Tab.0.right/62.0.1474.864/1920.0.1920.1040@62.0.1474.864" timestamp="1588771180383" />
     <state width="1431" height="67" key="GridCell.Tab.0.right/62.0.1474.864@62.0.1474.864" timestamp="1588687249884" />
-    <state x="308" y="77" key="SettingsEditor" timestamp="1588589734148">
-      <screen x="62" y="0" width="1474" height="864" />
+    <state width="1877" height="348" key="GridCell.Tab.1.bottom" timestamp="1588848991460">
+      <screen x="1920" y="0" width="1920" height="1040" />
     </state>
+    <state width="1877" height="348" key="GridCell.Tab.1.bottom/62.0.1474.864/1920.0.1920.1040@1920.0.1920.1040" timestamp="1588848991460" />
+    <state width="1877" height="348" key="GridCell.Tab.1.center" timestamp="1588848991460">
+      <screen x="1920" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="348" key="GridCell.Tab.1.center/62.0.1474.864/1920.0.1920.1040@1920.0.1920.1040" timestamp="1588848991460" />
+    <state width="1877" height="348" key="GridCell.Tab.1.left" timestamp="1588848991460">
+      <screen x="1920" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="348" key="GridCell.Tab.1.left/62.0.1474.864/1920.0.1920.1040@1920.0.1920.1040" timestamp="1588848991460" />
+    <state width="1877" height="348" key="GridCell.Tab.1.right" timestamp="1588848991460">
+      <screen x="1920" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="348" key="GridCell.Tab.1.right/62.0.1474.864/1920.0.1920.1040@1920.0.1920.1040" timestamp="1588848991460" />
+    <state x="2240" y="93" key="SettingsEditor" timestamp="1588846364917">
+      <screen x="1920" y="0" width="1920" height="1040" />
+    </state>
+    <state x="2240" y="93" key="SettingsEditor/62.0.1474.864/1920.0.1920.1040@1920.0.1920.1040" timestamp="1588846364917" />
     <state x="308" y="77" key="SettingsEditor/62.0.1474.864@62.0.1474.864" timestamp="1588589734148" />
     <state x="456" y="197" key="run.anything.popup" timestamp="1588588551981">
       <screen x="62" y="0" width="1474" height="864" />
@@ -178,5 +216,16 @@
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
     <state x="2543" y="225" width="672" height="678" key="search.everywhere.popup/62.0.1474.864/1920.0.1920.1040@1920.0.1920.1040" timestamp="1588676538245" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/io/swagger/config/myApplicationRunner.java</url>
+          <line>44</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

@@ -24,10 +24,11 @@ public class myApplicationRunner implements ApplicationRunner {
     private UserRepository userRepository;
     private AccountRepository accountRepository;
 
-    public myApplicationRunner(TransactionRepository transactionRepository, AuthTokenRepository authTokenRepository, UserRepository userRepository) {
+    public myApplicationRunner(TransactionRepository transactionRepository, AuthTokenRepository authTokenRepository, UserRepository userRepository, AccountRepository accountRepository) {
         this.transactionRepository = transactionRepository;
         this.authTokenRepository = authTokenRepository;
         this.userRepository = userRepository;
+        this.accountRepository = accountRepository;
     }
 
     @Override
