@@ -4,6 +4,7 @@ import io.swagger.api.AccountsApi;
 import io.swagger.model.Account;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
+import io.swagger.service.AccountService;
 import io.swagger.service.AuthenticationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,6 +29,8 @@ public class AccountsApiController implements AccountsApi {
     private final HttpServletRequest request;
 
     private AuthenticationService authService;
+
+    private AccountService accountService;
 
     @org.springframework.beans.factory.annotation.Autowired
     public AccountsApiController(ObjectMapper objectMapper, HttpServletRequest request, AuthenticationService authService) {
@@ -59,7 +62,7 @@ public class AccountsApiController implements AccountsApi {
             }
         }
 
-        return new ResponseEntity<List<Account>>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<List<Account>>(accountService.getAllAccounts(), HttpStatus.OK);
     }
 
 }

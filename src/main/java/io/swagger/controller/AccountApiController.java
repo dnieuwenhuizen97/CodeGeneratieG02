@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory;
 
 import javax.validation.Valid;
 import javax.servlet.http.HttpServletRequest;
@@ -23,7 +24,7 @@ import java.math.BigDecimal;
 @Controller
 public class AccountApiController implements AccountApi {
 
-    private AccountService service;
+    private AccountService accountService;
 
     private static final Logger log = LoggerFactory.getLogger(AccountApiController.class);
 
@@ -38,9 +39,6 @@ public class AccountApiController implements AccountApi {
         this.objectMapper = objectMapper;
         this.request = request;
         this.authService = authService;
-
-        service.createAccount(new Account("NL84INHO0753754372", "savings", 3000f, 200, new BigDecimal(3500), new BigDecimal(35000000), 10002));
-        service.createAccount(new Account("NL84INHO0753764892", "current", 6000f, 200, new BigDecimal(3500), new BigDecimal(35000000), 10003));
     }
 
     public ResponseEntity<Void> deleteAccountByIban(@ApiParam(value = "iban of a specific account",required=true) @PathVariable("iban") String iban
@@ -70,8 +68,7 @@ public class AccountApiController implements AccountApi {
                 return new ResponseEntity<Account>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
-
-        return new ResponseEntity<Account>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<Account>(accountService.getSpecificAccount(iban),HttpStatus.OK);
     }
 
     public ResponseEntity<Account> updateSpecificAccount(@ApiParam(value = "" ,required=true )  @Valid @RequestBody Account body

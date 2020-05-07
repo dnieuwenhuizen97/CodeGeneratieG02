@@ -12,8 +12,6 @@ public class AccountService {
 
     public AccountService(AccountRepository repository) { this.accountRepository = repository; }
 
-    public void saveAccount(Account account) { accountRepository.save(account); }
-
     public Account getSpecificAccount(String id)
     {
         return accountRepository.findAccountById(id);
