@@ -43,7 +43,7 @@ public class myApplicationRunner implements ApplicationRunner {
                 .forEach(System.out::println);
 
         accountRepository.save(new Account("savings", 200, new BigDecimal(3500), new BigDecimal(35000000), 100001));
-        accountRepository.save(new Account("current", 200, new BigDecimal(3500), new BigDecimal(35000000), 100001));
+        accountRepository.save(new Account("current", 200, new BigDecimal(3500), new BigDecimal(35000000), 100002));
         accountRepository.findAll()
                 .forEach(System.out::println);
 

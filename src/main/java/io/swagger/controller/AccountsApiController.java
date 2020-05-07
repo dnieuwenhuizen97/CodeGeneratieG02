@@ -4,6 +4,7 @@ import io.swagger.api.AccountsApi;
 import io.swagger.model.Account;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
+import io.swagger.repository.AccountRepository;
 import io.swagger.service.AccountService;
 import io.swagger.service.AuthenticationService;
 import org.slf4j.Logger;
@@ -50,7 +51,9 @@ public class AccountsApiController implements AccountsApi {
         String apiKeyAuth = request.getHeader("ApiKeyAuth");
         if(!authService.IsUserAuthenticated(apiKeyAuth, 0))
             return new ResponseEntity(HttpStatus.FORBIDDEN);
-
+        for (Account a : accountService.getAllAccounts()) {
+            System.out.println(a.toString());
+        }
         if (accept != null && accept.contains("application/json")) {
             try {
                 return new ResponseEntity<List<Account>>(objectMapper.readValue("[ {\n  \"owner\" : 1,\n  \"account_type\" : [ \"current\", \"current\" ],\n  \"transactionDayLimit\" : 100,\n  \"balance\" : 200,\n  \"transactionAmountLimit\" : 200,\n  \"iban\" : \"NL11INHO0123456789\",\n  \"balanceLimit\" : -1200\n}, {\n  \"owner\" : 1,\n  \"account_type\" : [ \"current\", \"current\" ],\n  \"transactionDayLimit\" : 100,\n  \"balance\" : 200,\n  \"transactionAmountLimit\" : 200,\n  \"iban\" : \"NL11INHO0123456789\",\n  \"balanceLimit\" : -1200\n} ]", List.class), HttpStatus.NOT_IMPLEMENTED);
