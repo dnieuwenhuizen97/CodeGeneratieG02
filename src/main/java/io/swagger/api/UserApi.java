@@ -145,7 +145,7 @@ public interface UserApi {
     @RequestMapping(value = "/user/{userId}",
         consumes = { "application/json" },
         method = RequestMethod.PUT)
-    ResponseEntity<Void> updateUserById(@ApiParam(value = "" ,required=true )  @Valid @RequestBody String newPassword, String newEmail, User body
+    ResponseEntity<Void> updateUserById(@ApiParam(value = "" ,required=true )  @Valid @RequestBody String newFirstName, String newLastName, String newPassword, String newEmail, User body
 ,@ApiParam(value = "The id from the user",required=true) @PathVariable("userId") Integer userId
 );
 

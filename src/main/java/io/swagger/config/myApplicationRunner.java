@@ -43,8 +43,8 @@ public class myApplicationRunner implements ApplicationRunner {
         userRepository.findAll()
                 .forEach(System.out::println);
 
-        userService.UpdateUserById("newPassword", "newEmployeeEmail", userRepository.findUserById(100052));
-        userService.UpdateUserById("newPassword", "newCustomerEmail", userRepository.findUserById(100053));
+        userService.UpdateUserById("Dylan", "Nieuwenhuizen", "newPassword", "newEmployeeEmail", userRepository.findUserById(100052));
+        userService.UpdateUserById("test", "testt", "newPassword", "newCustomerEmail", userRepository.findUserById(100053));
 
         System.out.println("\n-----> HERE'S THE UPDATED VERSION <-----\n");
         userRepository.findAll()
