@@ -1,8 +1,8 @@
 package io.swagger.config;
 
-import io.swagger.model.Account;
 import io.swagger.model.AuthToken;
 import io.swagger.model.Transaction;
+import io.swagger.model.Account;
 
 import io.swagger.model.User;
 import io.swagger.repository.AccountRepository;
@@ -42,8 +42,8 @@ public class myApplicationRunner implements ApplicationRunner {
         userRepository.findAll()
                 .forEach(System.out::println);
 
-        accountRepository.save(new Account("savings", 200, new BigDecimal(3500), new BigDecimal(35000000), 100001));
-        accountRepository.save(new Account("current", 200, new BigDecimal(3500), new BigDecimal(35000000), 100002));
+        accountRepository.save(new Account("savings", 200, new BigDecimal(3500), new BigDecimal(35000000), 100001, 25.0f));
+        accountRepository.save(new Account("current", 200, new BigDecimal(3500), new BigDecimal(35000000), 100002, 25.0f));
         accountRepository.findAll()
                 .forEach(System.out::println);
 

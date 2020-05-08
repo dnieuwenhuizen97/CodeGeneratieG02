@@ -1,17 +1,20 @@
 package io.swagger.model;
 
-import java.util.*;
-
+import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 import org.springframework.validation.annotation.Validated;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
@@ -27,17 +30,37 @@ public class Account   {
 
   }
 
-  public Account(String accountType, Integer transactionDayLimit, BigDecimal transactionAmountLimit, BigDecimal balanceLimit, Integer owner){
+  public Account(String accountType, Integer transactionDayLimit, BigDecimal transactionAmountLimit, BigDecimal balanceLimit, Integer owner, Float balance){
     this.accountType = AccountTypeEnum.fromValue(accountType);
     this.transactionDayLimit = transactionDayLimit;
     this.transactionAmountLimit = transactionAmountLimit;
     this.balanceLimit = balanceLimit;
     this.owner = owner;
+    this.balance = balance;
   }
 
   @Id
   @JsonProperty("iban")
   private String iban = CreateIban();
+
+  public String CreateIban()
+  {
+    String iban = "";
+    Random r = new Random();
+
+    iban += "NL";
+    for(int i = 1; i <=2; i++)
+    {
+      iban += Integer.toString(r.nextInt(10));
+    }
+
+    iban += "INHO0";
+    for(int i = 1; i <=9; i++)
+    {
+      iban += Integer.toString(r.nextInt(10));
+    }
+    return iban;
+  }
 
   /**
    * Gets or Sets accountType
@@ -74,7 +97,7 @@ public class Account   {
   private AccountTypeEnum accountType = null;
 
   @JsonProperty("balance")
-  private Float balance = 0f;
+  private Float balance = null;
 
   @JsonProperty("transactionDayLimit")
   private Integer transactionDayLimit = null;
@@ -103,24 +126,6 @@ public class Account   {
     return iban;
   }
 
-  public String CreateIban()
-  {
-    String iban = "";
-    Random r = new Random();
-
-    iban += "NL";
-    for(int i = 1; i <=2; i++)
-    {
-      iban += Integer.toString(r.nextInt(10));
-    }
-
-    iban += "INHO0";
-    for(int i = 1; i <=9; i++)
-    {
-      iban += Integer.toString(r.nextInt(10));
-    }
-    return iban;
-  }
   public void setIban(String iban) {
     this.iban = iban;
   }
@@ -129,6 +134,7 @@ public class Account   {
     this.accountType = accountType;
     return this;
   }
+
 
   /**
    * Get accountType

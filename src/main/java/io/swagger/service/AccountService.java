@@ -16,7 +16,7 @@ public class AccountService {
 
     public void saveAccount(Account account) { accountRepository.save(account); }
 
-    public Account getSpecificAccount(String id) { return accountRepository.findAccountByIban(id); }
+    //public Account getSpecificAccount(String id) { return accountRepository.findAccountByIban(id); }
 
     public List<Account> getAllAccounts() {
         return (List<Account>)accountRepository.findAll();

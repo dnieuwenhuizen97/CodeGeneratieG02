@@ -4,7 +4,6 @@ import io.swagger.api.AccountApi;
 import io.swagger.model.Account;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
-import io.swagger.service.AccountService;
 import io.swagger.service.AuthenticationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,18 +12,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory;
 
 import javax.validation.Valid;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.math.BigDecimal;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-28T15:21:59.457Z[GMT]")
 @Controller
 public class AccountApiController implements AccountApi {
-
-    private AccountService accountService;
 
     private static final Logger log = LoggerFactory.getLogger(AccountApiController.class);
 
@@ -68,7 +63,8 @@ public class AccountApiController implements AccountApi {
                 return new ResponseEntity<Account>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
-        return new ResponseEntity<Account>(accountService.getSpecificAccount(iban),HttpStatus.OK);
+
+        return new ResponseEntity<Account>(HttpStatus.NOT_IMPLEMENTED);
     }
 
     public ResponseEntity<Account> updateSpecificAccount(@ApiParam(value = "" ,required=true )  @Valid @RequestBody Account body
