@@ -12,7 +12,7 @@
     <label>Email: </label> <input name="username"><br>
     <label>Password:</label> <input name="password" type="password"><br>
     <br />
-    <input type="button" id="loginUser" value="Login", onclick="POSTLogin()">
+    <input type="button" id="loginUser" value="Login" onclick="POSTLogin()">
 </form>
 
 <table id="table" border="1"></table>
@@ -26,11 +26,8 @@
         xhr.onload= (e) => {
             alert(xhr.status);
             let response = JSON.parse(xhr.response);
-            //alert authtoken
-            localStorage.setItem("AuthToken", JSON.stringify(response.AuthToken));
-            localStorage.setItem("UserId", JSON.stringify(response.userId));
-            alert(JSON.stringify(response.AuthToken) + " " + JSON.stringify(response.userId));
-            alert(localStorage.getItem("AuthToken"));
+            localStorage.setItem("AuthToken", response.AuthToken);
+            localStorage.setItem("UserId", response.userId);
         }
         xhr.send(JSON.stringify(
             {
@@ -40,8 +37,6 @@
         ));
 
     }
-
-
 </script>
 </body>
 </html>

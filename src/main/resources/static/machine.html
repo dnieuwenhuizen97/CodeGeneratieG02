@@ -5,13 +5,33 @@
     <title>Title</title>
 </head>
 <body>
-<input type="button" id="loginUser" value="Login", onclick="test()">
-<script>
-function test(){
+<form id="machineTransferForm">
+    <label>Amount:</label> <input id="amount" type="text"><br>
+    <label>Transfer type:</label><select id="transferType"><option value="withdraw">Withdraw</option><option value="deposit">Deposit</option></select>
+    <br />
+    <br>
 
-    
-     alert(localStorage.getItem("AuthToken"));
-     }
+<input type="button" id="machineTransfer" value="Peform transfer", onclick="PostMachineTransfer()">
+</form>
+<script>
+function PostMachineTransfer()
+{
+        var amount = document.getElementById("amount").value;
+        var t = document.getElementById("transferType");
+        var transferType = t.options[t.selectedIndex].value;
+
+
+       var xhr =  new XMLHttpRequest();
+
+        xhr.open('POST','http://localhost:8080/user/'+localStorage.getItem("UserId")+ '/machine?amount='+amount+'&transfer_type='+transferType);
+        xhr.setRequestHeader("Content-Type", "application/json" );
+        xhr.setRequestHeader("ApiKeyAuth" ,localStorage.getItem("AuthToken"));
+        xhr.onload= (e) => {
+            alert(xhr.status);
+        }
+        xhr.send();
+
+}
 
 //get token and user id from header
      var sessionStorage_transfer = function(event) {
