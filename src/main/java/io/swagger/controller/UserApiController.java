@@ -138,7 +138,7 @@ public class UserApiController implements UserApi {
         return new ResponseEntity<Void>(HttpStatus.valueOf(transactionService.createMachineTransfer(userId ,amount, transferType)));
     }
 
-    public ResponseEntity<Void> updateUserById(@ApiParam(value = "" ,required=true )  @Valid @RequestBody String newFirstName, String newLastName, String newPassword, String newEmail, User body
+    public ResponseEntity<Void> updateUserById(@ApiParam(value = "" ,required=true )  @Valid @RequestBody User body
 ,@ApiParam(value = "The id from the user",required=true) @PathVariable("userId") Integer userId
 ) {
         String accept = request.getHeader("Accept");
@@ -147,7 +147,7 @@ public class UserApiController implements UserApi {
         if(!authService.IsUserAuthenticated(apiKeyAuth, userId))
             return new ResponseEntity(HttpStatus.FORBIDDEN);
 
-        return new ResponseEntity<Void>(HttpStatus.valueOf(userService.UpdateUserById(newFirstName, newLastName, newPassword, newEmail, body)));
+        return new ResponseEntity<Void>(HttpStatus.valueOf(userService.UpdateUserById(body)));
     }
 
 }

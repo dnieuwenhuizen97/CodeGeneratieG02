@@ -54,18 +54,17 @@ public class UserService {
         return 201;
     }
 
-    public Integer UpdateUserById(String newFirstName, String newLastName, String newPassword, String newEmail, User u)
+    public Integer UpdateUserById(User u)
     {
+        User originalUser = userRepository.findUserById(u.getUserId());
+
         if (!userRepository.existsById(u.getUserId()))
             return 406;
-
-        u.setFirstName(newFirstName);
-        u.setLastName(newLastName);
-        u.setPassword(newPassword);
-        u.setEmail(newEmail);
+        else if (originalUser.getUserType().toString() != u.getUserType().toString())
+            return 401;
 
         userRepository.save(u);
-        return 201;
+        return 200;
     }
 
 }
