@@ -45,7 +45,7 @@ public class AccountsApiController implements AccountsApi {
         String accept = request.getHeader("Accept");
 
         String apiKeyAuth = request.getHeader("ApiKeyAuth");
-        if(!authService.IsUserAuthenticated(apiKeyAuth, 0))
+        if(!authService.IsUserAuthenticated(apiKeyAuth, 0, true))
             return new ResponseEntity(HttpStatus.FORBIDDEN);
 
         if (accept != null && accept.contains("application/json")) {

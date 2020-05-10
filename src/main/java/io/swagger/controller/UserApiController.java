@@ -55,7 +55,7 @@ public class UserApiController implements UserApi {
         String accept = request.getHeader("Accept");
 
         String apiKeyAuth = request.getHeader("ApiKeyAuth");
-        if(!authService.IsUserAuthenticated(apiKeyAuth, userId))
+        if(!authService.IsUserAuthenticated(apiKeyAuth, userId, true))
             return new ResponseEntity(HttpStatus.FORBIDDEN);
 
 
@@ -67,7 +67,7 @@ public class UserApiController implements UserApi {
         String accept = request.getHeader("Accept");
 
         String apiKeyAuth = request.getHeader("ApiKeyAuth");
-        if(!authService.IsUserAuthenticated(apiKeyAuth, userId))
+        if(!authService.IsUserAuthenticated(apiKeyAuth, userId, true))
             return new ResponseEntity(HttpStatus.FORBIDDEN);
 
         return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
@@ -78,7 +78,7 @@ public class UserApiController implements UserApi {
         String accept = request.getHeader("Accept");
 
         String apiKeyAuth = request.getHeader("ApiKeyAuth");
-        if(!authService.IsUserAuthenticated(apiKeyAuth, userId))
+        if(!authService.IsUserAuthenticated(apiKeyAuth, userId, false))
             return new ResponseEntity(HttpStatus.FORBIDDEN);
 
         if (accept != null && accept.contains("application/json")) {
@@ -98,7 +98,7 @@ public class UserApiController implements UserApi {
         String accept = request.getHeader("Accept");
 
         String apiKeyAuth = request.getHeader("ApiKeyAuth");
-        if(!authService.IsUserAuthenticated(apiKeyAuth, userId))
+        if(!authService.IsUserAuthenticated(apiKeyAuth, userId, false))
             return new ResponseEntity(HttpStatus.FORBIDDEN);
 
         if (accept != null && accept.contains("application/json")) {
@@ -118,7 +118,7 @@ public class UserApiController implements UserApi {
         String accept = request.getHeader("Accept");
 
         String apiKeyAuth = request.getHeader("ApiKeyAuth");
-        if(!authService.IsUserAuthenticated(apiKeyAuth, userId))
+        if(!authService.IsUserAuthenticated(apiKeyAuth, userId, false))
             return new ResponseEntity(HttpStatus.FORBIDDEN);
 
         return new ResponseEntity<User>(userService.FindUserById(userId),HttpStatus.OK);
@@ -131,7 +131,7 @@ public class UserApiController implements UserApi {
         String accept = request.getHeader("Accept");
 
         String apiKeyAuth = request.getHeader("ApiKeyAuth");
-        if(!authService.IsUserAuthenticated(apiKeyAuth, userId))
+        if(!authService.IsUserAuthenticated(apiKeyAuth, userId, false))
             return new ResponseEntity(HttpStatus.FORBIDDEN);
 
         return new ResponseEntity<Void>(HttpStatus.valueOf(transactionService.createMachineTransfer(userId ,amount, transferType)));
@@ -143,7 +143,7 @@ public class UserApiController implements UserApi {
         String accept = request.getHeader("Accept");
 
         String apiKeyAuth = request.getHeader("ApiKeyAuth");
-        if(!authService.IsUserAuthenticated(apiKeyAuth, userId))
+        if(!authService.IsUserAuthenticated(apiKeyAuth, userId, false))
             return new ResponseEntity(HttpStatus.FORBIDDEN);
 
         return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);

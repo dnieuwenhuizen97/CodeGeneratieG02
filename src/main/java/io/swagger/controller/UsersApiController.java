@@ -46,7 +46,7 @@ public class UsersApiController implements UsersApi {
         String accept = request.getHeader("Accept");
 
         String apiKeyAuth = request.getHeader("ApiKeyAuth");
-        if(!authService.IsUserAuthenticated(apiKeyAuth, 0))
+        if(!authService.IsUserAuthenticated(apiKeyAuth, 0, true))
             return new ResponseEntity(HttpStatus.FORBIDDEN);
 
         //make one for user request aceeptance---only add role
@@ -57,7 +57,7 @@ public class UsersApiController implements UsersApi {
 
     public ResponseEntity<List<RegisterRequest>> getAllRegisterRequests() {
         String apiKeyAuth = request.getHeader("ApiKeyAuth");
-        if(!authService.IsUserAuthenticated(apiKeyAuth, 0))
+        if(!authService.IsUserAuthenticated(apiKeyAuth, 0, true))
             return new ResponseEntity(HttpStatus.FORBIDDEN);
 
         String accept = request.getHeader("Accept");
@@ -82,7 +82,7 @@ public class UsersApiController implements UsersApi {
         String accept = request.getHeader("Accept");
 
         String apiKeyAuth = request.getHeader("ApiKeyAuth");
-        if(!authService.IsUserAuthenticated(apiKeyAuth, 0))
+        if(!authService.IsUserAuthenticated(apiKeyAuth, 0, true))
             return new ResponseEntity(HttpStatus.FORBIDDEN);
 
         if (accept != null && accept.contains("application/json")) {

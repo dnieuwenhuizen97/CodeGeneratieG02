@@ -33,6 +33,7 @@ public class User   {
     this.email = email;
     this.userType = UserTypeEnum.fromValue(userType);
   }
+
  @Id
  @SequenceGenerator(name="seq", initialValue = 100001)
  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq")

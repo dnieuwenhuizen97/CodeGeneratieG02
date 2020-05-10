@@ -42,19 +42,24 @@ public class AuthenticationService {
     }
 
 
-    public boolean IsUserAuthenticated(String token, int userId)
+    public boolean IsUserAuthenticated(String token, int userId, boolean isEmployeeRequest)
     {
         AuthToken authToken = authTokenRepository.findAuthTokenByToken(token);
+
         //token exist
         if(authToken == null)
             return false;
+
+        if(isEmployeeRequest && (userRepository.findById(authToken.getUserId()).get().getUserType()) == User.UserTypeEnum.CUSTOMER)
+            return false;
+
         //if user in path given check if user connected to token is requesting
-        else if(userId != 0) {
-            //customer request
-            if(userId == authToken.getUserId())
+        if(userId != 0) {
+            //employee requested
+            if (userRepository.findById(authToken.getUserId()).get().getUserType() == User.UserTypeEnum.EMPLOYEE || userRepository.findById(authToken.getUserId()).get().getUserType() == User.UserTypeEnum.CUSTOMERANDEMPLOYEE)
                 return true;
-            //employee request
-            else if (userRepository.findById(authToken.getUserId()).get().getUserType() == User.UserTypeEnum.EMPLOYEE || userRepository.findById(authToken.getUserId()).get().getUserType() == User.UserTypeEnum.CUSTOMERANDEMPLOYEE)
+            //customer requested
+            else if(userId == authToken.getUserId())
                 return true;
             else
                 return false;

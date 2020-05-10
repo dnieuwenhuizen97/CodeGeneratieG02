@@ -37,7 +37,7 @@ public class myApplicationRunner implements ApplicationRunner {
         userRepository.findAll()
                 .forEach(System.out::println);
 
-        authTokenRepository.save(new AuthToken("1234-abcd-5678-efgh", 100001, LocalDateTime.now()));
+        authTokenRepository.save(new AuthToken("1234-abcd-5678-efgh", 100052, LocalDateTime.now()));
         authTokenRepository.findAll()
                 .forEach(System.out::println);
     }

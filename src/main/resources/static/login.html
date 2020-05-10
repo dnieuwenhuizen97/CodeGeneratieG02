@@ -26,8 +26,8 @@
         xhr.onload= (e) => {
             alert(xhr.status);
             let response = JSON.parse(xhr.response);
-            localStorage.setItem("AuthToken", response.AuthToken);
-            localStorage.setItem("UserId", response.userId);
+            sessionStorage.setItem("AuthToken", response.AuthToken);
+            sessionStorage.setItem("UserId", response.userId);
         }
         xhr.send(JSON.stringify(
             {
