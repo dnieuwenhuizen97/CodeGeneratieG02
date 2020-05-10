@@ -23,7 +23,7 @@ public class UserService {
     public Integer SignUpUser(User user)
     {
         //user already exist
-        if(FindUserByEmail(user.getEmail()) != null)
+        if (FindUserByEmail(user.getEmail()) != null || !user.getEmail().matches("^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$"))
             return 406;
 
         //to do: valid email check, valid password check
