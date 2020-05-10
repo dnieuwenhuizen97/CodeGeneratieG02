@@ -14,6 +14,7 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.http.converter.json.GsonBuilderUtils;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.ls.LSOutput;
+import java.util.Scanner;
 
 import java.time.LocalDateTime;
 
@@ -42,6 +43,16 @@ public class myApplicationRunner implements ApplicationRunner {
         userRepository.save(new User("customer", "customer", "password","customer",  "customer"));
         userRepository.findAll()
                 .forEach(System.out::println);
+
+        //Scanner c = new  Scanner(System.in);
+
+        //for (int i = 0; i <= 10; i++) {
+        //    System.out.println("enter password: ");
+        //    String password = c.next();
+
+        //    System.out.println(userService.ValidPasswordCheck(password));
+        //}
+
 
         System.out.println("\n-----> HERE'S THE UPDATED VERSION <-----\n");
         userRepository.findAll()

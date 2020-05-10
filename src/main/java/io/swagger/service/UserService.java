@@ -23,7 +23,8 @@ public class UserService {
     public Integer SignUpUser(User user)
     {
         //user already exist
-        if (FindUserByEmail(user.getEmail()) != null || !user.getEmail().matches("^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$"))
+        if (FindUserByEmail(user.getEmail()) != null || !user.getEmail().matches("^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$")
+            || !ValidPasswordCheck(user.getPassword()))
             return 406;
 
         //to do: valid email check, valid password check
@@ -65,6 +66,53 @@ public class UserService {
 
         userRepository.save(u);
         return 200;
+    }
+
+    public boolean ValidPasswordCheck(String password)
+    {
+        if (!((password.length() >= 8) && (password.length() <= 15)))
+            return false;
+        else if (password.contains(" "))
+            return false;
+        else if (true) {
+            int count = 0;
+
+            for (int i = 0; i <= 9; i++) {
+                String s = Integer.toString(i);
+
+                if (password.contains(s))
+                    count = 1;
+            }
+            if (count == 0)
+                return false;
+        }
+        else if (!(password.contains("@") || password.contains("#")
+                || password.contains("!") || password.contains("~")
+                || password.contains("$") || password.contains("%")
+                || password.contains("^") || password.contains("&")
+                || password.contains("*") || password.contains("(")
+                || password.contains(")") || password.contains("-")
+                || password.contains("+") || password.contains("/")
+                || password.contains(":") || password.contains(".")
+                || password.contains(", ") || password.contains("<")
+                || password.contains(">") || password.contains("?")
+                || password.contains("|")))
+            return false;
+        else if (true) {
+            int count = 0;
+
+            for (int i = 65; i <= 90; i++) {
+                char c = (char)i;
+
+                String s = Character.toString(c);
+                if (password.contains(s))
+                    count = 1;
+            }
+            if (count == 0)
+                return false;
+        }
+
+        return true;
     }
 
 }
