@@ -28,7 +28,7 @@ public class myApplicationRunner implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments applicationArguments) throws Exception {
-        transactionRepository.save(new Transaction( "transaction", "00:00", "NL12INHO1234567890", "NL13INHO1234567890", 44.44, 10001 ));
+        transactionRepository.save(new Transaction( "transaction", LocalDateTime.now(), "NL12INHO1234567890", "NL13INHO1234567890", 44.44, 10001 ));
         transactionRepository.findAll()
                 .forEach(System.out::println);
 

@@ -92,17 +92,18 @@ public class TransactionsApiController implements TransactionsApi {
                 .body((JsonNode) objectMapper.createObjectNode()
                         .put("message", String.format("No transactions found for User ID %s", userId)));
 
-        Page<Transaction> transactions = service.getAllTransactionsOfUser(userId, pageable);
+       // Page<Transaction> transactions = service.getAllTransactionsOfUser(userId, pageable);
         // If the transactions are available, then override the detault response.
-        if (!transactions.isEmpty()) {
+      //  if (!transactions.isEmpty()) {
           //  responseEntity = ResponseEntity.ok().body(new ResponseWrapper(transactions));
-        }
+      //  }
         return responseEntity;
     }
 
     @Override
     public ResponseEntity<Transaction> createTransactionForUser(@Valid Transaction transaction, @Valid Integer userId) {
-        return ResponseEntity.ok().body(service.createTransactionForUser(transaction, userId));
+        return new ResponseEntity(HttpStatus.HTTP_VERSION_NOT_SUPPORTED);
+
     }
 
 }
