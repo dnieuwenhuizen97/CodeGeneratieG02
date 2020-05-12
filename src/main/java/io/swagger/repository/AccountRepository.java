@@ -9,6 +9,4 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface AccountRepository extends CrudRepository<Account,String> {
 
-    //@Query("SELECT a FROM Account a WHERE a.iban =:iban")
-    //Account findAccountByIban(@Param("iban") String iban);
 }

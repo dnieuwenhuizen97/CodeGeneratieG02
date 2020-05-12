@@ -14,9 +14,7 @@ public class AccountService {
 
     public AccountService(AccountRepository repository) { this.accountRepository = repository; }
 
-    public void saveAccount(Account account) { accountRepository.save(account); }
-
-    //public Account getSpecificAccount(String id) { return accountRepository.findAccountByIban(id); }
+    public Account getSpecificAccount(String iban) { return accountRepository.findById(iban).get(); }
 
     public List<Account> getAllAccounts() {
         return (List<Account>)accountRepository.findAll();
@@ -24,5 +22,17 @@ public class AccountService {
 
     public void createAccount(Account a) { accountRepository.save(a); }
 
-    public void deleteAccount(Account a) { accountRepository.delete(a); }
+    public Integer deleteAccount(String iban)
+    {
+        if(!accountRepository.existsById(iban))
+            return 406;
+        accountRepository.deleteById(iban);
+        return 201;
+    }
+
+    public Integer updateAccount(Account a)
+    {
+        //if(!accountRepository.existsById(a.getIban()))
+            return 406;
+    }
 }

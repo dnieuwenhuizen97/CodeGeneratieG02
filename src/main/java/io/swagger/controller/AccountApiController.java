@@ -1,9 +1,12 @@
 package io.swagger.controller;
 
 import io.swagger.api.AccountApi;
+import io.swagger.api.AccountsApi;
 import io.swagger.model.Account;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
+import io.swagger.models.auth.In;
+import io.swagger.service.AccountService;
 import io.swagger.service.AuthenticationService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,11 +32,14 @@ public class AccountApiController implements AccountApi {
 
     private AuthenticationService authService;
 
+    private AccountService accountService;
+
     @org.springframework.beans.factory.annotation.Autowired
-    public AccountApiController(ObjectMapper objectMapper, HttpServletRequest request, AuthenticationService authService) {
+    public AccountApiController(ObjectMapper objectMapper, HttpServletRequest request, AuthenticationService authService, AccountService accountService) {
         this.objectMapper = objectMapper;
         this.request = request;
         this.authService = authService;
+        this.accountService = accountService;
     }
 
     public ResponseEntity<Void> deleteAccountByIban(@ApiParam(value = "iban of a specific account",required=true) @PathVariable("iban") String iban
@@ -44,7 +50,7 @@ public class AccountApiController implements AccountApi {
         if(!authService.IsUserAuthenticated(apiKeyAuth, 0))
             return new ResponseEntity(HttpStatus.FORBIDDEN);
 
-        return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<Void>(HttpStatus.valueOf(accountService.deleteAccount(iban)));
     }
 
     public ResponseEntity<Account> getSpecificAccount(@ApiParam(value = "user of a specific account",required=true) @PathVariable("iban") String iban
@@ -64,7 +70,7 @@ public class AccountApiController implements AccountApi {
             }
         }
 
-        return new ResponseEntity<Account>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<Account>(accountService.getSpecificAccount(iban), HttpStatus.OK);
     }
 
     public ResponseEntity<Account> updateSpecificAccount(@ApiParam(value = "" ,required=true )  @Valid @RequestBody Account body
