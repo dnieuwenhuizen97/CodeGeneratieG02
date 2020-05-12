@@ -1,29 +1,29 @@
 package io.swagger.model;
 
-import java.time.LocalDateTime;
-import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.util.ArrayList;
-import java.util.List;
 import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.*;
 import javax.validation.Valid;
-import javax.validation.constraints.*;
+import javax.validation.constraints.Pattern;
+import java.time.LocalDateTime;
+import java.util.Objects;
 
 /**
  * Transaction
  */
 @Entity
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-05-03T10:32:36.707Z[GMT]")
-public class Transaction   {
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-28T15:21:59.457Z[GMT]")
+public class Transaction {
+
     public Transaction() {
     }
+
     public Transaction(String transactionType, LocalDateTime timestamp, String accountFrom, String accountTo, Double amount, Integer userPerforming) {
         this.transactionType = TransactionTypeEnum.fromValue(transactionType);
         this.timestamp = timestamp;
@@ -32,11 +32,20 @@ public class Transaction   {
         this.amount = amount;
         this.userPerforming = userPerforming;
     }
+
     @Id
-    @SequenceGenerator(name="seq", initialValue = 100001)
+    @SequenceGenerator(name = "seq", initialValue = 100001)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq")
     @JsonProperty("transaction_id")
     private Long transactionId = null;
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     /**
      * Gets or Sets transactionType
@@ -70,11 +79,13 @@ public class Transaction   {
             return null;
         }
     }
+
     @JsonProperty("transaction_type")
     @Valid
     private TransactionTypeEnum transactionType = null;
 
     @JsonProperty("timestamp")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime timestamp = null;
 
     @JsonProperty("account_from")
@@ -89,6 +100,10 @@ public class Transaction   {
     @JsonProperty("user_performing")
     private Integer userPerforming = null;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user")
+    private User user;
+
     public Transaction transactionId(Long transactionId) {
         this.transactionId = transactionId;
         return this;
@@ -96,6 +111,7 @@ public class Transaction   {
 
     /**
      * Unique transaction id
+     *
      * @return transactionId
      **/
     @ApiModelProperty(example = "10034", value = "Unique transaction id")
@@ -113,6 +129,7 @@ public class Transaction   {
 
     /**
      * Get transactionType
+     *
      * @return transactionType
      **/
     @ApiModelProperty(value = "")
@@ -125,13 +142,14 @@ public class Transaction   {
         this.transactionType = transactionType;
     }
 
-    public Transaction LocalDateTime(LocalDateTime timestamp) {
+    public Transaction timestamp(LocalDateTime timestamp) {
         this.timestamp = timestamp;
         return this;
     }
 
     /**
      * Date time of transaction creation
+     *
      * @return timestamp
      **/
     @ApiModelProperty(example = "995-09-07T10:40:52Z", value = "Date time of transaction creation")
@@ -151,11 +169,13 @@ public class Transaction   {
 
     /**
      * Account that is transferring amount
+     *
      * @return accountFrom
      **/
     @ApiModelProperty(example = "NL39INGB007801007", value = "Account that is transferring amount")
 
-    @Pattern(regexp="^\\w{2}\\d{2}\\w{4}\\d{10}$")   public String getAccountFrom() {
+    @Pattern(regexp = "^\\w{2}\\d{2}\\w{4}\\d{10}$")
+    public String getAccountFrom() {
         return accountFrom;
     }
 
@@ -170,11 +190,13 @@ public class Transaction   {
 
     /**
      * Account that receives payment
+     *
      * @return accountTo
      **/
     @ApiModelProperty(example = "NL39ING008451843", value = "Account that receives payment")
 
-    @Pattern(regexp="^\\w{2}\\d{2}\\w{4}\\d{10}$")   public String getAccountTo() {
+    @Pattern(regexp = "^\\w{2}\\d{2}\\w{4}\\d{10}$")
+    public String getAccountTo() {
         return accountTo;
     }
 
@@ -189,6 +211,7 @@ public class Transaction   {
 
     /**
      * Amount of money that's been transferred
+     *
      * @return amount
      **/
     @ApiModelProperty(example = "22.30", value = "Amount of money that's been transferred")
@@ -208,6 +231,7 @@ public class Transaction   {
 
     /**
      * id of performing user
+     *
      * @return userPerforming
      **/
     @ApiModelProperty(example = "1", value = "id of performing user")

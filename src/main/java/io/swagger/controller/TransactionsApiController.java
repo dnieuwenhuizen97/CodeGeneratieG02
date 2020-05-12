@@ -2,6 +2,7 @@ package io.swagger.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import io.swagger.api.TransactionsApi;
+import io.swagger.model.ResponseWrapper;
 import io.swagger.model.Transaction;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
@@ -45,7 +46,7 @@ public class TransactionsApiController implements TransactionsApi {
     }
 
     public ResponseEntity<Void> createTransaction(@ApiParam(value = "Created transaction object" ,required=true )  @Valid @RequestBody Transaction body
-) {
+    ) {
         String accept = request.getHeader("Accept");
 
         String apiKeyAuth = request.getHeader("ApiKeyAuth");
@@ -56,11 +57,12 @@ public class TransactionsApiController implements TransactionsApi {
         return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
     }
 
+
     public ResponseEntity<List<Transaction>> getAllTransactions(@ApiParam(value = "The number of items to skip before starting to collect the result set") @Valid @RequestParam(value = "offset", required = false) Integer offset
-,@ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "limit", required = false) Integer limit
-,@ApiParam(value = "The id of the user thats should ne involved within the transaction") @Valid @RequestParam(value = "userId", required = false) Integer userId
-,@ApiParam(value = "The iban that should be involved within the transactions") @Valid @RequestParam(value = "iban", required = false) String iban
-) {
+            ,@ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "limit", required = false) Integer limit
+            ,@ApiParam(value = "The id of the user thats should ne involved within the transaction") @Valid @RequestParam(value = "userId", required = false) Integer userId
+            ,@ApiParam(value = "The iban that should be involved within the transactions") @Valid @RequestParam(value = "iban", required = false) String iban
+    ) {
         //get auth token
         String accept = request.getHeader("Accept");
 
@@ -92,18 +94,17 @@ public class TransactionsApiController implements TransactionsApi {
                 .body((JsonNode) objectMapper.createObjectNode()
                         .put("message", String.format("No transactions found for User ID %s", userId)));
 
-       // Page<Transaction> transactions = service.getAllTransactionsOfUser(userId, pageable);
+        Page<Transaction> transactions = service.getAllTransactionsOfUser(userId, pageable);
         // If the transactions are available, then override the detault response.
-      //  if (!transactions.isEmpty()) {
-          //  responseEntity = ResponseEntity.ok().body(new ResponseWrapper(transactions));
-      //  }
+        if (!transactions.isEmpty()) {
+            responseEntity = ResponseEntity.ok().body(new ResponseWrapper(transactions));
+        }
         return responseEntity;
     }
 
     @Override
     public ResponseEntity<Transaction> createTransactionForUser(@Valid Transaction transaction, @Valid Integer userId) {
-        return new ResponseEntity(HttpStatus.HTTP_VERSION_NOT_SUPPORTED);
-
+        return ResponseEntity.ok().body(service.createTransactionForUser(transaction, userId));
     }
 
 }

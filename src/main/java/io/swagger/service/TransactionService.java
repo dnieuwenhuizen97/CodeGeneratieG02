@@ -25,6 +25,14 @@ public class TransactionService {
         this.userRepository = userRepository;
     }
 
+    public List<Transaction> getAllTransactions() {
+        return (List<Transaction>) transactionRepository.findAll();
+    }
+
+    public Page<Transaction> getAllTransactionsOfUser(Integer userId, Pageable pageable) {
+        return transactionRepository.findByUserUserId(userId, pageable);
+    }
+
     public Integer createMachineTransfer(int userId, double amount, String transfer_type)
     {
         //withdraw remove from bank account and banks own
@@ -33,11 +41,11 @@ public class TransactionService {
         return 201;
     }
 
-    public List<Transaction> getAllTransactions() {
-
-        return (List<Transaction>) transactionRepository.findAll();
+    public Transaction createTransactionForUser(Transaction transaction, Integer userId) {
+        // Validate if the user exists with the provided id. If not, then throw an exception.
+        // Otherwise add the user reference in the transaction.
+        transaction.setUser(userRepository.findById(userId).orElseThrow(() ->
+                new CustomException(HttpStatus.NOT_FOUND, String.format("No user found for ID %s", userId))));
+        return transactionRepository.save(transaction);
     }
-
-
-
 }
