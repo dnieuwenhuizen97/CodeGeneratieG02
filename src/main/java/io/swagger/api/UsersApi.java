@@ -5,7 +5,9 @@
  */
 package io.swagger.api;
 
+import io.swagger.model.MachineTransfer;
 import io.swagger.model.RegisterRequest;
+import io.swagger.model.Transaction;
 import io.swagger.model.User;
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
@@ -81,5 +83,25 @@ public interface UsersApi {
 ,@ApiParam(value = "The id the user should have") @Valid @RequestParam(value = "userId", required = false) Integer userId
 ,@ApiParam(value = "The email the user should have") @Valid @RequestParam(value = "email", required = false) String email
 );
+
+
+
+    @ApiOperation(value = "withdraw/deposit money by user.", nickname = "machineTransfer", notes = "Withdraw or deposit money, depends on the type if the money will be added or removed from the account.", response = Transaction.class, authorizations = {
+            @Authorization(value = "ApiKeyAuth")    }, tags={ "Machine","Customer operation", })
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Withdraw/desposit succesfully processed.", response = Transaction.class),
+            @ApiResponse(code = 400, message = "Bad Request."),
+            @ApiResponse(code = 401, message = "You are not authorized to either withdraw or deposit money."),
+            @ApiResponse(code = 403, message = "You do not have the right function to either withdraw or deposit money ."),
+            @ApiResponse(code = 404, message = "Something went wrong with your request."),
+            @ApiResponse(code = 406, message = "Invalid input, double check the values of the fields and try again."),
+            @ApiResponse(code = 429, message = "You have tried too many times to withdraw or deposit money, please wait a minute before you try again.") })
+    @RequestMapping(value = "/users/{userId}/machine",
+            produces = { "application/json" },
+            consumes = { "application/json" },
+            method = RequestMethod.POST)
+    ResponseEntity<Transaction> machineTransfer(@ApiParam(value = "",required=true) @PathVariable("userId") Integer userId
+            ,@ApiParam(value = ""  )  @Valid @RequestBody MachineTransfer body
+    );
 
 }

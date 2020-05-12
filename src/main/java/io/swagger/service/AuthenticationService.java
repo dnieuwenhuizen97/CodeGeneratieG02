@@ -1,19 +1,18 @@
 package io.swagger.service;
 
-import io.swagger.model.AuthToken;
-import io.swagger.model.Login;
-import io.swagger.model.RegisterRequest;
-import io.swagger.model.User;
+import io.swagger.model.*;
 import io.swagger.repository.AuthTokenRepository;
 import io.swagger.repository.RegisterRequestRepository;
 import io.swagger.repository.UserRepository;
 import jdk.nashorn.internal.parser.Token;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
+@Transactional
 public class AuthenticationService {
     private AuthTokenRepository authTokenRepository;
     private UserRepository userRepository;
@@ -37,15 +36,15 @@ public class AuthenticationService {
 
     public Integer signOutUser(String authToken)
     {
-        authTokenRepository.DeleteAuthToken(authToken);
+        authTokenRepository.deleteById(authToken);
         return 200;
     }
 
 
     public boolean IsUserAuthenticated(String token, int userId, boolean isEmployeeRequest)
     {
-        AuthToken authToken = authTokenRepository.findAuthTokenByToken(token);
-
+        Optional<AuthToken> returnedToken = authTokenRepository.findById(token);
+        AuthToken authToken = returnedToken.get();
         //token exist
         if(authToken == null)
             return false;
@@ -72,14 +71,17 @@ public class AuthenticationService {
     {
         User user = userRepository.findUserByUserCredentials(login.getUsername(), login.getPassword());
         AuthToken authToken = authTokenRepository.findAuthTokenByUser(user.getUserId());
+
         //no user found with credentials
         if(user == null)
             return authToken;
         //user already has token
-        else if(authToken != null)
+        else if(authToken != null) {
             return authToken;
+        }
 
-        authToken = new AuthToken(CreateAuthToken(), user.getUserId(), LocalDateTime.now());
+        //token will expire after 30min from now
+        authToken = new AuthToken(CreateAuthToken(), user.getUserId(), LocalDateTime.now(), LocalDateTime.now().plusMinutes(30));
         authTokenRepository.save(authToken);
 
         return authToken;

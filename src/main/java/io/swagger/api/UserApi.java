@@ -114,22 +114,6 @@ public interface UserApi {
 );
 
 
-    @ApiOperation(value = "withdraw/deposit money by user.", nickname = "machineTransfer", notes = "Withdraw or deposit money, depends on the type if the money will be added or removed from the account.", authorizations = {
-        @Authorization(value = "ApiKeyAuth")    }, tags={ "Machine","Customer operation", })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 201, message = "Withdraw/desposit succesfully processed."),
-        @ApiResponse(code = 400, message = "Bad Request."),
-        @ApiResponse(code = 401, message = "You are not authorized to either withdraw or deposit money."),
-        @ApiResponse(code = 403, message = "You do not have the right function to either withdraw or deposit money ."),
-        @ApiResponse(code = 404, message = "Something went wrong with your request."),
-        @ApiResponse(code = 406, message = "Invalid input, double check the values of the fields and try again."),
-        @ApiResponse(code = 429, message = "You have tried too many times to withdraw or deposit money, please wait a minute before you try again.") })
-    @RequestMapping(value = "/user/{userId}/machine",
-        method = RequestMethod.POST)
-    ResponseEntity<Void> machineTransfer(@ApiParam(value = "",required=true) @PathVariable("userId") Integer userId
-,@NotNull @ApiParam(value = "Amount that has to be transfered", required = true) @Valid @RequestParam(value = "amount", required = true) double amount
-,@NotNull @ApiParam(value = "Tranfer type withdraw or deposit", required = true, allowableValues = "deposit, withdraw") @Valid @RequestParam(value = "transfer_type", required = true) String transferType
-);
 
 
     @ApiOperation(value = "Updates user", nickname = "updateUserById", notes = "Update user with the given information", authorizations = {

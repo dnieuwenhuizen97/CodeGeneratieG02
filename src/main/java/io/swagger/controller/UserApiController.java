@@ -38,15 +38,15 @@ public class UserApiController implements UserApi {
 
     private UserService userService;
 
-    private TransactionService transactionService;
+
 
     @org.springframework.beans.factory.annotation.Autowired
-    public UserApiController(ObjectMapper objectMapper, HttpServletRequest request, AuthenticationService authService, UserService userService, TransactionService transactionService) {
+    public UserApiController(ObjectMapper objectMapper, HttpServletRequest request, AuthenticationService authService, UserService userService) {
         this.objectMapper = objectMapper;
         this.request = request;
         this.authService = authService;
         this.userService = userService;
-        this.transactionService = transactionService;
+
     }
 
     public ResponseEntity<Void> createAccountByUser(@ApiParam(value = "user of a specific account",required=true) @PathVariable("userId") Integer userId
@@ -124,18 +124,7 @@ public class UserApiController implements UserApi {
         return new ResponseEntity<User>(userService.FindUserById(userId),HttpStatus.OK);
     }
 
-    public ResponseEntity<Void> machineTransfer(@ApiParam(value = "",required=true) @PathVariable("userId") Integer userId
-,@NotNull @ApiParam(value = "Amount that has to be transfered", required = true) @Valid @RequestParam(value = "amount", required = true) double amount
-,@NotNull @ApiParam(value = "Tranfer type withdraw or deposit", required = true, allowableValues = "deposit, withdraw") @Valid @RequestParam(value = "transfer_type", required = true) String transferType
-) {
-        String accept = request.getHeader("Accept");
 
-        String apiKeyAuth = request.getHeader("ApiKeyAuth");
-        if(!authService.IsUserAuthenticated(apiKeyAuth, userId, false))
-            return new ResponseEntity(HttpStatus.FORBIDDEN);
-
-        return new ResponseEntity<Void>(HttpStatus.valueOf(transactionService.createMachineTransfer(userId ,amount, transferType)));
-    }
 
     public ResponseEntity<Void> updateUserById(@ApiParam(value = "" ,required=true )  @Valid @RequestBody User body
 ,@ApiParam(value = "The id from the user",required=true) @PathVariable("userId") Integer userId

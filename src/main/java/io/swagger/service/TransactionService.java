@@ -1,5 +1,6 @@
 package io.swagger.service;
 
+import io.swagger.model.MachineTransfer;
 import io.swagger.model.Transaction;
 import org.springframework.stereotype.Service;
 import io.swagger.repository.TransactionRepository;
@@ -21,13 +22,12 @@ public class TransactionService {
         return (List<Transaction>)transactionRepository.findAll();
     }
 
-    public Integer createMachineTransfer(int userId, double amount, String transfer_type)
+    public Transaction createMachineTransfer(int userId, MachineTransfer machineTransfer)
     {
         //withdraw remove from bank account and banks own
-
         //deposit add to bank account and banks own
-
-        transactionRepository.save(new Transaction(transfer_type, LocalDateTime.now(), "NL13INHO1234567890", "NL13INHO1234567890", amount, userId));
-        return 201;
+        Transaction machineTransaction = new Transaction(machineTransfer.getTransferType().toString(), LocalDateTime.now(), "NL13INHO1234567890", "NL13INHO1234567890", machineTransfer.getAmount(), userId);
+        transactionRepository.save(machineTransaction);
+        return machineTransaction;
     }
 }
