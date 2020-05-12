@@ -10,6 +10,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
@@ -34,6 +36,58 @@ public class AccountsApiController implements AccountsApi {
         this.objectMapper = objectMapper;
         this.request = request;
         this.authService = authService;
+    }
+
+    public ResponseEntity<Void> deleteAccountByIban(@ApiParam(value = "iban of a specific account",required=true) @PathVariable("iban") String iban
+    ) {
+        String accept = request.getHeader("Accept");
+
+        String apiKeyAuth = request.getHeader("ApiKeyAuth");
+        if(!authService.IsUserAuthenticated(apiKeyAuth, 0))
+            return new ResponseEntity(HttpStatus.FORBIDDEN);
+
+        return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
+    }
+
+    public ResponseEntity<Account> getSpecificAccount(@ApiParam(value = "user of a specific account",required=true) @PathVariable("iban") String iban
+    ) {
+        String accept = request.getHeader("Accept");
+
+        String apiKeyAuth = request.getHeader("ApiKeyAuth");
+        if(!authService.IsUserAuthenticated(apiKeyAuth, 0))
+            return new ResponseEntity(HttpStatus.FORBIDDEN);
+
+        if (accept != null && accept.contains("application/json")) {
+            try {
+                return new ResponseEntity<Account>(objectMapper.readValue("{\n  \"owner\" : 1,\n  \"account_type\" : [ \"current\", \"current\" ],\n  \"transactionDayLimit\" : 100,\n  \"balance\" : 200,\n  \"transactionAmountLimit\" : 200,\n  \"iban\" : \"NL11INHO0123456789\",\n  \"balanceLimit\" : -1200\n}", Account.class), HttpStatus.NOT_IMPLEMENTED);
+            } catch (IOException e) {
+                log.error("Couldn't serialize response for content type application/json", e);
+                return new ResponseEntity<Account>(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        }
+
+        return new ResponseEntity<Account>(HttpStatus.NOT_IMPLEMENTED);
+    }
+
+    public ResponseEntity<Account> updateSpecificAccount(@ApiParam(value = "" ,required=true )  @Valid @RequestBody Account body
+            ,@ApiParam(value = "user of a specific account",required=true) @PathVariable("iban") String iban
+    ) {
+        String accept = request.getHeader("Accept");
+
+        String apiKeyAuth = request.getHeader("ApiKeyAuth");
+        if(!authService.IsUserAuthenticated(apiKeyAuth, 0))
+            return new ResponseEntity(HttpStatus.FORBIDDEN);
+
+        if (accept != null && accept.contains("application/json")) {
+            try {
+                return new ResponseEntity<Account>(objectMapper.readValue("{\n  \"owner\" : 1,\n  \"account_type\" : [ \"current\", \"current\" ],\n  \"transactionDayLimit\" : 100,\n  \"balance\" : 200,\n  \"transactionAmountLimit\" : 200,\n  \"iban\" : \"NL11INHO0123456789\",\n  \"balanceLimit\" : -1200\n}", Account.class), HttpStatus.NOT_IMPLEMENTED);
+            } catch (IOException e) {
+                log.error("Couldn't serialize response for content type application/json", e);
+                return new ResponseEntity<Account>(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        }
+
+        return new ResponseEntity<Account>(HttpStatus.NOT_IMPLEMENTED);
     }
 
     public ResponseEntity<List<Account>> getAllAccounts(@ApiParam(value = "The number of items to skip before starting to collect the result set") @Valid @RequestParam(value = "offset", required = false) Integer offset

@@ -19,18 +19,19 @@ public class UserService {
         this.registerRequestRepository = registerRequestRepository;
 
     }
-    public List<RegisterRequest> FindAllRegisterRequests(){return (List<RegisterRequest>) registerRequestRepository.findAll();};
-    public Integer SignUpUser(User user)
-    {
-        //user already exist
-        if (FindUserByEmail(user.getEmail()) != null || !user.getEmail().matches("^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$")
-            || !ValidPasswordCheck(user.getPassword()))
-            return 406;
 
-        //to do: valid email check, valid password check
+    public List<RegisterRequest> FindAllRegisterRequests(){return (List<RegisterRequest>) registerRequestRepository.findAll();};
+
+    public User SignUpUser(User user) throws Exception {
+        if (FindUserByEmail(user.getEmail()) != null)
+            throw new Exception("User already exists");
+        else if (!user.getEmail().matches("^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$"))
+            throw new Exception("Invalid email");
+        else if (!isValidPassword(user.getPassword()))
+            throw new Exception("Password needs to be 8-15 characters long and should contain at least ONE digit, ONE special character and ONE uppercase letter");
 
         userRepository.save(user);
-        return 201;
+        return user;
     }
     public User FindUserById(int userId)
     {
@@ -55,38 +56,51 @@ public class UserService {
         return 201;
     }
 
-    public Integer UpdateUserById(User u)
-    {
+    public User UpdateUserById(User u) throws Exception {
         User originalUser = userRepository.findUserById(u.getUserId());
 
         if (!userRepository.existsById(u.getUserId()))
-            return 406;
+            throw new Exception("User does not exist");
         else if (originalUser.getUserType().toString() != u.getUserType().toString())
-            return 401;
+            throw new Exception("Cannot change usertype");
 
         userRepository.save(u);
-        return 200;
+        return u;
     }
 
-    public boolean ValidPasswordCheck(String password)
+    private boolean isValidPassword(String password)
     {
-        if (!((password.length() >= 8) && (password.length() <= 15)))
+        // for checking if password length
+        // is between 8 and 15
+        if (!((password.length() >= 8)
+                && (password.length() <= 15))) {
             return false;
-        else if (password.contains(" "))
+        }
+
+        // to check space
+        if (password.contains(" ")) {
             return false;
-        else if (true) {
+        }
+        if (true) {
             int count = 0;
 
+            // check digits from 0 to 9
             for (int i = 0; i <= 9; i++) {
-                String s = Integer.toString(i);
 
-                if (password.contains(s))
+                // to convert int to string
+                String str1 = Integer.toString(i);
+
+                if (password.contains(str1)) {
                     count = 1;
+                }
             }
-            if (count == 0)
+            if (count == 0) {
                 return false;
+            }
         }
-        else if (!(password.contains("@") || password.contains("#")
+
+        // for special characters
+        if (!(password.contains("@") || password.contains("#")
                 || password.contains("!") || password.contains("~")
                 || password.contains("$") || password.contains("%")
                 || password.contains("^") || password.contains("&")
@@ -96,20 +110,46 @@ public class UserService {
                 || password.contains(":") || password.contains(".")
                 || password.contains(", ") || password.contains("<")
                 || password.contains(">") || password.contains("?")
-                || password.contains("|")))
+                || password.contains("|"))) {
             return false;
-        else if (true) {
+        }
+
+        if (true) {
             int count = 0;
 
+            // checking capital letters
             for (int i = 65; i <= 90; i++) {
-                char c = (char)i;
 
-                String s = Character.toString(c);
-                if (password.contains(s))
+                // type casting
+                char c = (char) i;
+
+                String str1 = Character.toString(c);
+                if (password.contains(str1)) {
                     count = 1;
+                }
             }
-            if (count == 0)
+            if (count == 0) {
                 return false;
+            }
+        }
+
+        if (true) {
+            int count = 0;
+
+            // checking small letters
+            for (int i = 90; i <= 122; i++) {
+
+                // type casting
+                char c = (char) i;
+                String str1 = Character.toString(c);
+
+                if (password.contains(str1)) {
+                    count = 1;
+                }
+            }
+            if (count == 0) {
+                return false;
+            }
         }
 
         return true;

@@ -27,6 +27,57 @@ import java.util.Map;
 @Api(value = "accounts", description = "the accounts API")
 public interface AccountsApi {
 
+    @ApiOperation(value = "Delete one account by iban", nickname = "deleteAccountByIban", notes = "By passing in the appropriate options, you can delete one perticular account in the system by iban ", authorizations = {
+            @Authorization(value = "ApiKeyAuth")    }, tags={ "Accounts","Employee operation", })
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Account has been deleted based on searching criteria."),
+            @ApiResponse(code = 400, message = "Bad Request."),
+            @ApiResponse(code = 401, message = "You are not authorized to delete account."),
+            @ApiResponse(code = 403, message = "You do not have the right function to delete accounts, please contact your employer."),
+            @ApiResponse(code = 404, message = "No match has been found based on searching criteria."),
+            @ApiResponse(code = 406, message = "Double check the values of the fields and try again."),
+            @ApiResponse(code = 429, message = "You have tried too many times to delete an account, please wait a minute before you try again.") })
+    @RequestMapping(value = "/accounts/{iban}",
+            method = RequestMethod.DELETE)
+    ResponseEntity<Void> deleteAccountByIban(@ApiParam(value = "iban of a specific account",required=true) @PathVariable("iban") String iban
+    );
+
+
+    @ApiOperation(value = "Get specific account", nickname = "getSpecificAccount", notes = "Gets a specifc account by iban", response = Account.class, authorizations = {
+            @Authorization(value = "ApiKeyAuth")    }, tags={ "Accounts","Customer operation", })
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "You have found a match based on your searching criteria.", response = Account.class),
+            @ApiResponse(code = 400, message = "Bad Request."),
+            @ApiResponse(code = 401, message = "You are not authorized to search for a specific account."),
+            @ApiResponse(code = 403, message = "You do not have the right function to search for a specific account, please contact your employer."),
+            @ApiResponse(code = 404, message = "Something went wrong with your request."),
+            @ApiResponse(code = 406, message = "Invalid input, double check the values of the fields and try again."),
+            @ApiResponse(code = 429, message = "You have tried too many times to get a specific acount, please wait a minute before you try again.") })
+    @RequestMapping(value = "/accounts/{iban}",
+            produces = { "application/json" },
+            method = RequestMethod.GET)
+    ResponseEntity<Account> getSpecificAccount(@ApiParam(value = "user of a specific account",required=true) @PathVariable("iban") String iban
+    );
+
+
+    @ApiOperation(value = "Update one account by iban", nickname = "updateSpecificAccount", notes = "By passing in the appropriate options, you can update one perticular account in the system by iban", response = Account.class, authorizations = {
+            @Authorization(value = "ApiKeyAuth")    }, tags={ "Accounts","Employee operation", })
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "You have updated the accounts information.", response = Account.class),
+            @ApiResponse(code = 400, message = "Bad Request."),
+            @ApiResponse(code = 401, message = "You are not authorized to update an account."),
+            @ApiResponse(code = 403, message = "You do not have the right function to update accounts, please contact your employer."),
+            @ApiResponse(code = 404, message = "No match has been found based on searching criteria."),
+            @ApiResponse(code = 406, message = "Invalid input, double check the values of the fields and try again."),
+            @ApiResponse(code = 429, message = "You have tried too many times to update an accounts information, please wait a minute before you try again.") })
+    @RequestMapping(value = "/accounts/{iban}",
+            produces = { "application/json" },
+            consumes = { "application/json" },
+            method = RequestMethod.PUT)
+    ResponseEntity<Account> updateSpecificAccount(@ApiParam(value = "" ,required=true )  @Valid @RequestBody Account body
+            ,@ApiParam(value = "user of a specific account",required=true) @PathVariable("iban") String iban
+    );
+
     @ApiOperation(value = "Get all accounts", nickname = "getAllAccounts", notes = "Get all account from database, could be filtered on offset, limit, user id, iban and account type", response = Account.class, responseContainer = "List", authorizations = {
         @Authorization(value = "ApiKeyAuth")    }, tags={ "Accounts","Employee operation", })
     @ApiResponses(value = { 

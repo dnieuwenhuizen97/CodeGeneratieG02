@@ -1,6 +1,6 @@
 package io.swagger.config;
 
-import io.swagger.controller.UserApiController;
+import io.swagger.controller.UsersApiController;
 import io.swagger.model.AuthToken;
 import io.swagger.model.Transaction;
 
