@@ -147,7 +147,7 @@ public class UsersApiController implements UsersApi {
             return new ResponseEntity(HttpStatus.FORBIDDEN);
 
         try {
-            return new ResponseEntity<User>(userService.UpdateUserById(body), HttpStatus.OK);
+            return new ResponseEntity<User>(userService.UpdateUserById(body, userId), HttpStatus.OK);
         }
         catch (Exception e) {
             System.out.println(e);

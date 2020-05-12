@@ -56,13 +56,17 @@ public class UserService {
         return 201;
     }
 
-    public User UpdateUserById(User u) throws Exception {
-        User originalUser = userRepository.findUserById(u.getUserId());
+    public User UpdateUserById(User u, int userId) throws Exception {
+        User originalUser = userRepository.findUserById(userId);
 
-        if (!userRepository.existsById(u.getUserId()))
+        u.setUserType(originalUser.getUserType());
+
+        if (!userRepository.existsById(userId))
             throw new Exception("User does not exist");
         else if (originalUser.getUserType().toString() != u.getUserType().toString())
             throw new Exception("Cannot change usertype");
+
+        u.setUserId(userId);
 
         userRepository.save(u);
         return u;
