@@ -18,20 +18,26 @@ public class AuthenticationService {
     private AuthTokenRepository authTokenRepository;
     private UserRepository userRepository;
     private RegisterRequestRepository registerRequestRepository;
+    private UserService userService;
 
-    public AuthenticationService(AuthTokenRepository authTokenRepository, UserRepository userRepository, RegisterRequestRepository registerRequestRepository) {
+    public AuthenticationService(AuthTokenRepository authTokenRepository, UserRepository userRepository, RegisterRequestRepository registerRequestRepository, UserService userService) {
         this.authTokenRepository = authTokenRepository;
         this.userRepository = userRepository;
         this.registerRequestRepository = registerRequestRepository;
+        this.userService = userService;
     }
 
-    public Integer CreateRegisterRequest(RegisterRequest registerRequest)
-    {
+    public Integer CreateRegisterRequest(RegisterRequest registerRequest) throws Exception {
         //if user already reguested
         if(registerRequestRepository.findUserByEmail(registerRequest.getEmail()) != null)
             return  406;
+        else if (!registerRequest.getEmail().matches("^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$"))
+            throw new Exception("Invalid email");
+        else if (!userService.isValidPassword(registerRequest.getPassword()))
+            throw new Exception("Password needs to be 8-15 characters long and should contain at least ONE digit, ONE special character and ONE uppercase letter");
 
         registerRequestRepository.save(registerRequest);
+        System.out.println(registerRequestRepository.findAll());
         return 201;
     }
 

@@ -57,22 +57,21 @@ public class UserService {
     }
 
     public User UpdateUserById(User u, int userId) throws Exception {
-        User originalUser = userRepository.findUserById(userId);
-
-        u.setUserType(originalUser.getUserType());
 
         if (!userRepository.existsById(userId))
             throw new Exception("User does not exist");
-        else if (originalUser.getUserType().toString() != u.getUserType().toString())
-            throw new Exception("Cannot change usertype");
+        else if (!isValidPassword(u.getPassword()))
+            throw new Exception("Password needs to be 8-15 characters long and should contain at least ONE digit, ONE special character and ONE uppercase letter");
+        else if (!u.getEmail().matches("^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$"))
+            throw new Exception("Invalid email");
 
-        u.setUserId(userId);
+        userRepository.updateUser(u.getFirstName(), u.getLastName(), u.getEmail(), u.getPassword(), userId);
 
-        userRepository.save(u);
-        return u;
+        User updatedUser = userRepository.findUserById(userId);
+        return updatedUser;
     }
 
-    private boolean isValidPassword(String password)
+    public boolean isValidPassword(String password)
     {
         // for checking if password length
         // is between 8 and 15

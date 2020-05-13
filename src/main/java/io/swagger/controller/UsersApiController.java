@@ -160,11 +160,16 @@ public class UsersApiController implements UsersApi {
         String accept = request.getHeader("Accept");
 
         String apiKeyAuth = request.getHeader("ApiKeyAuth");
-        if(!authService.IsUserAuthenticated(apiKeyAuth, 99))
-            return new ResponseEntity(HttpStatus.FORBIDDEN);
-
-        //make one for user request aceeptance---only add role
-        //make one for cerating user from scratch
+        if(!authService.IsUserAuthenticated(apiKeyAuth, 99)) {
+            try {
+                authService.CreateRegisterRequest(new RegisterRequest(body.getFirstName(), body.getLastName(), body.getPassword(), body.getEmail()));
+                return new ResponseEntity(HttpStatus.OK);
+            }
+            catch (Exception e) {
+                System.out.println(e);
+                return new ResponseEntity(HttpStatus.NOT_ACCEPTABLE);
+            }
+        }
 
         try {
             return new ResponseEntity<User>(userService.SignUpUser(body), HttpStatus.CREATED);

@@ -44,14 +44,7 @@ public class myApplicationRunner implements ApplicationRunner {
         userRepository.findAll()
                 .forEach(System.out::println);
 
-        //Scanner c = new  Scanner(System.in);
-
-        //for (int i = 0; i <= 10; i++) {
-        //    System.out.println("enter password: ");
-        //    String password = c.next();
-
-        //    System.out.println(userService.ValidPasswordCheck(password));
-        //}
+        //userRepository.updateTest("newCustomer", "newLastname", "newPassword", "newCustomerEmail", 100053);
 
 
         System.out.println("\n-----> HERE'S THE UPDATED VERSION <-----\n");
