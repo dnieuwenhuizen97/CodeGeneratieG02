@@ -33,6 +33,13 @@ public class Transaction {
         this.userPerforming = userPerforming;
     }
 
+    //Als de post binnenkomt, weet hij dat deze constructor moet pakken.
+    public Transaction(String accountFrom, String accountTo, Double amount) {
+        this.accountFrom = accountFrom;
+        this.accountTo = accountTo;
+        this.amount = amount;
+    }
+
     @Id
     @SequenceGenerator(name = "seq", initialValue = 100001)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq")

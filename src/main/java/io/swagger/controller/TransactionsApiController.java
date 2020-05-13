@@ -6,8 +6,10 @@ import io.swagger.model.ResponseWrapper;
 import io.swagger.model.Transaction;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
+import io.swagger.model.User;
 import io.swagger.service.AuthenticationService;
 import io.swagger.service.TransactionService;
+import io.swagger.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -28,6 +30,7 @@ import java.util.List;
 @Controller
 public class TransactionsApiController implements TransactionsApi {
     private TransactionService service;
+    private UserService userService;
 
     private static final Logger log = LoggerFactory.getLogger(TransactionsApiController.class);
 
@@ -38,25 +41,24 @@ public class TransactionsApiController implements TransactionsApi {
     private AuthenticationService authService;
 
     @org.springframework.beans.factory.annotation.Autowired
-    public TransactionsApiController(ObjectMapper objectMapper, HttpServletRequest request, TransactionService service, AuthenticationService authService) {
+    public TransactionsApiController(ObjectMapper objectMapper, HttpServletRequest request, TransactionService service, AuthenticationService authService , UserService userService) {
         this.objectMapper = objectMapper;
         this.request = request;
         this.service = service;
         this.authService = authService;
+        this.userService = userService;
     }
 
-    public ResponseEntity<Void> createTransaction(@ApiParam(value = "Created transaction object" ,required=true )  @Valid @RequestBody Transaction body
-    ) {
-        String accept = request.getHeader("Accept");
+    public ResponseEntity<Transaction> createTransaction(@ApiParam(value = "Created transaction object" ,required=true )  @Valid @RequestBody Transaction transaction    ) {
 
+        Integer userId = 100053; // default user  TODO  get the logged_in user here
         String apiKeyAuth = request.getHeader("ApiKeyAuth");
+
         if(!authService.IsUserAuthenticated(apiKeyAuth, 0))
             return new ResponseEntity(HttpStatus.FORBIDDEN);
 
-
-        return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<Transaction>(service.createTransactionForUser(transaction), HttpStatus.CREATED);
     }
-
 
     public ResponseEntity<List<Transaction>> getAllTransactions(@ApiParam(value = "The number of items to skip before starting to collect the result set") @Valid @RequestParam(value = "offset", required = false) Integer offset
             ,@ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "limit", required = false) Integer limit
@@ -79,32 +81,62 @@ public class TransactionsApiController implements TransactionsApi {
         if(!authService.IsUserAuthenticated(apiKeyAuth, 0))
             return new ResponseEntity(HttpStatus.FORBIDDEN);
 
-        return new ResponseEntity<List<Transaction>>(service.getAllTransactions(), HttpStatus.OK);
+        //if there are 0 transactions
+        if(service.getAllTransactions().size() == 0 ){
+            try {
+                return new ResponseEntity<List<Transaction>>(objectMapper.readValue("[ \"No transactions found\"  ]", List.class), HttpStatus.OK);
+            } catch (IOException e) {
+                log.error("Couldn't serialize response for content type application/json", e);
+                return new ResponseEntity<List<Transaction>>(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        }else{
+
+            return new ResponseEntity<List<Transaction>>(service.getAllTransactions(), HttpStatus.OK);
+        }
 
     }
 
     // Pageable added, that allows to have a paginated response for a user.
     // Instead of pulling all the records at the same time.
     @Override
-    public ResponseEntity getAllTransactionsForUser(@Valid Integer userId,
-                                                    Pageable pageable) {
-        // Default message to if there are no transactions found.
-        ResponseEntity responseEntity = ResponseEntity
-                .status(HttpStatus.NOT_FOUND)
-                .body((JsonNode) objectMapper.createObjectNode()
-                        .put("message", String.format("No transactions found for User ID %s", userId)));
+    public ResponseEntity<Page<Transaction>> getAllTransactionsForUser(@Valid Integer userId, Pageable pageable) {
+        ResponseEntity responseEntity = null;
+        String responseMessage = null;
+
+        User user  = userService.FindUserById(userId);
+        if (user == null) {
+            // no user found for give userId
+            responseMessage = String.format("The user id you entered is wrong %s",
+                    userId);
+        } else if (user.getUserType() != User.UserTypeEnum.EMPLOYEE) {
+            //user is not an employee
+            responseMessage = String.format("You cannot search for all transactions.");
+        }
 
         Page<Transaction> transactions = service.getAllTransactionsOfUser(userId, pageable);
-        // If the transactions are available, then override the detault response.
-        if (!transactions.isEmpty()) {
+
+
+        if(transactions.isEmpty()){
+            // if there are no transactions found.
+            responseMessage = String.format("No transactions found for User ID %s", userId);
+        }else {
             responseEntity = ResponseEntity.ok().body(new ResponseWrapper(transactions));
         }
+
+        //If responseMessage is set create a response entity with responseMessage
+        if (responseMessage != null) {
+            responseEntity = ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                    (JsonNode) objectMapper.createObjectNode().put("message",
+                            responseMessage));
+        }
+
         return responseEntity;
     }
 
+    /*
     @Override
-    public ResponseEntity<Transaction> createTransactionForUser(@Valid Transaction transaction, @Valid Integer userId) {
-        return ResponseEntity.ok().body(service.createTransactionForUser(transaction, userId));
-    }
+    public ResponseEntity<Transaction> createTransactionForUser(@Valid Transaction transaction) {
+        return ResponseEntity.ok().body(service.createTransactionForUser(transaction));
+    }*/
 
 }

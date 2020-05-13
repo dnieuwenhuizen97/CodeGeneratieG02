@@ -5,6 +5,7 @@ import io.swagger.model.Transaction;
 import io.swagger.model.User;
 import io.swagger.repository.TransactionRepository;
 import io.swagger.repository.UserRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TransactionService {
@@ -41,11 +43,20 @@ public class TransactionService {
         return 201;
     }
 
-    public Transaction createTransactionForUser(Transaction transaction, Integer userId) {
+    public Transaction createTransactionForUser(Transaction transaction) {
         // Validate if the user exists with the provided id. If not, then throw an exception.
         // Otherwise add the user reference in the transaction.
-        transaction.setUser(userRepository.findById(userId).orElseThrow(() ->
-                new CustomException(HttpStatus.NOT_FOUND, String.format("No user found for ID %s", userId))));
+        //Optional<User> user = userRepository.findById();
+        //if(!user.isPresent()){
+        //	return null;
+        // }
+        // transaction.setUser(user.orElseThrow(() ->
+        //      new CustomException(HttpStatus.NOT_FOUND, String.format("No user found for ID"))));
+
+        transaction.setTimestamp(LocalDateTime.now());
+        transaction.setTransactionType(Transaction.TransactionTypeEnum.TRANSACTION);
+        transaction.setUserPerforming(100053);
         return transactionRepository.save(transaction);
     }
+
 }

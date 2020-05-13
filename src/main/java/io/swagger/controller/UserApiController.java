@@ -148,5 +148,4 @@ public class UserApiController implements UserApi {
 
         return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
     }
-
 }
