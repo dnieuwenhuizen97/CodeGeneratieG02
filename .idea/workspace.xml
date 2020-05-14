@@ -125,6 +125,11 @@
     </state>
     <state x="2536" y="240" width="672" height="677" key="run.anything.popup/62.0.1474.864/1920.0.1920.1040@1920.0.1920.1040" timestamp="1588955465188" />
   </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/swagger_spring$Swagger2SpringBoot.ic" NAME="Swagger2SpringBoot Coverage Results" MODIFIED="1589459307589" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>io.swagger.*</FILTER>
+    </SUITE>
+  </component>
   <component name="masterDetails">
     <states>
       <state key="ProjectJDKs.UI">
