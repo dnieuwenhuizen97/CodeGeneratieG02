@@ -25,6 +25,9 @@ public class TransactionService {
     }
 
     public List<Transaction> getAllTransactionsOfUser(Integer userId/*Pageable pageable*/) {
+
+        //account ophalen by userid
+
         Account account =  new Account();
         account.setIban("NL12INHO1234567890");
         account.setBalance(1000.00f);
@@ -36,16 +39,20 @@ public class TransactionService {
         return transactionRepository.findByIban(account.getIban());
     }
 
-
-    public Integer createMachineTransfer(int userId, double amount, String transfer_type)
+    public Transaction createMachineTransfer(int userId, MachineTransfer machineTransfer)
     {
         //withdraw remove from bank account and banks own
         //deposit add to bank account and banks own
-        transactionRepository.save(new Transaction(transfer_type, LocalDateTime.now(), "NL13INHO1234567890", "NL13INHO1234567890", amount, userId));
-        return 201;
+
+        Transaction machineTransaction = new Transaction(machineTransfer.getTransferType().toString(), LocalDateTime.now(), "NL13INHO1234567890", "NL13INHO1234567890", machineTransfer.getAmount(), userId);
+        transactionRepository.save(machineTransaction);
+        return machineTransaction;
     }
 
     public Transaction createTransactionForUser(Transaction transaction) {
+
+        //to do geld ook echt overschrijven
+
         transaction.setTimestamp(LocalDateTime.now());
         transaction.setTransactionType(Transaction.TransactionTypeEnum.TRANSACTION);
         transaction.setUserPerforming(100053);

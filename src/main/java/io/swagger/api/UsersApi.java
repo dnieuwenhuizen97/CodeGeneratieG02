@@ -5,10 +5,11 @@
  */
 package io.swagger.api;
 
-import com.sun.xml.internal.ws.wsdl.writer.document.soap.Body;
+
 import io.swagger.model.*;
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.StreamingHttpOutputMessage;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -185,7 +186,7 @@ public interface UsersApi {
             consumes = { "application/json" },
             method = RequestMethod.POST)
     ResponseEntity<Transaction> machineTransfer(@ApiParam(value = "",required=true) @PathVariable("userId") Integer userId
-            ,@ApiParam(value = ""  )  @Valid @RequestBody Body body
+            ,@ApiParam(value = ""  )  @Valid @RequestBody MachineTransfer body
     );
 
 

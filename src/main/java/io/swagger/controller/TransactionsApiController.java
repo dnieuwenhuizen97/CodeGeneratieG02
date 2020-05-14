@@ -58,7 +58,7 @@ public class TransactionsApiController implements TransactionsApi {
 
         String message = null;
 
-        //Still static
+        //Still static--------------------------------------Checks in service
         //First two checks: user is only able to transfer if it's the same userId or type is employee
         //AND the sender is sending money with his own IBAN
         //Check if amount is higher than 0
