@@ -24,14 +24,14 @@ public class AuthenticationService {
         this.registerRequestRepository = registerRequestRepository;
     }
 
-    public Integer CreateRegisterRequest(RegisterRequest registerRequest)
+    public RegisterRequest CreateRegisterRequest(RegisterRequest registerRequest)
     {
         //if user already reguested
         if(registerRequestRepository.findUserByEmail(registerRequest.getEmail()) != null)
-            return  406;
+            return registerRequest;
 
         registerRequestRepository.save(registerRequest);
-        return 201;
+        return registerRequest;
     }
 
     public Integer SignOutUser(String authToken)
@@ -43,19 +43,20 @@ public class AuthenticationService {
 
     public boolean IsUserAuthenticated(String token, int userId, boolean isEmployeeRequest)
     {
-        Optional<AuthToken> returnedToken = authTokenRepository.findById(token);
-        AuthToken authToken = returnedToken.get();
         //token exist
-        if(authToken == null)
+        if(!authTokenRepository.existsById(token))
             return false;
 
-        if(isEmployeeRequest && (userRepository.findById(authToken.getUserId()).get().getUserType()) == User.UserTypeEnum.CUSTOMER)
+        AuthToken authToken = authTokenRepository.findById(token).get();
+        User.UserTypeEnum userType = userRepository.findById(authToken.getUserId()).get().getUserType();
+
+        if(isEmployeeRequest && (userType == User.UserTypeEnum.CUSTOMER))
             return false;
 
         //if user in path given check if user connected to token is requesting
         if(userId != 0) {
             //employee requested
-            if (userRepository.findById(authToken.getUserId()).get().getUserType() == User.UserTypeEnum.EMPLOYEE || userRepository.findById(authToken.getUserId()).get().getUserType() == User.UserTypeEnum.CUSTOMERANDEMPLOYEE)
+            if (userType == User.UserTypeEnum.EMPLOYEE || userType == User.UserTypeEnum.CUSTOMERANDEMPLOYEE)
                 return true;
             //customer requested
             else if(userId == authToken.getUserId())
