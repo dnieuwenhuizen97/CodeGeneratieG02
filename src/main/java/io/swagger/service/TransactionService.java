@@ -1,6 +1,7 @@
 package io.swagger.service;
 
 import io.swagger.exceptions.CustomException;
+import io.swagger.model.Account;
 import io.swagger.model.Transaction;
 import io.swagger.model.User;
 import io.swagger.repository.TransactionRepository;
@@ -12,7 +13,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,9 +34,20 @@ public class TransactionService {
         return (List<Transaction>) transactionRepository.findAll();
     }
 
-    public Page<Transaction> getAllTransactionsOfUser(Integer userId, Pageable pageable) {
-        return transactionRepository.findByUserUserId(userId, pageable);
+    public List<Transaction> getAllTransactionsOfUser(Integer userId/*Pageable pageable*/) {
+        Account account =  new Account();
+        account.setIban("NL12INHO1234567890");
+        account.setBalance(1000.00f);
+        account.setOwner(userId);
+        account.setTransactionAmountLimit(new BigDecimal(10));
+        account.setTransactionDayLimit(10);
+        List<Account.AccountTypeEnum> accountType  = new ArrayList<Account.AccountTypeEnum>();
+        accountType.add(Account.AccountTypeEnum.CURRENT);
+        account.setAccountType(accountType);
+
+        return transactionRepository.findByIban(account.getIban());
     }
+
 
     public Integer createMachineTransfer(int userId, double amount, String transfer_type)
     {
@@ -44,15 +58,6 @@ public class TransactionService {
     }
 
     public Transaction createTransactionForUser(Transaction transaction) {
-        // Validate if the user exists with the provided id. If not, then throw an exception.
-        // Otherwise add the user reference in the transaction.
-        //Optional<User> user = userRepository.findById();
-        //if(!user.isPresent()){
-        //	return null;
-        // }
-        // transaction.setUser(user.orElseThrow(() ->
-        //      new CustomException(HttpStatus.NOT_FOUND, String.format("No user found for ID"))));
-
         transaction.setTimestamp(LocalDateTime.now());
         transaction.setTransactionType(Transaction.TransactionTypeEnum.TRANSACTION);
         transaction.setUserPerforming(100053);

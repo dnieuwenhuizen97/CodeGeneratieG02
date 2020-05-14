@@ -28,9 +28,10 @@ public class myApplicationRunner implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments applicationArguments) throws Exception {
-        transactionRepository.save(new Transaction( "transaction", LocalDateTime.now(), "NL12INHO1234567890", "NL13INHO1234567890", 25.00, 10001 ));
-        transactionRepository.save(new Transaction( "transaction", LocalDateTime.now(), "NL12INHO1234567890", "NL13INHO1234567890", 50.00, 10001 ));
-        transactionRepository.save(new Transaction( "transaction", LocalDateTime.now(), "NL12INHO1234567890", "NL13INHO1234567890", 75.00, 10001 ));
+        transactionRepository.save(new Transaction( "transaction", LocalDateTime.now(), "NL11INHO1234567890", "NL13INHO1234567890", 25.00, 100052 ));
+        transactionRepository.save(new Transaction( "transaction", LocalDateTime.now(), "NL12INHO1234567890", "NL13INHO1234567890", 50.00, 100052 ));
+        transactionRepository.save(new Transaction( "transaction", LocalDateTime.now(), "NL12INHO1234567890", "NL13INHO1234567890", 75.00, 100052 ));
+        transactionRepository.save(new Transaction( "transaction", LocalDateTime.now(), "NL13INHO1234567890", "NL12INHO1234567890", 100.00, 100052 ));
         transactionRepository.findAll()
                 .forEach(System.out::println);
 
@@ -39,7 +40,7 @@ public class myApplicationRunner implements ApplicationRunner {
         userRepository.findAll()
                 .forEach(System.out::println);
 
-        authTokenRepository.save(new AuthToken("1234-abcd-5678-efgh", 100001, LocalDateTime.now()));
+        authTokenRepository.save(new AuthToken("1234-abcd-5678-efgh", 100052, LocalDateTime.now()));
         authTokenRepository.findAll()
                 .forEach(System.out::println);
     }

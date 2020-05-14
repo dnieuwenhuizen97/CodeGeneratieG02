@@ -46,13 +46,6 @@ public class Transaction {
     @JsonProperty("transaction_id")
     private Long transactionId = null;
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
 
     /**
      * Gets or Sets transactionType
@@ -127,7 +120,6 @@ public class Transaction {
         return transactionId;
     }
 
-
     public Transaction transactionType(TransactionTypeEnum transactionType) {
         this.transactionType = transactionType;
         return this;
@@ -179,7 +171,7 @@ public class Transaction {
      *
      * @return accountFrom
      **/
-    @ApiModelProperty(example = "NL39INGB007801007", value = "Account that is transferring amount")
+    @ApiModelProperty(example = "NL39INGB007801007", required = true, value = "Account that is transferring amount")
 
     @Pattern(regexp = "^\\w{2}\\d{2}\\w{4}\\d{10}$")
     public String getAccountFrom() {
@@ -200,7 +192,7 @@ public class Transaction {
      *
      * @return accountTo
      **/
-    @ApiModelProperty(example = "NL39ING008451843", value = "Account that receives payment")
+    @ApiModelProperty(example = "NL39ING008451843", required = true, value = "Account that receives payment")
 
     @Pattern(regexp = "^\\w{2}\\d{2}\\w{4}\\d{10}$")
     public String getAccountTo() {
@@ -221,7 +213,7 @@ public class Transaction {
      *
      * @return amount
      **/
-    @ApiModelProperty(example = "22.30", value = "Amount of money that's been transferred")
+    @ApiModelProperty(example = "22.30", required = true, value = "Amount of money that's been transferred")
 
     public Double getAmount() {
         return amount;
