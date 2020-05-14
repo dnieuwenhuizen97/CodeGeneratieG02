@@ -4,6 +4,7 @@ import io.swagger.model.RegisterRequest;
 import io.swagger.model.User;
 import io.swagger.repository.RegisterRequestRepository;
 import io.swagger.repository.UserRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -53,7 +54,7 @@ public class UserService {
             return 406;
 
         userRepository.deleteById(userId);
-        return 201;
+        return 200;
     }
 
     public User UpdateUserById(User u, int userId) throws Exception {
