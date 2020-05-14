@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Machine</title>
+</head>
+<body>
+<div class="navbar">
+    <a href="http://localhost:8080/login.html">Login</a>
+    <a href="http://localhost:8080/machine.html">Machine</a>
+    <a href="http://localhost:8080/index.html">Home</a>
+</div>
+<form id="machineTransferForm">
+    <label>Amount:</label> <input id="amount" type="text"><br>
+    <label>Transfer type:</label><select id="transferType"><option value="withdraw">Withdraw</option><option value="deposit">Deposit</option></select>
+    <br />
+    <br>
+
+<input type="button" id="machineTransfer" value="Peform transfer", onclick="PostMachineTransfer()">
+</form>
+<script>
+function PostMachineTransfer()
+{
+        var amount = document.getElementById("amount").value;
+        var t = document.getElementById("transferType");
+        var transferType = t.options[t.selectedIndex].value;
+
+        var xhr =  new XMLHttpRequest();
+
+        xhr.open('POST','http://localhost:8080/users/'+sessionStorage.getItem("UserId")+ '/machine');
+        xhr.setRequestHeader("Content-Type", "application/json" );
+        xhr.setRequestHeader("ApiKeyAuth" ,sessionStorage.getItem("AuthToken"));
+        xhr.onload= (e) => {
+        //haal transactie op
+            alert(xhr.status);
+        }
+        xhr.send(JSON.stringify(
+            {
+                "amount": amount,
+                "transfer_type": transferType
+            }
+        ));
+}
+</script>
+</body>
+</html>

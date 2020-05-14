@@ -10,24 +10,56 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.validation.annotation.Validated;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
  * Account
  */
+@Entity
 @Validated
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-05-03T10:32:36.707Z[GMT]")
 public class Account   {
+    public Account()
+    {
+    }
+  public Account(String iban, String accountType, Integer transactionDayLimit, BigDecimal transactionAmountLimit, BigDecimal balanceLimit, Integer owner, double balance){
+    this.iban = iban;
+    this.accountType = AccountTypeEnum.fromValue(accountType);
+    this.transactionDayLimit = transactionDayLimit;
+    this.transactionAmountLimit = transactionAmountLimit;
+    this.balanceLimit = balanceLimit;
+    this.owner = owner;
+    this.balance = balance;
+  }
+
+  public Account(Integer transactionDayLimit, BigDecimal transactionAmountLimit, BigDecimal balanceLimit){
+    this.transactionDayLimit = transactionDayLimit;
+    this.transactionAmountLimit = transactionAmountLimit;
+    this.balanceLimit = balanceLimit;
+  }
+
+  public Account(String accountType, double balance, Integer transactionDayLimit, BigDecimal transactionAmountLimit, BigDecimal balanceLimit){
+    this.accountType = AccountTypeEnum.fromValue(accountType);
+    this.balance = balance;
+    this.transactionDayLimit = transactionDayLimit;
+    this.transactionAmountLimit = transactionAmountLimit;
+    this.balanceLimit = balanceLimit;
+  }
+
+  @Id
   @JsonProperty("iban")
-  private String iban = null;
+  private String iban = "NL00INHO0123456789";
 
   /**
    * Gets or Sets accountType
    */
   public enum AccountTypeEnum {
     CURRENT("current"),
-    
+
     SAVINGS("savings");
 
     private String value;
@@ -54,19 +86,19 @@ public class Account   {
   }
   @JsonProperty("account_type")
   @Valid
-  private List<AccountTypeEnum> accountType = new ArrayList<AccountTypeEnum>();
+  private AccountTypeEnum accountType = null;
 
   @JsonProperty("balance")
-  private Float balance = null;
+  private double balance = 0.00;
 
   @JsonProperty("transactionDayLimit")
-  private Integer transactionDayLimit = null;
+  private Integer transactionDayLimit = 0;
 
   @JsonProperty("transactionAmountLimit")
-  private BigDecimal transactionAmountLimit = null;
+  private BigDecimal transactionAmountLimit = new BigDecimal(0.00);
 
   @JsonProperty("balanceLimit")
-  private BigDecimal balanceLimit = null;
+  private BigDecimal balanceLimit = new BigDecimal(0.00);
 
   @JsonProperty("owner")
   private Integer owner = null;
@@ -79,9 +111,9 @@ public class Account   {
   /**
    * Get iban
    * @return iban
-  **/
+   **/
   @ApiModelProperty(example = "NL11INHO0123456789", value = "")
-  
+
   @Pattern(regexp="^\\w{2}\\d{2}\\w{4}\\d{10}$")   public String getIban() {
     return iban;
   }
@@ -90,32 +122,28 @@ public class Account   {
     this.iban = iban;
   }
 
-  public Account accountType(List<AccountTypeEnum> accountType) {
+  public Account accountType(AccountTypeEnum accountType) {
     this.accountType = accountType;
     return this;
   }
 
-  public Account addAccountTypeItem(AccountTypeEnum accountTypeItem) {
-    this.accountType.add(accountTypeItem);
-    return this;
-  }
 
   /**
    * Get accountType
    * @return accountType
-  **/
-  @ApiModelProperty(required = true, value = "")
-      @NotNull
+   **/
+  @ApiModelProperty(value = "")
 
-    public List<AccountTypeEnum> getAccountType() {
+
+  public AccountTypeEnum getAccountType() {
     return accountType;
   }
 
-  public void setAccountType(List<AccountTypeEnum> accountType) {
+  public void setAccountType(AccountTypeEnum accountType) {
     this.accountType = accountType;
   }
 
-  public Account balance(Float balance) {
+  public Account balance(double balance) {
     this.balance = balance;
     return this;
   }
@@ -123,15 +151,15 @@ public class Account   {
   /**
    * Get balance
    * @return balance
-  **/
-  @ApiModelProperty(example = "200", required = true, value = "")
-      @NotNull
+   **/
+  @ApiModelProperty(example = "200", value = "")
 
-    public Float getBalance() {
+
+  public double getBalance() {
     return balance;
   }
 
-  public void setBalance(Float balance) {
+  public void setBalance(double balance) {
     this.balance = balance;
   }
 
@@ -143,11 +171,11 @@ public class Account   {
   /**
    * Get transactionDayLimit
    * @return transactionDayLimit
-  **/
+   **/
   @ApiModelProperty(example = "100", required = true, value = "")
-      @NotNull
+  @NotNull
 
-    public Integer getTransactionDayLimit() {
+  public Integer getTransactionDayLimit() {
     return transactionDayLimit;
   }
 
@@ -163,11 +191,11 @@ public class Account   {
   /**
    * Get transactionAmountLimit
    * @return transactionAmountLimit
-  **/
+   **/
   @ApiModelProperty(example = "200", value = "")
-  
-    @Valid
-    public BigDecimal getTransactionAmountLimit() {
+
+  @Valid
+  public BigDecimal getTransactionAmountLimit() {
     return transactionAmountLimit;
   }
 
@@ -183,12 +211,12 @@ public class Account   {
   /**
    * Get balanceLimit
    * @return balanceLimit
-  **/
+   **/
   @ApiModelProperty(example = "-1200", required = true, value = "")
-      @NotNull
+  @NotNull
 
-    @Valid
-    public BigDecimal getBalanceLimit() {
+  @Valid
+  public BigDecimal getBalanceLimit() {
     return balanceLimit;
   }
 
@@ -204,11 +232,10 @@ public class Account   {
   /**
    * id of owning user
    * @return owner
-  **/
-  @ApiModelProperty(required = true, value = "id of owning user")
-      @NotNull
+   **/
+  @ApiModelProperty(value = "id of owning user")
 
-    public Integer getOwner() {
+  public Integer getOwner() {
     return owner;
   }
 
@@ -227,12 +254,12 @@ public class Account   {
     }
     Account account = (Account) o;
     return Objects.equals(this.iban, account.iban) &&
-        Objects.equals(this.accountType, account.accountType) &&
-        Objects.equals(this.balance, account.balance) &&
-        Objects.equals(this.transactionDayLimit, account.transactionDayLimit) &&
-        Objects.equals(this.transactionAmountLimit, account.transactionAmountLimit) &&
-        Objects.equals(this.balanceLimit, account.balanceLimit) &&
-        Objects.equals(this.owner, account.owner);
+            Objects.equals(this.accountType, account.accountType) &&
+            Objects.equals(this.balance, account.balance) &&
+            Objects.equals(this.transactionDayLimit, account.transactionDayLimit) &&
+            Objects.equals(this.transactionAmountLimit, account.transactionAmountLimit) &&
+            Objects.equals(this.balanceLimit, account.balanceLimit) &&
+            Objects.equals(this.owner, account.owner);
   }
 
   @Override
@@ -244,7 +271,7 @@ public class Account   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Account {\n");
-    
+
     sb.append("    iban: ").append(toIndentedString(iban)).append("\n");
     sb.append("    accountType: ").append(toIndentedString(accountType)).append("\n");
     sb.append("    balance: ").append(toIndentedString(balance)).append("\n");

@@ -28,39 +28,39 @@ import java.util.Map;
 public interface TransactionsApi {
 
     @ApiOperation(value = "Create new transaction", nickname = "createTransaction", notes = "Create a transaction to transfer money.", authorizations = {
-        @Authorization(value = "ApiKeyAuth")    }, tags={ "Transactions","Customer operation", })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 201, message = "Transaction has been created and money has been transferred."),
-        @ApiResponse(code = 400, message = "Bad Request."),
-        @ApiResponse(code = 401, message = "You are not authorized to create transaction."),
-        @ApiResponse(code = 403, message = "You do not have the right function to transfer money, please contact your bank."),
-        @ApiResponse(code = 404, message = "Something went wrong with your request."),
-        @ApiResponse(code = 406, message = "Please check the Iban of the receiver and amount of money you want to transfer and try again."),
-        @ApiResponse(code = 429, message = "You have tried too many times to create a new transaction, please wait a minute before you try again.") })
+            @Authorization(value = "ApiKeyAuth")}, tags = {"Transactions", "Customer operation",})
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Transaction has been created and money has been transferred."),
+            @ApiResponse(code = 400, message = "Bad Request."),
+            @ApiResponse(code = 401, message = "You are not authorized to create transaction."),
+            @ApiResponse(code = 403, message = "You do not have the right function to transfer money, please contact your bank."),
+            @ApiResponse(code = 404, message = "Something went wrong with your request."),
+            @ApiResponse(code = 406, message = "Please check the Iban of the receiver and amount of money you want to transfer and try again."),
+            @ApiResponse(code = 429, message = "You have tried too many times to create a new transaction, please wait a minute before you try again.")})
     @RequestMapping(value = "/transactions",
-        consumes = { "application/json" },
-        method = RequestMethod.POST)
-    ResponseEntity<Void> createTransaction(@ApiParam(value = "Created transaction object" ,required=true )  @Valid @RequestBody Transaction body
-);
+            consumes = {"application/json"},
+            method = RequestMethod.POST)
+    ResponseEntity<Transaction> createTransaction(@ApiParam(value = "Created transaction object", required = true) @Valid @RequestBody Transaction transaction);
 
 
     @ApiOperation(value = "Gets all transactions", nickname = "getAllTransactions", notes = "", response = Transaction.class, responseContainer = "List", authorizations = {
-        @Authorization(value = "ApiKeyAuth")    }, tags={ "Transactions","Employee operation", })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "All transactions have been found.", response = Transaction.class, responseContainer = "List"),
-        @ApiResponse(code = 400, message = "Bad Request."),
-        @ApiResponse(code = 401, message = "You are not authorized to search for all transactions."),
-        @ApiResponse(code = 403, message = "You do not have the right function to search for transactions, please contact your employer."),
-        @ApiResponse(code = 404, message = "No transaction has been found."),
-        @ApiResponse(code = 406, message = "Invalid input, double check the values of the input fields and try again"),
-        @ApiResponse(code = 429, message = "You have tried too many times to search for all transactions, please wait a minute before you try again.") })
+            @Authorization(value = "ApiKeyAuth")}, tags = {"Transactions", "Employee operation",})
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "All transactions have been found.", response = Transaction.class, responseContainer = "List"),
+            @ApiResponse(code = 400, message = "Bad Request."),
+            @ApiResponse(code = 401, message = "You are not authorized to search for all transactions."),
+            @ApiResponse(code = 403, message = "You do not have the right function to search for transactions, please contact your employer."),
+            @ApiResponse(code = 404, message = "No transaction has been found."),
+            @ApiResponse(code = 406, message = "Invalid input, double check the values of the input fields and try again"),
+            @ApiResponse(code = 429, message = "You have tried too many times to search for all transactions, please wait a minute before you try again.")})
     @RequestMapping(value = "/transactions",
-        produces = { "application/json" }, 
-        method = RequestMethod.GET)
+            produces = {"application/json"},
+            method = RequestMethod.GET)
     ResponseEntity<List<Transaction>> getAllTransactions(@ApiParam(value = "The number of items to skip before starting to collect the result set") @Valid @RequestParam(value = "offset", required = false) Integer offset
-,@ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "limit", required = false) Integer limit
-,@ApiParam(value = "The id of the user thats should ne involved within the transaction") @Valid @RequestParam(value = "userId", required = false) Integer userId
-,@ApiParam(value = "The iban that should be involved within the transactions") @Valid @RequestParam(value = "iban", required = false) String iban
-);
+            , @ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "limit", required = false) Integer limit
+            , @ApiParam(value = "The id of the user thats should ne involved within the transaction") @Valid @RequestParam(value = "userId", required = false) Integer userId
+            , @ApiParam(value = "The iban that should be involved within the transactions") @Valid @RequestParam(value = "iban", required = false) String iban
+    );
+
 
 }
