@@ -49,6 +49,8 @@ public class myApplicationRunner implements ApplicationRunner {
 
 
         //delete tokens after they are expired
+
+        
         int delay = 5000;   // delay for 5 sec.
         int period = 3000;  // repeat every 3 sec.
 
