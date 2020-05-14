@@ -34,7 +34,7 @@ public class AuthenticationService {
         return 201;
     }
 
-    public Integer signOutUser(String authToken)
+    public Integer SignOutUser(String authToken)
     {
         authTokenRepository.deleteById(authToken);
         return 200;

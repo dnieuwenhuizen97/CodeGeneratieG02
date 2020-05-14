@@ -38,7 +38,7 @@ public class LogoutApiController implements LogoutApi {
         if(!authService.IsUserAuthenticated(apiKeyAuth, 0, false))
             return new ResponseEntity(HttpStatus.FORBIDDEN);
 
-        return new ResponseEntity<Void>(HttpStatus.valueOf(authService.signOutUser(apiKeyAuth)));
+        return new ResponseEntity<Void>(HttpStatus.valueOf(authService.SignOutUser(apiKeyAuth)));
     }
 
 }

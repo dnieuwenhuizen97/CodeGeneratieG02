@@ -20,6 +20,7 @@ public class UserService {
 
     }
     public List<RegisterRequest> FindAllRegisterRequests(){return (List<RegisterRequest>) registerRequestRepository.findAll();};
+
     public Integer SignUpUser(User user)
     {
         //user already exist
