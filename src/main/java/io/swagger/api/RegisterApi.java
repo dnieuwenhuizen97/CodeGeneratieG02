@@ -39,7 +39,7 @@ public interface RegisterApi {
     @RequestMapping(value = "/register",
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    ResponseEntity<Void> registerUser(@ApiParam(value = ""  )  @Valid @RequestBody RegisterRequest body
+    ResponseEntity<RegisterRequest> registerUser(@ApiParam(value = ""  )  @Valid @RequestBody RegisterRequest body
 );
 
 }
