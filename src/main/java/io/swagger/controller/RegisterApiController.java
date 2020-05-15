@@ -36,17 +36,15 @@ public class RegisterApiController implements RegisterApi {
         this.authenticationService = authenticationService;
     }
 
-    public ResponseEntity<Void> registerUser(@ApiParam(value = ""  )  @Valid @RequestBody RegisterRequest body
+    public ResponseEntity<RegisterRequest> registerUser(@ApiParam(value = ""  )  @Valid @RequestBody RegisterRequest body
 ) {
         String accept = request.getHeader("Accept");
 
+        RegisterRequest request = authenticationService.CreateRegisterRequest(body);
         //sign up user will return respond code 406: already exist, 201: created
-        try {
-            return new ResponseEntity<Void>(HttpStatus.valueOf(authenticationService.CreateRegisterRequest(body)));
-        }
-        catch (Exception e) {
-            return new ResponseEntity(HttpStatus.NOT_ACCEPTABLE);
-        }
+        if(request == null)
+            return new ResponseEntity<RegisterRequest>(HttpStatus.valueOf(406));
+        return new ResponseEntity<RegisterRequest>(request, HttpStatus.CREATED);
     }
 
 }

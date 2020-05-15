@@ -53,7 +53,7 @@ public class LoginApiController implements LoginApi {
         if (authToken == null)
             return new ResponseEntity(HttpStatus.valueOf(401));
 
-        return new ResponseEntity<AuthToken>(authToken,HttpStatus.OK);
+        return new ResponseEntity<AuthToken>(authToken,HttpStatus.valueOf(201));
     }
 
 }

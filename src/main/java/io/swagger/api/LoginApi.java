@@ -30,7 +30,7 @@ public interface LoginApi {
 
     @ApiOperation(value = "Logges in user", nickname = "loginUser", notes = "Authenticates a user with a given username/password combination, and returns an authentication token for future requests.", response = AuthToken.class, tags={ "Authentication","Customer operation", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "You have succesfully logged in. Your authtoken can be found in the response. header", response = AuthToken.class),
+        @ApiResponse(code = 201, message = "You have succesfully logged in. Your authtoken can be found in the response. header", response = AuthToken.class),
         @ApiResponse(code = 400, message = "Something went wrong, your request could not be understood."),
         @ApiResponse(code = 401, message = "Something went wrong with your username or password. Please try again."),
         @ApiResponse(code = 403, message = "You are not allowed to access this page."),

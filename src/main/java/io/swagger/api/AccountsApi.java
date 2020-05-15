@@ -43,6 +43,26 @@ public interface AccountsApi {
     );
 
 
+    @ApiOperation(value = "Get all accounts", nickname = "getAllAccounts", notes = "Get all account from database, could be filtered on offset, limit, user id, iban and account type", response = Account.class, responseContainer = "List", authorizations = {
+            @Authorization(value = "ApiKeyAuth")    }, tags={ "Accounts","Employee operation", })
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "You have found a match based on your search criteria.", response = Account.class, responseContainer = "List"),
+            @ApiResponse(code = 400, message = "Bad Request."),
+            @ApiResponse(code = 401, message = "You are not authorized to search for all accounts."),
+            @ApiResponse(code = 403, message = "You do not have the right function to get all accounts, please contact your employer."),
+            @ApiResponse(code = 404, message = "No account(s) have been found."),
+            @ApiResponse(code = 406, message = "Invalid input, double check the values of the input fields and try again."),
+            @ApiResponse(code = 429, message = "You have tried too many times to search an account, please wait a minute before you try again.") })
+    @RequestMapping(value = "/accounts",
+            produces = { "application/json" },
+            method = RequestMethod.GET)
+    ResponseEntity<List<Account>> getAllAccounts(@ApiParam(value = "The number of items to skip before starting to collect the result set") @Valid @RequestParam(value = "offset", required = false) Integer offset
+            ,@ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "limit", required = false) Integer limit
+            ,@ApiParam(value = "The iban the account should have") @Valid @RequestParam(value = "iban", required = false) String iban
+            ,@ApiParam(value = "The iban the account should have available accounts in the system", allowableValues = "current, savings") @Valid @RequestParam(value = "account_type", required = false) String accountType
+    );
+
+
     @ApiOperation(value = "Get specific account", nickname = "getSpecificAccount", notes = "Gets a specifc account by iban", response = Account.class, authorizations = {
             @Authorization(value = "ApiKeyAuth")    }, tags={ "Accounts","Customer operation", })
     @ApiResponses(value = {
@@ -77,25 +97,5 @@ public interface AccountsApi {
     ResponseEntity<Account> updateSpecificAccount(@ApiParam(value = "" ,required=true )  @Valid @RequestBody Account body
             ,@ApiParam(value = "user of a specific account",required=true) @PathVariable("iban") String iban
     );
-
-    @ApiOperation(value = "Get all accounts", nickname = "getAllAccounts", notes = "Get all account from database, could be filtered on offset, limit, user id, iban and account type", response = Account.class, responseContainer = "List", authorizations = {
-        @Authorization(value = "ApiKeyAuth")    }, tags={ "Accounts","Employee operation", })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "You have found a match based on your search criteria.", response = Account.class, responseContainer = "List"),
-        @ApiResponse(code = 400, message = "Bad Request."),
-        @ApiResponse(code = 401, message = "You are not authorized to search for all accounts."),
-        @ApiResponse(code = 403, message = "You do not hae the right function to get all accounts, please contact your employer."),
-        @ApiResponse(code = 404, message = "No account(s) have been found."),
-        @ApiResponse(code = 406, message = "Invalid input, double check the values of the input fields and try again."),
-        @ApiResponse(code = 429, message = "You have tried too many times to search an account, please wait a minute before you try again.") })
-    @RequestMapping(value = "/accounts",
-        produces = { "application/json" }, 
-        method = RequestMethod.GET)
-    ResponseEntity<List<Account>> getAllAccounts(@ApiParam(value = "The number of items to skip before starting to collect the result set") @Valid @RequestParam(value = "offset", required = false) Integer offset
-,@ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "limit", required = false) Integer limit
-,@ApiParam(value = "The user id of user that should own the account") @Valid @RequestParam(value = "userId", required = false) Integer userId
-,@ApiParam(value = "The iban the account should have") @Valid @RequestParam(value = "iban", required = false) String iban
-,@ApiParam(value = "The iban the account should have available accounts in the system", allowableValues = "current, savings") @Valid @RequestParam(value = "account_type", required = false) String accountType
-);
 
 }

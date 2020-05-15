@@ -1,66 +1,65 @@
 package io.swagger.service;
 
-import io.swagger.model.AuthToken;
-import io.swagger.model.Login;
-import io.swagger.model.RegisterRequest;
-import io.swagger.model.User;
+import io.swagger.model.*;
 import io.swagger.repository.AuthTokenRepository;
 import io.swagger.repository.RegisterRequestRepository;
 import io.swagger.repository.UserRepository;
 //import jdk.nashorn.internal.parser.Token;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
+@Transactional
 public class AuthenticationService {
     private AuthTokenRepository authTokenRepository;
     private UserRepository userRepository;
     private RegisterRequestRepository registerRequestRepository;
-    private UserService userService;
 
-    public AuthenticationService(AuthTokenRepository authTokenRepository, UserRepository userRepository, RegisterRequestRepository registerRequestRepository, UserService userService) {
+    public AuthenticationService(AuthTokenRepository authTokenRepository, UserRepository userRepository, RegisterRequestRepository registerRequestRepository) {
         this.authTokenRepository = authTokenRepository;
         this.userRepository = userRepository;
         this.registerRequestRepository = registerRequestRepository;
-        this.userService = userService;
     }
 
-    public Integer CreateRegisterRequest(RegisterRequest registerRequest) throws Exception {
+    public RegisterRequest CreateRegisterRequest(RegisterRequest registerRequest)
+    {
         //if user already reguested
         if(registerRequestRepository.findUserByEmail(registerRequest.getEmail()) != null)
-            return  406;
-        else if (!registerRequest.getEmail().matches("^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$"))
-            throw new Exception("Invalid email");
-        else if (!userService.isValidPassword(registerRequest.getPassword()))
-            throw new Exception("Password needs to be 8-15 characters long and should contain at least ONE digit, ONE special character and ONE uppercase letter");
+            return registerRequest;
 
         registerRequestRepository.save(registerRequest);
-        System.out.println(registerRequestRepository.findAll());
-        return 201;
+        return registerRequest;
     }
 
-    public Integer signOutUser(String authToken)
+    public Integer SignOutUser(String authToken)
     {
-        authTokenRepository.DeleteAuthToken(authToken);
+        authTokenRepository.deleteById(authToken);
         return 200;
     }
 
 
-    public boolean IsUserAuthenticated(String token, int userId)
+    public boolean IsUserAuthenticated(String token, int userId, boolean isEmployeeRequest)
     {
-        AuthToken authToken = authTokenRepository.findAuthTokenByToken(token);
         //token exist
-        if(authToken == null)
+        if(!authTokenRepository.existsById(token))
             return false;
+
+        AuthToken authToken = authTokenRepository.findById(token).get();
+        User.UserTypeEnum userType = userRepository.findById(authToken.getUserId()).get().getUserType();
+
+        if(isEmployeeRequest && (userType == User.UserTypeEnum.CUSTOMER))
+            return false;
+
         //if user in path given check if user connected to token is requesting
-        else if(userId != 0) {
-            //customer request
-            if(userId == authToken.getUserId())
+        if(userId != 0) {
+            //employee requested
+            if (userType == User.UserTypeEnum.EMPLOYEE || userType == User.UserTypeEnum.CUSTOMERANDEMPLOYEE)
                 return true;
-            //employee request
-            else if (userRepository.findById(authToken.getUserId()).get().getUserType() == User.UserTypeEnum.EMPLOYEE || userRepository.findById(authToken.getUserId()).get().getUserType() == User.UserTypeEnum.CUSTOMERANDEMPLOYEE)
+            //customer requested
+            else if(userId == authToken.getUserId())
                 return true;
             else
                 return false;
@@ -73,14 +72,17 @@ public class AuthenticationService {
     {
         User user = userRepository.findUserByUserCredentials(login.getUsername(), login.getPassword());
         AuthToken authToken = authTokenRepository.findAuthTokenByUser(user.getUserId());
+
         //no user found with credentials
         if(user == null)
             return authToken;
         //user already has token
-        else if(authToken != null)
+        else if(authToken != null) {
             return authToken;
+        }
 
-        authToken = new AuthToken(CreateAuthToken(), user.getUserId(), LocalDateTime.now());
+        //token will expire after 30min from now
+        authToken = new AuthToken(CreateAuthToken(), user.getUserId(), LocalDateTime.now(), LocalDateTime.now().plusMinutes(30));
         authTokenRepository.save(authToken);
 
         return authToken;

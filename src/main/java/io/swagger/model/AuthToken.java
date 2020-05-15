@@ -21,6 +21,7 @@ import javax.validation.constraints.*;
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-05-03T10:32:36.707Z[GMT]")
 public class AuthToken   {
   @JsonProperty("AuthToken")
+  @Id
   private String authToken = null;
 
   public AuthToken authToken(String authToken) {
@@ -29,17 +30,14 @@ public class AuthToken   {
   }
 
  private Integer userId = null;
-
-  @Id
-  @SequenceGenerator(name="seq", initialValue = 100001)
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq")
-  private Long authTokenId = null;
   private LocalDateTime tokenCreated = null;
+  private LocalDateTime tokenExpires = null;
 
-  public AuthToken(String authToken, Integer userId, LocalDateTime tokenCreated) {
+  public AuthToken(String authToken, Integer userId, LocalDateTime tokenCreated, LocalDateTime tokenExpires) {
     this.authToken = authToken;
     this.userId = userId;
     this.tokenCreated = tokenCreated;
+    this.tokenExpires = tokenExpires;
   }
 
   public AuthToken()
@@ -47,13 +45,20 @@ public class AuthToken   {
 
   }
 
+    public LocalDateTime getTokenExpires() {
+        return tokenExpires;
+    }
+
+    public void setTokenExpires(LocalDateTime tokenExpires) {
+        tokenExpires = tokenExpires;
+    }
+
     public Integer getUserId() {
         return userId;
     }
 
-    public Long getAuthTokenId() {
-        return authTokenId;
-    }
+
+
 
     public LocalDateTime getTokenCreated() {
         return tokenCreated;
@@ -96,8 +101,8 @@ public class AuthToken   {
     return "AuthToken{" +
             "authToken='" + authToken + '\'' +
             ", userId=" + userId +
-            ", authTokenId=" + authTokenId +
             ", tokenCreated=" + tokenCreated +
+            ", tokenExpires=" + tokenExpires +
             '}';
   }
 

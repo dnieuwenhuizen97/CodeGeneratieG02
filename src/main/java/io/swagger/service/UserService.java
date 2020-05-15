@@ -4,7 +4,6 @@ import io.swagger.model.RegisterRequest;
 import io.swagger.model.User;
 import io.swagger.repository.RegisterRequestRepository;
 import io.swagger.repository.UserRepository;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,7 +19,6 @@ public class UserService {
         this.registerRequestRepository = registerRequestRepository;
 
     }
-
     public List<RegisterRequest> FindAllRegisterRequests(){return (List<RegisterRequest>) registerRequestRepository.findAll();};
 
     public User SignUpUser(User user) throws Exception {
@@ -34,12 +32,17 @@ public class UserService {
         userRepository.save(user);
         return user;
     }
+
+
     public User FindUserById(int userId)
     {
-        return userRepository.findUserById(userId);
+        //to do user bestaat niet
+
+        return userRepository.findById(userId).get();
     }
 
-    public User FindUserByEmail(String email)
+
+    private User FindUserByEmail(String email)
     {
         return userRepository.findUserByEmail(email);
     }
@@ -48,13 +51,18 @@ public class UserService {
         return (List<User>)userRepository.findAll();
     }
 
+
+    public void createUser(User u) {
+        userRepository.save(u);
+    }
+
     public Integer DeleteUserById(int userId)
     {
         if (!userRepository.existsById(userId))
             return 406;
 
         userRepository.deleteById(userId);
-        return 200;
+        return 204;
     }
 
     public User UpdateUserById(User u, int userId) throws Exception {
@@ -68,11 +76,11 @@ public class UserService {
 
         userRepository.updateUser(u.getFirstName(), u.getLastName(), u.getEmail(), u.getPassword(), userId);
 
-        User updatedUser = userRepository.findUserById(userId);
+        User updatedUser = userRepository.findById(userId).get();
         return updatedUser;
     }
 
-    public boolean isValidPassword(String password)
+    private boolean isValidPassword(String password)
     {
         // for checking if password length
         // is between 8 and 15
@@ -158,5 +166,6 @@ public class UserService {
 
         return true;
     }
+
 
 }

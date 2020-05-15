@@ -25,13 +25,6 @@ public class User   {
 
   }
 
-  public User(String firstName, String lastName, String password, String email) {
-     this.firstName = firstName;
-     this.lastName = lastName;
-     this.password = password;
-     this.email = email;
-  }
-
   public User(String firstName, String lastName, String password, String email, String userType) {
 
     this.firstName = firstName;
@@ -40,6 +33,7 @@ public class User   {
     this.email = email;
     this.userType = UserTypeEnum.fromValue(userType);
   }
+
  @Id
  @SequenceGenerator(name="seq", initialValue = 100001)
  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq")

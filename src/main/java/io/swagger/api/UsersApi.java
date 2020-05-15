@@ -5,12 +5,11 @@
  */
 package io.swagger.api;
 
-import io.swagger.model.Account;
-import io.swagger.model.RegisterRequest;
-import io.swagger.model.Transaction;
-import io.swagger.model.User;
+
+import io.swagger.model.*;
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.StreamingHttpOutputMessage;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,10 +29,10 @@ import java.util.Map;
 @Api(value = "users", description = "the users API")
 public interface UsersApi {
 
-    @ApiOperation(value = "Create account for user", nickname = "createAccountByUser", notes = "Creates account for user", authorizations = {
-            @Authorization(value = "ApiKeyAuth")    }, tags={ "Accounts","Customer operation", })
+    @ApiOperation(value = "Create account for user", nickname = "createAccountByUser", notes = "Creates account for user", response = Account.class, authorizations = {
+            @Authorization(value = "ApiKeyAuth")    }, tags={ "Accounts","Employee operation", })
     @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "Account has been created!"),
+            @ApiResponse(code = 201, message = "Account has been created!", response = Account.class),
             @ApiResponse(code = 400, message = "Bad Request."),
             @ApiResponse(code = 401, message = "You are not authorized to create an account."),
             @ApiResponse(code = 403, message = "You do not have the right function to create accounts, please contact your employer."),
@@ -41,10 +40,29 @@ public interface UsersApi {
             @ApiResponse(code = 406, message = "Invalid input, double check the values of the fields and try again."),
             @ApiResponse(code = 429, message = "You have tried too many times to create an account, please wait a minute before you try again.") })
     @RequestMapping(value = "/users/{userId}/accounts",
+            produces = { "application/json" },
             consumes = { "application/json" },
             method = RequestMethod.POST)
-    ResponseEntity<Void> createAccountByUser(@ApiParam(value = "user of a specific account",required=true) @PathVariable("userId") Integer userId
-            ,@ApiParam(value = "Created account object"  )  @Valid @RequestBody Account body
+    ResponseEntity<Account> createAccountByUser(@ApiParam(value = "" ,required=true )  @Valid @RequestBody Account body
+            ,@ApiParam(value = "user of a specific account",required=true) @PathVariable("userId") Integer userId
+    );
+
+
+    @ApiOperation(value = "Create user", nickname = "createUser", notes = "Creates user and adds it to the database.", response = User.class, authorizations = {
+            @Authorization(value = "ApiKeyAuth")    }, tags={ "Users","Employee operation", })
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "User has been created.", response = User.class),
+            @ApiResponse(code = 400, message = "Bad Request."),
+            @ApiResponse(code = 401, message = "You are not authorized to create a user."),
+            @ApiResponse(code = 403, message = "You do not have the right function to get all users, please contact your employer."),
+            @ApiResponse(code = 404, message = "Something went wrong with your request"),
+            @ApiResponse(code = 406, message = "Invalid input, double check the values of the input fields, please try again."),
+            @ApiResponse(code = 429, message = "You have tried too many times to create a user(s), please wait a minute before you try again.") })
+    @RequestMapping(value = "/users",
+            produces = { "application/json" },
+            consumes = { "application/json" },
+            method = RequestMethod.POST)
+    ResponseEntity<User> createUser(@ApiParam(value = "" ,required=true )  @Valid @RequestBody User body
     );
 
 
@@ -81,6 +99,22 @@ public interface UsersApi {
     );
 
 
+    @ApiOperation(value = "Get all user register requests", nickname = "getAllRegisterRequests", notes = "gets al user sign up requesten, an employee is able to accept these requests en sign up the user.", response = RegisterRequest.class, responseContainer = "List", authorizations = {
+            @Authorization(value = "ApiKeyAuth")    }, tags={ "Employee operation", })
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successful operation", response = RegisterRequest.class, responseContainer = "List"),
+            @ApiResponse(code = 400, message = "Bad Request."),
+            @ApiResponse(code = 401, message = "Unauthorized"),
+            @ApiResponse(code = 403, message = "Forbidden."),
+            @ApiResponse(code = 404, message = "Not found"),
+            @ApiResponse(code = 406, message = "Invalid input"),
+            @ApiResponse(code = 429, message = "Too Many Requests.") })
+    @RequestMapping(value = "/users/requests",
+            produces = { "application/json" },
+            method = RequestMethod.GET)
+    ResponseEntity<List<RegisterRequest>> getAllRegisterRequests();
+
+
     @ApiOperation(value = "Retrieve all transactions from user", nickname = "getAllTransactionsFromUser", notes = "Get all transactions within the user is involved", response = Transaction.class, responseContainer = "List", authorizations = {
             @Authorization(value = "ApiKeyAuth")    }, tags={ "Transactions","Customer operation", })
     @ApiResponses(value = {
@@ -95,6 +129,28 @@ public interface UsersApi {
             produces = { "application/json" },
             method = RequestMethod.GET)
     ResponseEntity<List<Transaction>> getAllTransactionsFromUser(@ApiParam(value = "Get details of transaction based on iban",required=true) @PathVariable("userId") Integer userId
+            ,@ApiParam(value = "The number of items to skip before starting to collect the result set") @Valid @RequestParam(value = "offset", required = false) Integer offset
+            ,@ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "limit", required = false) Integer limit
+    );
+
+
+    @ApiOperation(value = "Get all users", nickname = "getAllUsers", notes = "Gets all users from database, could be filtered by offset, limit, name, iban, user id and email", response = User.class, responseContainer = "List", authorizations = {
+            @Authorization(value = "ApiKeyAuth")    }, tags={ "Users","Employee operation", })
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successfuly found all users.", response = User.class, responseContainer = "List"),
+            @ApiResponse(code = 400, message = "Bad Request."),
+            @ApiResponse(code = 401, message = "You are not authorized to get all users."),
+            @ApiResponse(code = 403, message = "You do not have the right function to get all users, please contact your employer."),
+            @ApiResponse(code = 404, message = "Something went wrong with your request."),
+            @ApiResponse(code = 406, message = "Invalid input, double check the values of the input fields, please try again."),
+            @ApiResponse(code = 429, message = "You have tried too many times to search for user(s), please wait a minute before you try again.") })
+    @RequestMapping(value = "/users",
+            produces = { "application/json" },
+            method = RequestMethod.GET)
+    ResponseEntity<List<User>> getAllUsers(@ApiParam(value = "The number of items to skip before starting to collect the result set") @Valid @RequestParam(value = "offset", required = false) Integer offset
+            ,@ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "limit", required = false) Integer limit
+            ,@ApiParam(value = "The name the user should have") @Valid @RequestParam(value = "name", required = false) String name
+            ,@ApiParam(value = "The email the user should have") @Valid @RequestParam(value = "email", required = false) String email
     );
 
 
@@ -115,10 +171,10 @@ public interface UsersApi {
     );
 
 
-    @ApiOperation(value = "withdraw/deposit money by user.", nickname = "machineTransfer", notes = "Withdraw or deposit money, depends on the type if the money will be added or removed from the account.", authorizations = {
+    @ApiOperation(value = "withdraw/deposit money by user.", nickname = "machineTransfer", notes = "Withdraw or deposit money, depends on the type if the money will be added or removed from the account.", response = Transaction.class, authorizations = {
             @Authorization(value = "ApiKeyAuth")    }, tags={ "Machine","Customer operation", })
     @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "Withdraw/desposit succesfully processed."),
+            @ApiResponse(code = 201, message = "Withdraw/desposit succesfully processed.", response = Transaction.class),
             @ApiResponse(code = 400, message = "Bad Request."),
             @ApiResponse(code = 401, message = "You are not authorized to either withdraw or deposit money."),
             @ApiResponse(code = 403, message = "You do not have the right function to either withdraw or deposit money ."),
@@ -126,17 +182,18 @@ public interface UsersApi {
             @ApiResponse(code = 406, message = "Invalid input, double check the values of the fields and try again."),
             @ApiResponse(code = 429, message = "You have tried too many times to withdraw or deposit money, please wait a minute before you try again.") })
     @RequestMapping(value = "/users/{userId}/machine",
+            produces = { "application/json" },
+            consumes = { "application/json" },
             method = RequestMethod.POST)
-    ResponseEntity<Void> machineTransfer(@ApiParam(value = "",required=true) @PathVariable("userId") Integer userId
-            ,@NotNull @ApiParam(value = "Amount that has to be transfered", required = true) @Valid @RequestParam(value = "amount", required = true) double amount
-            ,@NotNull @ApiParam(value = "Tranfer type withdraw or deposit", required = true, allowableValues = "deposit, withdraw") @Valid @RequestParam(value = "transfer_type", required = true) String transferType
+    ResponseEntity<Transaction> machineTransfer(@ApiParam(value = "",required=true) @PathVariable("userId") Integer userId
+            ,@ApiParam(value = ""  )  @Valid @RequestBody MachineTransfer body
     );
 
 
-    @ApiOperation(value = "Updates user", nickname = "updateUserById", notes = "Update user with the given information", authorizations = {
+    @ApiOperation(value = "Updates user", nickname = "updateUserById", notes = "Update user with the given information", response = User.class, authorizations = {
             @Authorization(value = "ApiKeyAuth")    }, tags={ "Users","Customer operation", })
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "User account has successfully been updated."),
+            @ApiResponse(code = 200, message = "User account has successfully been updated.", response = User.class),
             @ApiResponse(code = 400, message = "Bad Request."),
             @ApiResponse(code = 401, message = "You are authorized to change user information."),
             @ApiResponse(code = 403, message = "You do not have the right function to update a user, please contact your employer."),
@@ -144,65 +201,11 @@ public interface UsersApi {
             @ApiResponse(code = 406, message = "Invalid input, double check the values of the input fields and try again."),
             @ApiResponse(code = 429, message = "You are tried too many times to update a user, please wait a minute before you try again.") })
     @RequestMapping(value = "/users/{userId}",
+            produces = { "application/json" },
             consumes = { "application/json" },
             method = RequestMethod.PUT)
     ResponseEntity<User> updateUserById(@ApiParam(value = "" ,required=true )  @Valid @RequestBody User body
             ,@ApiParam(value = "The id from the user",required=true) @PathVariable("userId") Integer userId
     );
-
-    @ApiOperation(value = "Create user", nickname = "createUser", notes = "Creates user and adds it to the database.", authorizations = {
-        @Authorization(value = "ApiKeyAuth")    }, tags={ "Users","Employee operation", })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 201, message = "User has been created."),
-        @ApiResponse(code = 400, message = "Bad Request."),
-        @ApiResponse(code = 401, message = "You are not authorized to create a user."),
-        @ApiResponse(code = 403, message = "You do not have the right function to get all users, please contact your employer."),
-        @ApiResponse(code = 404, message = "Something went wrong with your request"),
-        @ApiResponse(code = 406, message = "Invalid input, double check the values of the input fields, please try again."),
-        @ApiResponse(code = 429, message = "You have tried too many times to create a user(s), please wait a minute before you try again.") })
-    @RequestMapping(value = "/users",
-        consumes = { "application/json" },
-        //produces = { "application/json" },
-        method = RequestMethod.POST)
-    ResponseEntity<User> createUser(@ApiParam(value = "Created user object" ,required=true )  @Valid @RequestBody User body
-);
-
-
-    @ApiOperation(value = "Get all user register requests", nickname = "getAllRegisterRequests", notes = "gets al user sign up requesten, an employee is able to accept these requests en sign up the user.", response = RegisterRequest.class, responseContainer = "List", authorizations = {
-        @Authorization(value = "ApiKeyAuth")    }, tags={ "Employee operation", })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "Successful operation", response = RegisterRequest.class, responseContainer = "List"),
-        @ApiResponse(code = 400, message = "Bad Request."),
-        @ApiResponse(code = 401, message = "Unauthorized"),
-        @ApiResponse(code = 403, message = "Forbidden."),
-        @ApiResponse(code = 404, message = "Not found"),
-        @ApiResponse(code = 406, message = "Invalid input"),
-        @ApiResponse(code = 429, message = "Too Many Requests.") })
-    @RequestMapping(value = "/users/requests",
-        produces = { "application/json" }, 
-        method = RequestMethod.GET)
-    ResponseEntity<List<RegisterRequest>> getAllRegisterRequests();
-
-
-    @ApiOperation(value = "Get all users", nickname = "getAllUsers", notes = "Gets all users from database, could be filtered by offset, limit, name, iban, user id and email", response = User.class, responseContainer = "List", authorizations = {
-        @Authorization(value = "ApiKeyAuth")    }, tags={ "Users","Employee operation", })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "Successfuly found all users.", response = User.class, responseContainer = "List"),
-        @ApiResponse(code = 400, message = "Bad Request."),
-        @ApiResponse(code = 401, message = "You are not authorized to get all users."),
-        @ApiResponse(code = 403, message = "You do not have the right function to get all users, please contact your employer."),
-        @ApiResponse(code = 404, message = "Something went wrong with your request."),
-        @ApiResponse(code = 406, message = "Invalid input, double check the values of the input fields, please try again."),
-        @ApiResponse(code = 429, message = "You have tried too many times to search for user(s), please wait a minute before you try again.") })
-    @RequestMapping(value = "/users",
-        produces = { "application/json" }, 
-        method = RequestMethod.GET)
-    ResponseEntity<List<User>> getAllUsers(@ApiParam(value = "The number of items to skip before starting to collect the result set") @Valid @RequestParam(value = "offset", required = false) Integer offset
-,@ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "limit", required = false) Integer limit
-,@ApiParam(value = "The name the user should have") @Valid @RequestParam(value = "name", required = false) String name
-,@ApiParam(value = "The iban the user should have") @Valid @RequestParam(value = "iban", required = false) String iban
-,@ApiParam(value = "The id the user should have") @Valid @RequestParam(value = "userId", required = false) Integer userId
-,@ApiParam(value = "The email the user should have") @Valid @RequestParam(value = "email", required = false) String email
-);
 
 }
