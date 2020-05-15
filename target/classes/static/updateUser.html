@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Sign Up</title>
+    <title>Update User</title>
 </head>
 <body>
 <div class="navbar">
@@ -14,24 +14,26 @@
     <a href="http://localhost:8080/updateUser.html">Update User</a>
 </div>
 
-<form id="signupform">
+<form id="updateform">
 
     <br>
+    <label>User ID: </label> <input id="uid" name="user_id"><br>
     <label>First Name: </label> <input name="firstName"><br>
     <label>Last Name:</label> <input name="lastName"><br>
     <label>Email: </label> <input name="email"><br>
     <label>Password: </label> <input name="password" type="password"><br>
-    <label>User Type: </label> <input name="user_type"><br>
     <br />
-    <input type="button" id="signUpUser" value="SignUp" onclick="POSTUser()">
+    <input type="button" id="updateuser" value="Update" onclick="PUTUser()">
 </form>
 
 <script>
 
-    function POSTUser() {
+    function PUTUser() {
+
+       var userid = document.getElementById("uid").value;
 
        var xhr =  new XMLHttpRequest();
-        xhr.open('POST','http://localhost:8080/users');
+        xhr.open('PUT','http://localhost:8080/users/'+userid);
         xhr.setRequestHeader("Content-Type", "application/json");
         xhr.setRequestHeader("ApiKeyAuth", sessionStorage.getItem("AuthToken"));
         xhr.onload= (e) => {
@@ -39,11 +41,10 @@
         }
         xhr.send(JSON.stringify(
             {
-                "firstName": document.forms["signupform"]["firstName"].value ,
-                "lastName": document.forms["signupform"]["lastName"].value ,
-                "email": document.forms["signupform"]["email"].value ,
-                "password": document.forms["signupform"]["password"].value,
-                "user_type": document.forms["signupform"]["user_type"].value
+                "firstName": document.forms["updateform"]["firstName"].value ,
+                "lastName": document.forms["updateform"]["lastName"].value ,
+                "email": document.forms["updateform"]["email"].value ,
+                "password": document.forms["updateform"]["password"].value
             }
         ));
 

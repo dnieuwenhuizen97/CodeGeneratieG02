@@ -51,11 +51,6 @@ public class UserService {
         return (List<User>)userRepository.findAll();
     }
 
-
-    public void createUser(User u) {
-        userRepository.save(u);
-    }
-
     public Integer DeleteUserById(int userId)
     {
         if (!userRepository.existsById(userId))
