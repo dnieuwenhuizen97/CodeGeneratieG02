@@ -1,6 +1,7 @@
 package io.swagger.controller;
 
 
+import com.fasterxml.jackson.databind.JsonNode;
 import io.swagger.api.UsersApi;
 import io.swagger.model.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -149,6 +150,7 @@ public class UsersApiController implements UsersApi {
         if(!authService.IsUserAuthenticated(apiKeyAuth, userId, false))
             return new ResponseEntity(HttpStatus.FORBIDDEN);
 
+
         if (accept != null && accept.contains("application/json")) {
             try {
                 return new ResponseEntity<List<Transaction>>(objectMapper.readValue("[ {\n  \"transaction_id\" : 10034,\n  \"amount\" : 22.30,\n  \"account_to\" : \"NL39ING008451843\",\n  \"account_from\" : \"NL39INGB007801007\",\n  \"transaction_type\" : [ \"withdraw\", \"withdraw\" ],\n  \"user_performing\" : 1,\n  \"timestamp\" : \"995-09-07T10:40:52Z\"\n}, {\n  \"transaction_id\" : 10034,\n  \"amount\" : 22.30,\n  \"account_to\" : \"NL39ING008451843\",\n  \"account_from\" : \"NL39INGB007801007\",\n  \"transaction_type\" : [ \"withdraw\", \"withdraw\" ],\n  \"user_performing\" : 1,\n  \"timestamp\" : \"995-09-07T10:40:52Z\"\n} ]", List.class), HttpStatus.NOT_IMPLEMENTED);
@@ -158,7 +160,12 @@ public class UsersApiController implements UsersApi {
             }
         }
 
-        return new ResponseEntity<List<Transaction>>(transactionService.getAllTransactionsOfUser(userId), HttpStatus.OK);
+        try {
+            return new ResponseEntity<List<Transaction>>(transactionService.getAllTransactionsOfUser(userId , apiKeyAuth), HttpStatus.OK);
+        } catch (Exception e) {
+            ResponseEntity responseEntity = ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body((JsonNode) objectMapper.createObjectNode().put("message",e.getMessage()));
+            return responseEntity;
+        }
     }
 
     public ResponseEntity<List<User>> getAllUsers(@ApiParam(value = "The number of items to skip before starting to collect the result set") @Valid @RequestParam(value = "offset", required = false) Integer offset

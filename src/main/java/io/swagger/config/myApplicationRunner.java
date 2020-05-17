@@ -39,34 +39,34 @@ public class myApplicationRunner implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments applicationArguments) throws Exception {
-        transactionRepository.save(new Transaction( "transaction", LocalDateTime.now(), "NL12INHO1234567890", "NL13INHO1234567890", 44.44, 10001 ));
-        transactionRepository.save(new Transaction( "transaction", LocalDateTime.now(), "NL13INHO1234567890", "NL13INHO1234567890", 44.44, 10001 ));
-        transactionRepository.save(new Transaction( "transaction", LocalDateTime.now(), "NL14INHO1234567890", "NL13INHO1234567890", 44.44, 10001 ));
-        transactionRepository.findAll()
-                .forEach(System.out::println);
 
-        userRepository.save(new User("employee", "employee", "password","employee",  "employee"));
-        userRepository.save(new User("customer", "customer", "password","customer",  "customer"));
-        userRepository.findAll()
-                .forEach(System.out::println);
 
         authTokenRepository.save(new AuthToken("1234-abcd-5678-efgh", 100052, LocalDateTime.now(), LocalDateTime.now().plusMinutes(30)));
         authTokenRepository.findAll()
                 .forEach(System.out::println);
 
-
-        accountRepository.save(new Account("NL05INHO0993873040","savings", 200, new BigDecimal(3500), new BigDecimal(35000000), 100053, 25.00));
-        accountRepository.save(new Account("NL88INHO0993873040","current", 200, new BigDecimal(3500), new BigDecimal(35000000), 100053, 25.00));
-        accountRepository.save(new Account("NL04INHO0463973767", "current", 200, new BigDecimal(3500), new BigDecimal(35000000), 100052, 25.00));
-        accountRepository.save(new Account("NL67INHO0463973767", "savings", 200, new BigDecimal(3500), new BigDecimal(35000000), 100052, 25.00));
-        accountRepository.save(new Account("NL15INHO0463973767", "savings", 200, new BigDecimal(3500), new BigDecimal(35000000), 100052, 25.00));
+        accountRepository.save(new Account("NL05INHO0993873040","savings", 200, new BigDecimal(3500), new BigDecimal(35000000), 100053, 25.00)); // customer 100053 current account
+        accountRepository.save(new Account("NL88INHO0993873040","current", 200, new BigDecimal(3500), new BigDecimal(35000000), 100053, 25.00)); // customer 100053 saving account
+        accountRepository.save(new Account("NL04INHO0463973767", "current", 200, new BigDecimal(3500), new BigDecimal(35000000), 100052, 25.00));// employee 100052 current account
+        accountRepository.save(new Account("NL67INHO0463973767", "savings", 200, new BigDecimal(3500), new BigDecimal(35000000), 100052, 25.00));// employee 100052 saving account
+        accountRepository.save(new Account("NL15INHO0463973767", "savings", 200, new BigDecimal(3500), new BigDecimal(35000000), 100052, 25.00));// employee 100052 saving account
         accountRepository.findAll()
+                .forEach(System.out::println);
+
+        transactionRepository.save(new Transaction( "transaction", LocalDateTime.now(), "NL88INHO0993873040", "NL05INHO0993873040", 30.44, 100052 )); // employee doing transaction for customer
+        transactionRepository.save(new Transaction( "transaction", LocalDateTime.now(), "NL04INHO0463973767", "NL67INHO0463973767", 40.44, 100052 )); // employee doing transaction for himself
+        transactionRepository.save(new Transaction( "transaction", LocalDateTime.now(), "NL88INHO0993873040", "NL05INHO0993873040", 50.44, 100053 )); // customer doing transaction for himself
+        transactionRepository.findAll()
+                .forEach(System.out::println);
+
+        userRepository.save(new User("employee", "employee", "password","employee",  "employee")); // 100052
+        userRepository.save(new User("customer", "customer", "password","customer",  "customer")); // 100053
+        userRepository.findAll()
                 .forEach(System.out::println);
 
 
         //delete tokens after they are expired
 
-        
         int delay = 5000;   // delay for 5 sec.
         int period = 3000;  // repeat every 3 sec.
 

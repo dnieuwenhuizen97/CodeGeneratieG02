@@ -32,6 +32,13 @@ public class Transaction   {
     this.amount = amount;
     this.userPerforming = userPerforming;
   }
+
+  public Transaction(String accountFrom, String accountTo, Double amount) {
+     this.accountFrom = accountFrom;
+     this.accountTo = accountTo;
+     this.amount = amount;
+    }
+
   @Id
   @SequenceGenerator(name="seq", initialValue = 100001)
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq")
@@ -70,6 +77,7 @@ public class Transaction   {
       return null;
     }
   }
+
   @JsonProperty("transaction_type")
   @Valid
   private TransactionTypeEnum transactionType = null;
@@ -100,16 +108,14 @@ public class Transaction   {
   **/
   @ApiModelProperty(example = "10034", value = "Unique transaction id")
   
-    public Long getTransactionId() {
-    return transactionId;
+  public Long getTransactionId() {
+        return transactionId;
   }
-
 
   public Transaction transactionType(TransactionTypeEnum transactionType) {
-    this.transactionType = transactionType;
-    return this;
+        this.transactionType = transactionType;
+        return this;
   }
-
 
   /**
    * Get transactionType
@@ -117,8 +123,8 @@ public class Transaction   {
   **/
   @ApiModelProperty(value = "")
   
-    public TransactionTypeEnum getTransactionType() {
-    return transactionType;
+  public TransactionTypeEnum getTransactionType() {
+      return transactionType;
   }
 
   public void setTransactionType(TransactionTypeEnum transactionType) {
@@ -153,7 +159,7 @@ public class Transaction   {
    * Account that is transferring amount
    * @return accountFrom
   **/
-  @ApiModelProperty(example = "NL39INGB007801007", value = "Account that is transferring amount")
+  @ApiModelProperty(example = "NL39INGB007801007", required = true, value = "Account that is transferring amount")
   
   @Pattern(regexp="^\\w{2}\\d{2}\\w{4}\\d{10}$")   public String getAccountFrom() {
     return accountFrom;
@@ -172,7 +178,7 @@ public class Transaction   {
    * Account that receives payment
    * @return accountTo
   **/
-  @ApiModelProperty(example = "NL39ING008451843", value = "Account that receives payment")
+  @ApiModelProperty(example = "NL39ING008451843", required = true, value = "Account that receives payment")
   
   @Pattern(regexp="^\\w{2}\\d{2}\\w{4}\\d{10}$")   public String getAccountTo() {
     return accountTo;
@@ -191,7 +197,7 @@ public class Transaction   {
    * Amount of money that's been transferred
    * @return amount
   **/
-  @ApiModelProperty(example = "22.30", value = "Amount of money that's been transferred")
+  @ApiModelProperty(example = "22.30", required = true, value = "Amount of money that's been transferred")
   
     public Double getAmount() {
     return amount;

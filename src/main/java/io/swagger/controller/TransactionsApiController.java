@@ -28,6 +28,7 @@ import java.util.List;
 @Controller
 public class TransactionsApiController implements TransactionsApi {
     private TransactionService service;
+
     private static final Logger log = LoggerFactory.getLogger(TransactionsApiController.class);
 
     private final ObjectMapper objectMapper;
@@ -44,74 +45,19 @@ public class TransactionsApiController implements TransactionsApi {
         this.authService = authService;
     }
 
-    public ResponseEntity<Transaction> createTransaction(@ApiParam(value = "Created transaction object" ,required=true)  @Valid @RequestBody Transaction transaction    ) {
+    public ResponseEntity<Transaction> createTransaction(@ApiParam(value = "Created transaction object" ,required=true)  @Valid @RequestBody Transaction transaction) {
 
-        Integer userId = 100053; // Static user, get the logged in user here
         String apiKeyAuth = request.getHeader("ApiKeyAuth");
 
         if(!authService.IsUserAuthenticated(apiKeyAuth, 0, false))
             return new ResponseEntity(HttpStatus.FORBIDDEN);
 
-
-        Account account = findAccountByUserId(userId);
-        User user;
-
-        String message = null;
-
-        //Still static--------------------------------------Checks in service
-        //First two checks: user is only able to transfer if it's the same userId or type is employee
-        //AND the sender is sending money with his own IBAN
-        //Check if amount is higher than 0
-        if(transaction.getAmount() < 0){
-            message = "You cannot transfer a negative number.";
-        }
-        //Customer cannot transfer 0 (nothing)
-        else if(transaction.getAmount() == 0){
-            message = "You cannot transfer nothing.";
-        }
-        //Check is transfer is higher than balance
-        else if(account.getBalance() < transaction.getAmount()){
-            message = "You do not have enough balance to transfer this amount!";
-        }
-        //Unable to transfer funds to another savings (besides your own)
-        else if (account.getIban().equals(transaction.getAccountFrom()) && account.getAccountType() == Account.AccountTypeEnum.SAVINGS){
-            message = "You cannot transfer the funds to a savings account.";
-        }
-        //Needs to be changed to the absolute limit
-        else if(account.getBalance() < -1200){
-            message = "Your have extended your absolute limit, please deposit money first.";
-        }
-        //A user has a maximum of transactions per day
-        else if(account.getTransactionDayLimit() >= 100){
-            message = "You have reached your day limit of 100 transactions.";
-        }
-        //Amount of transactions per day
-        else if(account.getTransactionAmountLimit().doubleValue() >= 200){
-            message = "You have reached your transaction limit, please wait until tomorrow.";
-        }
-        //Unable to transfer to own account (Account to is the same as account from)
-        else if(transaction.getAccountFrom().equals(transaction.getAccountTo())){
-            message = "You cannot transfer to your own account!";
-        }
-
-        else if(transaction.getUserPerforming() == userId) { //Need to add employee type too
-            message = "You are trying to perform a transaction on someone else!";
-        }
-        /*
-           else if(verifyAccountTo(transaction.getAccountTo())){
-             message = "You cannot transfer nothing";
-        }*/
-
-
-        ResponseEntity responseEntity = null;
-        if(message != null){
-            responseEntity = ResponseEntity.status(HttpStatus.OK).body(
-                    (JsonNode) objectMapper.createObjectNode().put("message",
-                            message));
+        try {
+            return new ResponseEntity<Transaction>(	service.createTransactionForUser(transaction , apiKeyAuth),	HttpStatus.CREATED);
+        }  catch (Exception e) {
+            ResponseEntity responseEntity = ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body((JsonNode) objectMapper.createObjectNode().put("message",e.getMessage()));
             return responseEntity;
         }
-
-        return new ResponseEntity<Transaction>(service.createTransactionForUser(transaction), HttpStatus.CREATED);
     }
 
     public ResponseEntity<List<Transaction>> getAllTransactions(@ApiParam(value = "The number of items to skip before starting to collect the result set") @Valid @RequestParam(value = "offset", required = false) Integer offset
