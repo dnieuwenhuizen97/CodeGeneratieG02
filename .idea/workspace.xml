@@ -172,10 +172,18 @@
     <option name="version" value="1" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="2000" y="205" key="#Notifications" timestamp="1589738112470">
+      <screen x="1440" y="0" width="1920" height="1080" />
+    </state>
+    <state x="2000" y="205" key="#Notifications/0.0.1440.900/1440.0.1920.1080@1440.0.1920.1080" timestamp="1589738112470" />
     <state x="569" y="346" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog" timestamp="1589475590968">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="569" y="346" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog/0.0.1440.900@0.0.1440.900" timestamp="1589475590968" />
+    <state x="1987" y="142" key="CommitChangelistDialog2" timestamp="1589738097608">
+      <screen x="1440" y="0" width="1920" height="1080" />
+    </state>
+    <state x="1987" y="142" key="CommitChangelistDialog2/0.0.1440.900/1440.0.1920.1080@1440.0.1920.1080" timestamp="1589738097608" />
     <state width="1398" height="145" key="GridCell.Tab.0.bottom" timestamp="1589726011151">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
@@ -208,6 +216,10 @@
     <state width="1398" height="130" key="GridCell.Tab.0.right/0.0.1440.900/1440.23.1920.1057@0.0.1440.900" timestamp="1589527599851" />
     <state width="1398" height="145" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1589726011150" />
     <state width="1878" height="275" key="GridCell.Tab.0.right/0.23.1440.820/1440.23.1920.1057@1440.23.1920.1057" timestamp="1589539549233" />
+    <state x="2000" y="268" key="Vcs.Push.Dialog.v2" timestamp="1589738102594">
+      <screen x="1440" y="0" width="1920" height="1080" />
+    </state>
+    <state x="2000" y="268" key="Vcs.Push.Dialog.v2/0.0.1440.900/1440.0.1920.1080@1440.0.1920.1080" timestamp="1589738102594" />
     <state x="397" y="282" key="com.intellij.ide.util.TipDialog" timestamp="1589731973351">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
