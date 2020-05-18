@@ -1,14 +1,8 @@
 package io.swagger.config;
 
-import io.swagger.model.Account;
-import io.swagger.model.AuthToken;
-import io.swagger.model.Transaction;
+import io.swagger.model.*;
 
-import io.swagger.model.User;
-import io.swagger.repository.AccountRepository;
-import io.swagger.repository.AuthTokenRepository;
-import io.swagger.repository.TransactionRepository;
-import io.swagger.repository.UserRepository;
+import io.swagger.repository.*;
 import io.swagger.service.AuthenticationService;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -28,17 +22,21 @@ public class myApplicationRunner implements ApplicationRunner {
     private UserRepository userRepository;
     private Timer expiredTokenDeleteTimer;
     private AccountRepository accountRepository;
+    private RegisterRequestRepository registerRequestRepository;
 
-    public myApplicationRunner(TransactionRepository transactionRepository, AuthTokenRepository authTokenRepository, UserRepository userRepository, AccountRepository accountRepository) {
+    public myApplicationRunner(TransactionRepository transactionRepository, AuthTokenRepository authTokenRepository, UserRepository userRepository, AccountRepository accountRepository, RegisterRequestRepository registerRequestRepository) {
         this.transactionRepository = transactionRepository;
         this.authTokenRepository = authTokenRepository;
         this.userRepository = userRepository;
         this.expiredTokenDeleteTimer = new Timer();
         this.accountRepository = accountRepository;
+        this.registerRequestRepository = registerRequestRepository;
     }
 
     @Override
     public void run(ApplicationArguments applicationArguments) throws Exception {
+       registerRequestRepository.save(new RegisterRequest("Pascalle", "Schipper", "password", "pa@test.com"));
+
         transactionRepository.save(new Transaction( "transaction", LocalDateTime.now(), "NL12INHO1234567890", "NL13INHO1234567890", 44.44, 100053 ));
         transactionRepository.save(new Transaction( "transaction", LocalDateTime.now(), "NL13INHO1234567890", "NL13INHO1234567890", 44.44, 100053 ));
         transactionRepository.save(new Transaction( "transaction", LocalDateTime.now(), "NL14INHO1234567890", "NL13INHO1234567890", 44.44, 100052));

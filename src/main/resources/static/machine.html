@@ -25,8 +25,6 @@
 </form>
 <table id="userRequestsTable"></table>
 
-<Button     onclick="acceptRequest(1)">Accept</Button>
-<button    onclick="declineRequest()">Decline</button>
 
 <script>
 function GetUserRequests()
@@ -48,24 +46,49 @@ function GetUserRequests()
             alert(xhr.status);
             let response = JSON.parse(xhr.response);
             for (i=0;i<response.length;i++){
-                table.innerHTML+="<tr><td>%i</td><td>%j</td><td>%k</td><td>%l</td><td><Button onclick='acceptRequest("+ response[i].registerId+ ")'>Accept</Button><button onclick='declineRequest()'>Decline</button></td></tr>"
-                     .replace("%i",JSON.stringify(response[i].registerId))
-                    .replace("%j",JSON.stringify(response[i].firstName))
-                    .replace("%k",JSON.stringify(response[i].lastName))
-                    .replace("%l",JSON.stringify(response[i].email))
+                table.innerHTML+="<tr><td>%j</td><td>%k</td><td>%l</td><td>%m</td><td>%n</td></tr>"
+                    .replace("%j",JSON.stringify(response[i].registerId))
+                    .replace("%k",JSON.stringify(response[i].firstName))
+                    .replace("%l",JSON.stringify(response[i].lastName))
+                    .replace("%m",JSON.stringify(response[i].email))
+                    .replace("%n", "<button onclick='acceptRequest(response[i].firstName, response[i].lastName, response[i].password, response[i].email)'>Accept</button><button onclick='declineRequest("+ response[i].registerId+ ")'>Decline</button>")
+
             }
         }
         xhr.send();
 }
-function acceptRequest(requestId)
+function acceptRequest(firstName, lastName, password, email)
 {
+alert(firstName);
+/*
+        var xhr =  new XMLHttpRequest();
+        xhr.open('POST','http://localhost:8080/users');
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.setRequestHeader("ApiKeyAuth", sessionStorage.getItem("AuthToken"));
+        xhr.onload= (e) => {
+            alert(xhr.status);
+        }
+        xhr.send(JSON.stringify(
+            {
+                "firstName": firstName,
+                "lastName": lastName,
+                "email":  email,
+                "password": password,
+                "user_type": "customer"
+            }
+        ));*/
 
-    alert(requestId);
 }
 
-function declineRequest()
+function declineRequest(requestId)
 {
-    alert("decline");
+    var xhr =  new XMLHttpRequest();
+        xhr.open('DELETE','http://localhost:8080/users/requests/' + requestId);
+        xhr.setRequestHeader("ApiKeyAuth" ,sessionStorage.getItem("AuthToken"));
+        xhr.onload= (e) => {
+            alert(xhr.status);
+        }
+        xhr.send();;
 }
 
 function PostMachineTransfer()
