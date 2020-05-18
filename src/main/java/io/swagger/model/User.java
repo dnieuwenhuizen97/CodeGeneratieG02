@@ -35,8 +35,8 @@ public class User   {
   }
 
  @Id
- @SequenceGenerator(name="seq", initialValue = 100001)
- @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq")
+ @SequenceGenerator(name="seqUsers", initialValue = 100001)
+ @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqUsers")
   @JsonProperty("user_id")
   private Integer userId = null;
 

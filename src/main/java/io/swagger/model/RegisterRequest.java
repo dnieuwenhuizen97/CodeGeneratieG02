@@ -28,8 +28,8 @@ public class RegisterRequest   {
   }
 
   @Id
-  @SequenceGenerator(name="seq", initialValue = 100001)
-  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq")
+  @SequenceGenerator(name="seqRegisterRequests", initialValue = 100001)
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqRegisterRequests")
   @JsonProperty("registerId")
   private Integer registerId = null;
 

@@ -49,18 +49,18 @@ public class myApplicationRunner implements ApplicationRunner {
         userRepository.findAll()
                 .forEach(System.out::println);
 
-        authTokenRepository.save(new AuthToken("1234-abcd-5678-efgh", 100052, LocalDateTime.now(), LocalDateTime.now().plusMinutes(30)));
+        authTokenRepository.save(new AuthToken("1234-abcd-5678-efgh", 100001, LocalDateTime.now(), LocalDateTime.now().plusMinutes(30)));
         authTokenRepository.findAll()
                 .forEach(System.out::println);
 
 
-        accountRepository.save(new Account("NL01INHO0000000001","current", 1, new BigDecimal(3500), new BigDecimal(35000000), 100052, 100.00));
+        accountRepository.save(new Account("NL01INHO0000000001","current", 1, new BigDecimal(3500), new BigDecimal(35000000), 100001, 100.00));
 
-        accountRepository.save(new Account("NL05INHO0993873040","savings", 200, new BigDecimal(3500), new BigDecimal(35000000), 100053, 25.00));
-        accountRepository.save(new Account("NL88INHO0993873040","current", 200, new BigDecimal(3500), new BigDecimal(35000000), 100053, 25.00));
+        accountRepository.save(new Account("NL05INHO0993873040","savings", 200, new BigDecimal(3500), new BigDecimal(35000000), 100002, 25.00));
+        accountRepository.save(new Account("NL88INHO0993873040","current", 200, new BigDecimal(3500), new BigDecimal(35000000), 100002, 25.00));
 
-        accountRepository.save(new Account("NL04INHO0463973767", "current", 200, new BigDecimal(3500), new BigDecimal(35000000), 100054, 25.00));
-        accountRepository.save(new Account("NL67INHO0463973767", "savings", 200, new BigDecimal(3500), new BigDecimal(35000000), 100054, 25.00));
+        accountRepository.save(new Account("NL04INHO0463973767", "current", 200, new BigDecimal(3500), new BigDecimal(35000000), 100003, 25.00));
+        accountRepository.save(new Account("NL67INHO0463973767", "savings", 200, new BigDecimal(3500), new BigDecimal(35000000), 100003, 25.00));
 
         accountRepository.findAll()
                 .forEach(System.out::println);

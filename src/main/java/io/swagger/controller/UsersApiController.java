@@ -80,7 +80,7 @@ public class UsersApiController implements UsersApi {
         String accept = request.getHeader("Accept");
 
         String apiKeyAuth = request.getHeader("ApiKeyAuth");
-        if(!authService.IsUserAuthenticated(apiKeyAuth, 99, true)) {
+        if(!authService.IsUserAuthenticated(apiKeyAuth, 0, true)) {
             try {
                 authService.CreateRegisterRequest(new RegisterRequest(body.getFirstName(), body.getLastName(), body.getPassword(), body.getEmail()));
                 return new ResponseEntity(HttpStatus.OK);
@@ -105,7 +105,7 @@ public class UsersApiController implements UsersApi {
         String accept = request.getHeader("Accept");
 
         String apiKeyAuth = request.getHeader("ApiKeyAuth");
-        if(!authService.IsUserAuthenticated(apiKeyAuth, 99, true))
+        if(!authService.IsUserAuthenticated(apiKeyAuth, 0, true))
             return new ResponseEntity(HttpStatus.FORBIDDEN);
 
         return new ResponseEntity<Void>(HttpStatus.valueOf(userService.DeleteUserById(userId)));
@@ -181,7 +181,7 @@ public class UsersApiController implements UsersApi {
         String accept = request.getHeader("Accept");
 
         String apiKeyAuth = request.getHeader("ApiKeyAuth");
-        if(!authService.IsUserAuthenticated(apiKeyAuth, 99, true))
+        if(!authService.IsUserAuthenticated(apiKeyAuth, 0, true))
             return new ResponseEntity(HttpStatus.FORBIDDEN);
 
         if (accept != null && accept.contains("application/json")) {
