@@ -41,11 +41,12 @@ public class UserService {
         return userRepository.findById(userId).get();
     }
 
-
-    private User FindUserByEmail(String email)
+    public User FindUserByEmail(String email)
     {
         return userRepository.findUserByEmail(email);
     }
+
+    public List<User> FindUserByName(String name) {return userRepository.findUsersByLastName(name.toLowerCase()); }
 
     public List<User> GetAllUsers() {
         return (List<User>)userRepository.findAll();

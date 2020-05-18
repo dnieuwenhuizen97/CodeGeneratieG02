@@ -2,17 +2,31 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link
+        rel="stylesheet"
+        type="text/css"
+        href="css/style.css"
+    />
     <title>Update User</title>
 </head>
 <body>
-<div class="navbar">
-    <a href="http://localhost:8080/login.html">Login</a>
-    <a href="http://localhost:8080/machine.html">Machine</a>
-    <a href="http://localhost:8080/index.html">Home</a>
-    <a href="http://localhost:8080/signUp.html">SignUp</a>
-    <a href="http://localhost:8080/allUsers.html">Show Users</a>
-    <a href="http://localhost:8080/updateUser.html">Update User</a>
-</div>
+<div class="bodydiv">
+    <div class="navbar">
+        <a class="aNav" href="http://localhost:8080/index.html">Home</a>
+        <a class="aNav" href="http://localhost:8080/login.html">Login</a>
+        <a class="aNav" href="http://localhost:8080/machine.html">Machine</a>
+        <div class="dropdown">
+            <button class="dropbtn">Users
+                <i class="drop"></i>
+            </button>
+            <div class="dropdown-content">
+                <a class="aNav" href="http://localhost:8080/signUp.html">SignUp</a>
+                <a class="aNav" href="http://localhost:8080/allUsers.html">Show Users</a>
+                <a class="aNav" href="http://localhost:8080/updateUser.html">Update User</a>
+            </div>
+        </div>
+        <div id="currentuser"></div>
+    </div>
 
 <form id="updateform">
 
@@ -23,10 +37,21 @@
     <label>Email: </label> <input name="email"><br>
     <label>Password: </label> <input name="password" type="password"><br>
     <br />
-    <input type="button" id="updateuser" value="Update" onclick="PUTUser()">
+    <input type="button" id="updateuser" class="buttons" value="Update" onclick="PUTUser()">
 </form>
 
 <script>
+
+    window.onload = function() {
+        var userId = sessionStorage.getItem("UserId");
+
+        if (userId === null) {
+            document.getElementById("currentuser").innerHTML = "Not logged in";
+        }
+        else {
+            document.getElementById("currentuser").innerHTML = "Hello user '" + userId + "'";
+        }
+    }
 
     function PUTUser() {
 
@@ -38,6 +63,7 @@
         xhr.setRequestHeader("ApiKeyAuth", sessionStorage.getItem("AuthToken"));
         xhr.onload= (e) => {
             alert(xhr.status);
+            document.getElementById("updateform").reset();
         }
         xhr.send(JSON.stringify(
             {
@@ -50,5 +76,6 @@
 
     }
 </script>
+</div>
 </body>
 </html>

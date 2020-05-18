@@ -3,12 +3,15 @@
   <component name="ChangeListManager">
     <list default="true" id="d049dca3-d6f9-4932-a4e5-24057367c984" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/swagger/controller/UsersApiController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/swagger/controller/UsersApiController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/swagger/repository/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/swagger/repository/UserRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/io/swagger/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/swagger/service/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/io/swagger/service/UserService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/io/swagger/service/UserService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/allUsers.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/allUsers.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/static/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/static/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/login.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/static/machine.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/machine.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/static/signUp.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/signUp.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/updateUser.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/updateUser.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,7 +50,7 @@
     <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Downloads/spring-server-generated test" />
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RunManager">
@@ -88,22 +91,30 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="811" y="411" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1589534960227" />
-    <state width="1877" height="282" key="GridCell.Tab.0.bottom" timestamp="1589548328817">
+    <state x="761" y="411" width="397" height="222" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes" timestamp="1589793368185">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="282" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1589548328817" />
-    <state width="1877" height="282" key="GridCell.Tab.0.center" timestamp="1589548328817">
+    <state x="761" y="411" width="397" height="222" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes/0.0.1920.1040@0.0.1920.1040" timestamp="1589793368185" />
+    <state x="740" y="277" key="FileChooserDialogImpl" timestamp="1589790307285">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="282" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1589548328817" />
-    <state width="1877" height="282" key="GridCell.Tab.0.left" timestamp="1589548328816">
+    <state x="740" y="277" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1589790307285" />
+    <state width="1877" height="99" key="GridCell.Tab.0.bottom" timestamp="1589804201991">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="282" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1589548328816" />
-    <state width="1877" height="282" key="GridCell.Tab.0.right" timestamp="1589548328817">
+    <state width="1877" height="99" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1589804201991" />
+    <state width="1877" height="99" key="GridCell.Tab.0.center" timestamp="1589804201991">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="282" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1589548328817" />
+    <state width="1877" height="99" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1589804201991" />
+    <state width="1877" height="99" key="GridCell.Tab.0.left" timestamp="1589804201991">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="99" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1589804201991" />
+    <state width="1877" height="99" key="GridCell.Tab.0.right" timestamp="1589804201991">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state width="1877" height="99" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1589804201991" />
     <state x="463" y="165" key="SettingsEditor" timestamp="1589546502406">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

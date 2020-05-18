@@ -23,7 +23,7 @@ import javax.validation.Valid;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotNull;
 import java.io.IOException;
-import java.util.List;
+import java.util.*;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-28T15:21:59.457Z[GMT]")
 @Controller
@@ -180,6 +180,18 @@ public class UsersApiController implements UsersApi {
                 log.error("Couldn't serialize response for content type application/json", e);
                 return new ResponseEntity<List<User>>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
+        }
+
+        if (email != null) {
+            User u = userService.FindUserByEmail(email);
+            List<User> users = new ArrayList<User>();
+            if (u == null)
+                return new ResponseEntity(HttpStatus.NOT_ACCEPTABLE);
+            users.add(u);
+            return new ResponseEntity<List<User>>(users, HttpStatus.OK);
+        }
+        else if (name != null) {
+            return new ResponseEntity<List<User>>(userService.FindUserByName(name), HttpStatus.OK);
         }
 
         return new ResponseEntity<List<User>>(userService.GetAllUsers(), HttpStatus.OK);
