@@ -212,8 +212,11 @@ public class UsersApiController implements UsersApi {
                 return new ResponseEntity<Transaction>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
+        Transaction machineTransfer = transactionService.createMachineTransfer(userId, body);
+        if(machineTransfer == null)
+            return new ResponseEntity<Transaction>(HttpStatus.NOT_ACCEPTABLE);
 
-        return new ResponseEntity<Transaction>(transactionService.createMachineTransfer(userId, body), HttpStatus.CREATED);
+        return new ResponseEntity<Transaction>(machineTransfer, HttpStatus.CREATED);
     }
 
     public ResponseEntity<User> updateUserById(@ApiParam(value = "" ,required=true )  @Valid @RequestBody User body

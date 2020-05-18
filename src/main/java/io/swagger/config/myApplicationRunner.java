@@ -39,12 +39,13 @@ public class myApplicationRunner implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments applicationArguments) throws Exception {
-        transactionRepository.save(new Transaction( "transaction", LocalDateTime.now(), "NL12INHO1234567890", "NL13INHO1234567890", 44.44, 10001 ));
-        transactionRepository.save(new Transaction( "transaction", LocalDateTime.now(), "NL13INHO1234567890", "NL13INHO1234567890", 44.44, 10001 ));
-        transactionRepository.save(new Transaction( "transaction", LocalDateTime.now(), "NL14INHO1234567890", "NL13INHO1234567890", 44.44, 10001 ));
+        transactionRepository.save(new Transaction( "transaction", LocalDateTime.now(), "NL12INHO1234567890", "NL13INHO1234567890", 44.44, 100053 ));
+        transactionRepository.save(new Transaction( "transaction", LocalDateTime.now(), "NL13INHO1234567890", "NL13INHO1234567890", 44.44, 100053 ));
+        transactionRepository.save(new Transaction( "transaction", LocalDateTime.now(), "NL14INHO1234567890", "NL13INHO1234567890", 44.44, 100052));
         transactionRepository.findAll()
                 .forEach(System.out::println);
 
+        userRepository.save(new User("Bank", "CodeGeneratie", "password","BankCodeGeneratie",  "employee"));
         userRepository.save(new User("employee", "employee", "password","employee",  "employee"));
         userRepository.save(new User("customer", "customer", "password","customer",  "customer"));
         userRepository.findAll()
@@ -55,18 +56,20 @@ public class myApplicationRunner implements ApplicationRunner {
                 .forEach(System.out::println);
 
 
+        accountRepository.save(new Account("NL01INHO0000000001","current", 1, new BigDecimal(3500), new BigDecimal(35000000), 100052, 100.00));
+
         accountRepository.save(new Account("NL05INHO0993873040","savings", 200, new BigDecimal(3500), new BigDecimal(35000000), 100053, 25.00));
         accountRepository.save(new Account("NL88INHO0993873040","current", 200, new BigDecimal(3500), new BigDecimal(35000000), 100053, 25.00));
-        accountRepository.save(new Account("NL04INHO0463973767", "current", 200, new BigDecimal(3500), new BigDecimal(35000000), 100052, 25.00));
-        accountRepository.save(new Account("NL67INHO0463973767", "savings", 200, new BigDecimal(3500), new BigDecimal(35000000), 100052, 25.00));
-        accountRepository.save(new Account("NL15INHO0463973767", "savings", 200, new BigDecimal(3500), new BigDecimal(35000000), 100052, 25.00));
+
+        accountRepository.save(new Account("NL04INHO0463973767", "current", 200, new BigDecimal(3500), new BigDecimal(35000000), 100054, 25.00));
+        accountRepository.save(new Account("NL67INHO0463973767", "savings", 200, new BigDecimal(3500), new BigDecimal(35000000), 100054, 25.00));
+
         accountRepository.findAll()
                 .forEach(System.out::println);
 
 
         //delete tokens after they are expired
 
-        
         int delay = 5000;   // delay for 5 sec.
         int period = 3000;  // repeat every 3 sec.
 

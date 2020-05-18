@@ -13,6 +13,48 @@
 
 <div class="main">
     <p>Some text some text some text some text..</p>
+
+    <button onclick="GETUserRequests()">Get user requests</button>
+    <table id="userRequestsTable"></table>
 </div>
+
+<script>
+     function GETUserRequests(){
+     Alert("button");
+        let table = document.getElementById("userRequestsTable");
+        table.innerHTML = "   <tr>\n" +
+            "       <th>Firstname</th>\n" +
+            "       <th>Lastname</th>\n" +
+            "       <th>Email</th>\n" +
+            "       <th>Accept/Decline</th>\n" +
+            "   </tr>";
+
+
+        var xhr =  new XMLHttpRequest();
+        xhr.open('GET','http://localhost:8080/users/requests');
+        xhr.setRequestHeader("ApiKeyAuth" ,sessionStorage.getItem("AuthToken"));
+        xhr.onload= (e) => {
+            alert(xhr.status);
+            let response = JSON.parse(xhr.response);
+            for (i=0;i<response.length;i++){
+                table.innerHTML+="<tr><td>%i</td><td>%j</td><td>%k</td><td><button onclick='acceptRequest()'>Accept</button> <button onclick='declineRequest()'>Decline</button></td></tr>"
+                    .replace("%i",JSON.stringify(response[i].firstName))
+                    .replace("%j",JSON.stringify(response[i].lastName))
+                    .replace("%k",JSON.stringify(response[i].email))
+            }
+        }
+        xhr.send();
+    }
+
+    function acceptRequest() {
+        Alert("accept");
+    }
+    function declineRequest() {
+        alert("decline");
+    }
+
+
+
+</script>
 </body>
 </html>
