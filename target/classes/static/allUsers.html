@@ -96,6 +96,10 @@
         xhr.open("GET", url);
         xhr.setRequestHeader("ApiKeyAuth", sessionStorage.getItem("AuthToken"));
 
+        xhr.onload= (e) => {
+            alert(xhr.status);
+        }
+
         xhr.send();
 
         xhr.onreadystatechange=(e)=>{
@@ -114,6 +118,10 @@
         xhr.open("GET", url);
         xhr.setRequestHeader("ApiKeyAuth", sessionStorage.getItem("AuthToken"));
 
+        xhr.onload= (e) => {
+            alert(xhr.status);
+        }
+
         xhr.send();
 
         xhr.onreadystatechange=(e)=>{
@@ -131,6 +139,10 @@
 
         xhr.open("GET", url);
         xhr.setRequestHeader("ApiKeyAuth", sessionStorage.getItem("AuthToken"));
+
+        xhr.onload= (e) => {
+            alert(xhr.status);
+        }
 
         xhr.send();
 
