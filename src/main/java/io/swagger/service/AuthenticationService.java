@@ -34,6 +34,14 @@ public class AuthenticationService {
         return registerRequest;
     }
 
+    public int DeleteRegisterRequest(int requestId)
+    {
+        if(!registerRequestRepository.existsById(requestId))
+            return 406;
+        registerRequestRepository.deleteById(requestId);
+        return 200;
+    }
+
     public Integer SignOutUser(String authToken)
     {
         authTokenRepository.deleteById(authToken);
@@ -70,14 +78,12 @@ public class AuthenticationService {
 
     public AuthToken ValidateUserAndReturnAuthToken(Login login)
     {
-        User user = userRepository.findUserByUserCredentials(login.getUsername(), login.getPassword());
+        User user;
+        if((user = userRepository.findUserByUserCredentials(login.getUsername(), login.getPassword())) == null)
+            return null;
         AuthToken authToken = authTokenRepository.findAuthTokenByUser(user.getUserId());
-
-        //no user found with credentials
-        if(user == null)
-            return authToken;
         //user already has token
-        else if(authToken != null) {
+        if(authToken != null) {
             return authToken;
         }
 

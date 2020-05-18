@@ -51,6 +51,17 @@ public class UsersApiController implements UsersApi {
         this.transactionService = transactionService;
         this.accountService = accountService;
     }
+    public ResponseEntity<Void> deleteRegisterRequestById(@ApiParam(value = "The id from the request",required=true) @PathVariable("requestId") Integer requestId
+    ) {
+        String apiKeyAuth = request.getHeader("ApiKeyAuth");
+        if(!authService.IsUserAuthenticated(apiKeyAuth, 0, true))
+            return new ResponseEntity(HttpStatus.FORBIDDEN);
+
+        String accept = request.getHeader("Accept");
+        return new ResponseEntity<Void>(HttpStatus.valueOf(authService.DeleteRegisterRequest(requestId)));
+    }
+
+
     public ResponseEntity<Account> createAccountByUser(@ApiParam(value = "" ,required=true )  @Valid @RequestBody Account body
             , @ApiParam(value = "user of a specific account",required=true) @PathVariable("userId") Integer userId
     ) {

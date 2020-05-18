@@ -30,6 +30,7 @@ public class RegisterRequest   {
   @Id
   @SequenceGenerator(name="seq", initialValue = 100001)
   @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq")
+  @JsonProperty("registerId")
   private Integer registerId = null;
 
   @JsonProperty("firstName")
