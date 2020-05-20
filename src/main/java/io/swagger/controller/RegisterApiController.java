@@ -41,6 +41,7 @@ public class RegisterApiController implements RegisterApi {
         String accept = request.getHeader("Accept");
 
         RegisterRequest request = authenticationService.CreateRegisterRequest(body);
+
         //sign up user will return respond code 406: already exist, 201: created
         if(request == null)
             return new ResponseEntity<RegisterRequest>(HttpStatus.valueOf(406));

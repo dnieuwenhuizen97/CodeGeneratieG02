@@ -23,14 +23,16 @@ public class myApplicationRunner implements ApplicationRunner {
     private Timer expiredTokenDeleteTimer;
     private AccountRepository accountRepository;
     private RegisterRequestRepository registerRequestRepository;
+    private AuthenticationService authenticationService;
 
-    public myApplicationRunner(TransactionRepository transactionRepository, AuthTokenRepository authTokenRepository, UserRepository userRepository, AccountRepository accountRepository, RegisterRequestRepository registerRequestRepository) {
+    public myApplicationRunner(TransactionRepository transactionRepository, AuthTokenRepository authTokenRepository, UserRepository userRepository, AccountRepository accountRepository, RegisterRequestRepository registerRequestRepository, AuthenticationService authenticationService) {
         this.transactionRepository = transactionRepository;
         this.authTokenRepository = authTokenRepository;
         this.userRepository = userRepository;
         this.expiredTokenDeleteTimer = new Timer();
         this.accountRepository = accountRepository;
         this.registerRequestRepository = registerRequestRepository;
+        this.authenticationService = authenticationService;
     }
 
     @Override
@@ -43,9 +45,9 @@ public class myApplicationRunner implements ApplicationRunner {
         transactionRepository.findAll()
                 .forEach(System.out::println);
 
-        userRepository.save(new User("Bank", "CodeGeneratie", "password","BankCodeGeneratie",  "employee"));
-        userRepository.save(new User("employee", "employee", "password","employee",  "employee"));
-        userRepository.save(new User("customer", "customer", "password","customer",  "customer"));
+        userRepository.save(new User("Bank", "CodeGeneratie", authenticationService.cryptWithMD5("password"),"BankCodeGeneratie",  "employee"));
+        userRepository.save(new User("employee", "employee", authenticationService.cryptWithMD5("password"),"employee",  "employee"));
+        userRepository.save(new User("customer", "customer", authenticationService.cryptWithMD5("password"),"customer",  "customer"));
         userRepository.findAll()
                 .forEach(System.out::println);
 

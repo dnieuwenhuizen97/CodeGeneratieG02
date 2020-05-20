@@ -6,29 +6,44 @@ import io.swagger.repository.RegisterRequestRepository;
 import io.swagger.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import java.util.regex.Pattern;
 
 @Service
 public class UserService {
 
     private UserRepository userRepository;
     private RegisterRequestRepository registerRequestRepository;
+    private MessageDigest md;
+
 
     public UserService (UserRepository userRepository, RegisterRequestRepository registerRequestRepository) {
         this.userRepository = userRepository;
         this.registerRequestRepository = registerRequestRepository;
 
+
     }
     public List<RegisterRequest> FindAllRegisterRequests(){return (List<RegisterRequest>) registerRequestRepository.findAll();};
 
     public User SignUpUser(User user) throws Exception {
-        if (FindUserByEmail(user.getEmail()) != null)
+        //register request will give an hashed password
+        if(isPasswordHashed(user.getPassword())) {
+            userRepository.save(user);
+            return user;
+        }
+        else if (FindUserByEmail(user.getEmail()) != null)
             throw new Exception("User already exists");
         else if (!user.getEmail().matches("^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$"))
             throw new Exception("Invalid email");
         else if (!isValidPassword(user.getPassword()))
             throw new Exception("Password needs to be 8-15 characters long and should contain at least ONE digit, ONE special character and ONE uppercase letter");
 
+        //encrypt password
+        user.setPassword(cryptWithMD5(user.getPassword()));
         userRepository.save(user);
         return user;
     }
@@ -80,7 +95,7 @@ public class UserService {
         return updatedUser;
     }
 
-    private boolean isValidPassword(String password)
+    public boolean isValidPassword(String password)
     {
         // for checking if password length
         // is between 8 and 15
@@ -166,6 +181,37 @@ public class UserService {
 
         return true;
     }
+    private boolean isPasswordHashed(String password)
+    {
+        //check length 25 and all chars are in ranges a-f or 0-9
+        if(password.length() == 25 && Pattern.matches("[a-f0-9]*", password))
+            return true;
+        else
+            return false;
+    }
 
+    private String cryptWithMD5(String pass){
+        try {
+            md = MessageDigest.getInstance("MD5");
+            byte[] passBytes = pass.getBytes();
+            md.reset();
+            byte[] digested = md.digest(passBytes);
+            StringBuffer sb = new StringBuffer();
+            for(int i=0;i<digested.length;i++){
+                sb.append(Integer.toHexString(0xff & digested[i]));
+            }
+            String hashedPassword = "";
+            for(int i = 0; i < 25; i++)
+            {
+                hashedPassword += sb.charAt(i);
+            }
+            return hashedPassword;
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(AuthenticationService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+
+
+    }
 
 }

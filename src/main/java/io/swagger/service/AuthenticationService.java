@@ -8,8 +8,12 @@ import jdk.nashorn.internal.parser.Token;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Service
 @Transactional
@@ -17,11 +21,14 @@ public class AuthenticationService {
     private AuthTokenRepository authTokenRepository;
     private UserRepository userRepository;
     private RegisterRequestRepository registerRequestRepository;
+    private UserService userService;
+    private MessageDigest md;
 
-    public AuthenticationService(AuthTokenRepository authTokenRepository, UserRepository userRepository, RegisterRequestRepository registerRequestRepository) {
+    public AuthenticationService(AuthTokenRepository authTokenRepository, UserRepository userRepository, RegisterRequestRepository registerRequestRepository, UserService userService) {
         this.authTokenRepository = authTokenRepository;
         this.userRepository = userRepository;
         this.registerRequestRepository = registerRequestRepository;
+        this.userService = userService;
     }
 
     public RegisterRequest CreateRegisterRequest(RegisterRequest registerRequest)
@@ -29,11 +36,15 @@ public class AuthenticationService {
         //if user already reguested
         if(registerRequestRepository.findUserByEmail(registerRequest.getEmail()) != null)
             return registerRequest;
+        else if(!registerRequest.getEmail().matches("^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$"))
+            return null;
+        else if(!userService.isValidPassword(registerRequest.getPassword()))
+            return null;
 
+        registerRequest.setPassword(cryptWithMD5(registerRequest.getPassword()));
         registerRequestRepository.save(registerRequest);
         return registerRequest;
     }
-
     public int DeleteRegisterRequest(int requestId)
     {
         if(!registerRequestRepository.existsById(requestId))
@@ -44,6 +55,9 @@ public class AuthenticationService {
 
     public Integer SignOutUser(String authToken)
     {
+
+        if(!authTokenRepository.existsById(authToken))
+            return 406;
         authTokenRepository.deleteById(authToken);
         return 200;
     }
@@ -79,7 +93,7 @@ public class AuthenticationService {
     public AuthToken ValidateUserAndReturnAuthToken(Login login)
     {
         User user;
-        if((user = userRepository.findUserByUserCredentials(login.getUsername(), login.getPassword())) == null)
+        if((user = userRepository.findUserByUserCredentials(login.getUsername(), cryptWithMD5(login.getPassword()))) == null)
             return null;
         AuthToken authToken = authTokenRepository.findAuthTokenByUser(user.getUserId());
         //user already has token
@@ -122,5 +136,29 @@ public class AuthenticationService {
         //remove first -
         token = token.replaceFirst("-", "");
         return token;
+    }
+
+    public String cryptWithMD5(String pass){
+        try {
+            md = MessageDigest.getInstance("MD5");
+            byte[] passBytes = pass.getBytes();
+            md.reset();
+            byte[] digested = md.digest(passBytes);
+            StringBuffer sb = new StringBuffer();
+            for(int i=0;i<digested.length;i++){
+                sb.append(Integer.toHexString(0xff & digested[i]));
+            }
+            String hashedPassword = "";
+            for(int i = 0; i < 25; i++)
+            {
+                hashedPassword += sb.charAt(i);
+            }
+            return hashedPassword;
+        } catch (NoSuchAlgorithmException ex) {
+            Logger.getLogger(AuthenticationService.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+
+
     }
 }
