@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d049dca3-d6f9-4932-a4e5-24057367c984" name="Default Changelist" comment="" />
+    <list default="true" id="d049dca3-d6f9-4932-a4e5-24057367c984" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/swagger/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/swagger/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/io/swagger/service/UserService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/io/swagger/service/UserService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/allUsers.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/allUsers.html" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -11,11 +16,14 @@
     <option name="testRunner" value="GRADLE" />
     <option name="delegatedBuild" value="true" />
   </component>
+  <component name="ExportToHTMLSettings">
+    <option name="OUTPUT_DIRECTORY" value="$PROJECT_DIR$/../CodeGeneratieG02\exportToHTML" />
+  </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="HTML File" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -76,6 +84,10 @@
     <servers />
   </component>
   <component name="WindowStateProjectService">
+    <state x="1246" y="216" key="#com.intellij.ide.util.MemberChooser" timestamp="1589888956568">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="1246" y="216" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1589888956568" />
     <state x="811" y="411" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog" timestamp="1589534960227">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -84,30 +96,30 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="761" y="411" width="397" height="222" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes/0.0.1920.1040@0.0.1920.1040" timestamp="1589793368185" />
-    <state x="740" y="277" key="FileChooserDialogImpl" timestamp="1589790307285">
+    <state x="740" y="277" key="FileChooserDialogImpl" timestamp="1589893207484">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="740" y="277" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1589790307285" />
-    <state width="1877" height="99" key="GridCell.Tab.0.bottom" timestamp="1589804201991">
+    <state x="740" y="277" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1589893207484" />
+    <state width="1877" height="99" key="GridCell.Tab.0.bottom" timestamp="1590067246696">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="99" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1589804201991" />
-    <state width="1877" height="99" key="GridCell.Tab.0.center" timestamp="1589804201991">
+    <state width="1877" height="99" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1590067246696" />
+    <state width="1877" height="99" key="GridCell.Tab.0.center" timestamp="1590067246696">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="99" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1589804201991" />
-    <state width="1877" height="99" key="GridCell.Tab.0.left" timestamp="1589804201991">
+    <state width="1877" height="99" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1590067246696" />
+    <state width="1877" height="99" key="GridCell.Tab.0.left" timestamp="1590067246695">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="99" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1589804201991" />
-    <state width="1877" height="99" key="GridCell.Tab.0.right" timestamp="1589804201991">
+    <state width="1877" height="99" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1590067246695" />
+    <state width="1877" height="99" key="GridCell.Tab.0.right" timestamp="1590067246696">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="99" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1589804201991" />
-    <state x="463" y="165" key="SettingsEditor" timestamp="1589546502406">
+    <state width="1877" height="99" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1590067246696" />
+    <state x="463" y="165" key="SettingsEditor" timestamp="1589893256960">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="463" y="165" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1589546502406" />
+    <state x="463" y="165" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1589893256960" />
   </component>
   <component name="masterDetails">
     <states>

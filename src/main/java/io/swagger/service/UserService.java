@@ -6,7 +6,10 @@ import io.swagger.repository.RegisterRequestRepository;
 import io.swagger.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
 import java.util.List;
+import java.security.SecureRandom;
 
 @Service
 public class UserService {
@@ -28,6 +31,16 @@ public class UserService {
             throw new Exception("Invalid email");
         else if (!isValidPassword(user.getPassword()))
             throw new Exception("Password needs to be 8-15 characters long and should contain at least ONE digit, ONE special character and ONE uppercase letter");
+
+        //SecureRandom random = new SecureRandom();
+        //byte[] salt = new byte[16];
+        //random.nextBytes(salt);
+
+        //MessageDigest md = MessageDigest.getInstance("SHA-512");
+        //md.update(salt);
+
+        //byte[] hashedPassword = md.digest(user.getPassword().getBytes(StandardCharsets.UTF_8));
+        //user.setPassword(hashedPassword.toString());
 
         userRepository.save(user);
         return user;
