@@ -48,10 +48,12 @@ public class myApplicationRunner implements ApplicationRunner {
         userRepository.save(new User("Bank", "CodeGeneratie", authenticationService.cryptWithMD5("password"),"BankCodeGeneratie",  "employee"));
         userRepository.save(new User("employee", "employee", authenticationService.cryptWithMD5("password"),"employee",  "employee"));
         userRepository.save(new User("customer", "customer", authenticationService.cryptWithMD5("password"),"customer",  "customer"));
+        userRepository.save(new User("savings", "customer", authenticationService.cryptWithMD5("password"),"customerWithOnlySavings",  "customer"));
         userRepository.findAll()
                 .forEach(System.out::println);
 
         authTokenRepository.save(new AuthToken("1234-abcd-5678-efgh", 100001, LocalDateTime.now(), LocalDateTime.now().plusMinutes(30)));
+        authTokenRepository.save(new AuthToken("1111-abcd-5678-efgh", 100003, LocalDateTime.now(), LocalDateTime.now().plusMinutes(30)));
         authTokenRepository.findAll()
                 .forEach(System.out::println);
 
@@ -63,6 +65,8 @@ public class myApplicationRunner implements ApplicationRunner {
 
         accountRepository.save(new Account("NL04INHO0463973767", "current", 200, new BigDecimal(3500), new BigDecimal(35000000), 100003, 25.00));
         accountRepository.save(new Account("NL67INHO0463973767", "savings", 200, new BigDecimal(3500), new BigDecimal(35000000), 100003, 25.00));
+
+        accountRepository.save(new Account("NL67INHO0463973768", "savings", 200, new BigDecimal(3500), new BigDecimal(35000000), 100004, 25.00));
 
         accountRepository.findAll()
                 .forEach(System.out::println);

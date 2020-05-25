@@ -44,6 +44,8 @@
         xhr.setRequestHeader("ApiKeyAuth", sessionStorage.getItem("AuthToken"));
         xhr.onload= (e) => {
             alert(xhr.status);
+            sessionStorage.setItem("AuthToken", "");
+            sessionStorage.setItem("UserId", "");
         }
         xhr.send();
     }
@@ -54,6 +56,7 @@
         xhr.setRequestHeader("Content-Type", "application/json");
         xhr.onload= (e) => {
             alert(xhr.status);
+
         }
         xhr.send(JSON.stringify(
             {

@@ -11,6 +11,8 @@ import java.math.BigDecimal;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,9 +50,14 @@ public class TransactionService {
         this.bankOwnAccount =  accountRepository.findById("NL01INHO0000000001").get();
         List<Account> userAccounts = accountRepository.findAccountByOwner(userId);
 
+        if(userAccounts == null)
+            return null;
+
+        String currentUserAccount = null;
         for (Account userAccount: userAccounts) {
             if(userAccount.getAccountType() == Account.AccountTypeEnum.CURRENT)
             {
+                currentUserAccount = userAccount.getIban();
                 switch (machineTransfer.getTransferType())
                 {
                     //add amount to account and bank own account;
@@ -68,8 +75,10 @@ public class TransactionService {
                 }
             }
         }
-
-        Transaction machineTransaction = new Transaction(machineTransfer.getTransferType().toString(), LocalDateTime.now(), "NL13INHO1234567890", "NL13INHO1234567890", machineTransfer.getAmount(), userId);
+        //only savings
+        if(currentUserAccount == null)
+            return null;
+        Transaction machineTransaction = new Transaction(machineTransfer.getTransferType().toString(), LocalDateTime.now().withSecond(0).withNano(0), currentUserAccount, currentUserAccount, machineTransfer.getAmount(), userId);
         transactionRepository.save(machineTransaction);
         return machineTransaction;
     }
