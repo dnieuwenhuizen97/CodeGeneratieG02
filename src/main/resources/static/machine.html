@@ -2,18 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-<<<<<<< Updated upstream
-    <title>Accounts</title>
-</head>
-<body>
-
-=======
-    <title>Login</title>
     <link
             rel="stylesheet"
             type="text/css"
             href="css/style.css"
     />
+    <title>Machine</title>
 </head>
 <body>
 <div class="bodydiv">
@@ -42,42 +36,38 @@
 
         <div id="currentuser"></div>
     </div>
->>>>>>> Stashed changes
-
-<form id="loginForm">
-
-    <label>Email: </label> <input name="username"><br>
-    <label>Password:</label> <input name="password" type="password"><br>
+<form id="machineTransferForm">
+    <label>Amount:</label> <input id="amount" type="text"><br>
+    <label>Transfer type:</label><select id="transferType"><option value="withdraw">Withdraw</option><option value="deposit">Deposit</option></select>
     <br />
-    <input type="button" id="loginUser" value="Login", onclick="POSTLogin()">
-</form>
+    <br>
 
-<table id="table" border="1"></table>
-<h1 id="authToken"></h1>
+<input type="button" id="machineTransfer" value="Peform transfer", onclick="PostMachineTransfer()">
+</form>
 </div>
 <script>
+function PostMachineTransfer()
+{
+        var amount = document.getElementById("amount").value;
+        var t = document.getElementById("transferType");
+        var transferType = t.options[t.selectedIndex].value;
 
-    function POSTLogin(){
         var xhr =  new XMLHttpRequest();
-        xhr.open('POST','http://localhost:8080/login');
-        xhr.setRequestHeader("Content-Type", "application/json");
+
+        xhr.open('POST','http://localhost:8080/users/'+sessionStorage.getItem("UserId")+ '/machine');
+        xhr.setRequestHeader("Content-Type", "application/json" );
+        xhr.setRequestHeader("ApiKeyAuth" ,sessionStorage.getItem("AuthToken"));
         xhr.onload= (e) => {
+        //haal transactie op
             alert(xhr.status);
-            let response = JSON.parse(xhr.response);
-            //alert authtoken
-            sessionStorage.setItem("AuthToken", JSON.stringify(response.AuthToken));
-            alert(JSON.stringify(response.AuthToken) + " " + JSON.stringify(response.userId));
         }
         xhr.send(JSON.stringify(
             {
-                "username": document.forms["loginForm"]["username"].value ,
-                "password": document.forms["loginForm"]["password"].value
+                "amount": amount,
+                "transfer_type": transferType
             }
         ));
-
-    }
-
-
+}
 </script>
 
 </body>

@@ -181,7 +181,10 @@ public class Account   {
    * @return transactionDayLimit
   **/
   @ApiModelProperty(example = "100", required = true, value = "")
+<<<<<<< Updated upstream
       @NotNull
+=======
+>>>>>>> Stashed changes
 
     public Integer getTransactionDayLimit() {
     return transactionDayLimit;
@@ -221,7 +224,10 @@ public class Account   {
    * @return balanceLimit
   **/
   @ApiModelProperty(example = "-1200", required = true, value = "")
+<<<<<<< Updated upstream
       @NotNull
+=======
+>>>>>>> Stashed changes
 
     @Valid
     public BigDecimal getBalanceLimit() {

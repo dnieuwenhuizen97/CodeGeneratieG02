@@ -2,21 +2,63 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+<<<<<<< Updated upstream
     <title>Accounts</title>
 </head>
 <body>
 
+=======
+    <title>Login</title>
+    <link
+            rel="stylesheet"
+            type="text/css"
+            href="css/style.css"
+    />
+</head>
+<body>
+<div class="bodydiv">
+    <div class="navbar">
+        <a class="aNav" href="http://localhost:8080/index.html">Home</a>
+        <a class="aNav" href="http://localhost:8080/login.html">Login</a>
+        <a class="aNav" href="http://localhost:8080/machine.html">Machine</a>
+        <div class="dropdown">
+            <button class="dropbtn">Users
+            </button>
+            <div class="dropdown-content">
+                <a class="aNav" href="http://localhost:8080/signUp.html">SignUp</a>
+                <a class="aNav" href="http://localhost:8080/allUsers.html">Show Users</a>
+                <a class="aNav" href="http://localhost:8080/updateUser.html">Update User</a>
+            </div>
+        </div>
+        <div class="dropdown">
+            <button class="dropbtn">Accounts
+            </button>
+            <div class="dropdown-content">
+                <a class="aNav" href="http://localhost:8080/getAccounts.html">Show accounts</a>
+                <a class="aNav" href="http://localhost:8080/updateAccount.html">Update account</a>
+                <a class="aNav" href="http://localhost:8080/createAccount.html">Create account</a>
+            </div>
+        </div>
+
+        <div id="currentuser"></div>
+    </div>
+>>>>>>> Stashed changes
 
 <form id="loginForm">
 
     <label>Email: </label> <input name="username"><br>
     <label>Password:</label> <input name="password" type="password"><br>
     <br />
+<<<<<<< Updated upstream
     <input type="button" id="loginUser" value="Login", onclick="POSTLogin()">
+=======
+    <input type="button" id="loginUser" value="Login" onclick="POSTLogin()">
+>>>>>>> Stashed changes
 </form>
 
 <table id="table" border="1"></table>
 <h1 id="authToken"></h1>
+</div>
 <script>
 
     function POSTLogin(){
@@ -26,9 +68,14 @@
         xhr.onload= (e) => {
             alert(xhr.status);
             let response = JSON.parse(xhr.response);
+<<<<<<< Updated upstream
             //alert authtoken
             sessionStorage.setItem("AuthToken", JSON.stringify(response.AuthToken));
             alert(JSON.stringify(response.AuthToken) + " " + JSON.stringify(response.userId));
+=======
+            sessionStorage.setItem("AuthToken", response.AuthToken);
+            sessionStorage.setItem("UserId", response.userId);
+>>>>>>> Stashed changes
         }
         xhr.send(JSON.stringify(
             {
@@ -41,5 +88,9 @@
 
 
 </script>
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
 </body>
 </html>

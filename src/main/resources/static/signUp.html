@@ -2,18 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-<<<<<<< Updated upstream
-    <title>Accounts</title>
-</head>
-<body>
-
-=======
-    <title>Login</title>
     <link
-            rel="stylesheet"
-            type="text/css"
-            href="css/style.css"
+        rel="stylesheet"
+        type="text/css"
+        href="css/style.css"
     />
+    <title>Sign Up</title>
 </head>
 <body>
 <div class="bodydiv">
@@ -42,43 +36,54 @@
 
         <div id="currentuser"></div>
     </div>
->>>>>>> Stashed changes
 
-<form id="loginForm">
+<form id="signupform">
 
-    <label>Email: </label> <input name="username"><br>
-    <label>Password:</label> <input name="password" type="password"><br>
+    <br>
+    <label>First Name:</label> <input name="firstName"><br>
+    <label>Last Name:</label> <input name="lastName"><br>
+    <label>Email: </label> <input name="email"><br>
+    <label>Password: </label> <input name="password" type="password"><br>
+    <label>User Type: </label> <input name="user_type"><br>
     <br />
-    <input type="button" id="loginUser" value="Login", onclick="POSTLogin()">
+    <input type="button" id="signUpUser" class="buttons" value="SignUp" onclick="POSTUser()">
 </form>
-
-<table id="table" border="1"></table>
-<h1 id="authToken"></h1>
 </div>
+
 <script>
 
-    function POSTLogin(){
-        var xhr =  new XMLHttpRequest();
-        xhr.open('POST','http://localhost:8080/login');
+    window.onload = function() {
+        var userId = sessionStorage.getItem("UserId");
+
+        if (userId === null) {
+            document.getElementById("currentuser").innerHTML = "Not logged in";
+        }
+        else {
+            document.getElementById("currentuser").innerHTML = "Hello user '" + userId + "'";
+        }
+    }
+
+    function POSTUser() {
+
+       var xhr =  new XMLHttpRequest();
+        xhr.open('POST','http://localhost:8080/users');
         xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.setRequestHeader("ApiKeyAuth", sessionStorage.getItem("AuthToken"));
         xhr.onload= (e) => {
             alert(xhr.status);
-            let response = JSON.parse(xhr.response);
-            //alert authtoken
-            sessionStorage.setItem("AuthToken", JSON.stringify(response.AuthToken));
-            alert(JSON.stringify(response.AuthToken) + " " + JSON.stringify(response.userId));
+            location.reload();
         }
         xhr.send(JSON.stringify(
             {
-                "username": document.forms["loginForm"]["username"].value ,
-                "password": document.forms["loginForm"]["password"].value
+                "firstName": document.forms["signupform"]["firstName"].value ,
+                "lastName": document.forms["signupform"]["lastName"].value ,
+                "email": document.forms["signupform"]["email"].value ,
+                "password": document.forms["signupform"]["password"].value,
+                "user_type": document.forms["signupform"]["user_type"].value
             }
         ));
 
     }
-
-
 </script>
-
 </body>
 </html>

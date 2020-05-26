@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d049dca3-d6f9-4932-a4e5-24057367c984" name="Default Changelist" comment="">
+<<<<<<< Updated upstream
       <change beforePath="$PROJECT_DIR$/.idea/CodeGeneratieG02.iml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
@@ -23,6 +24,26 @@
       <change beforePath="$PROJECT_DIR$/target/classes/io/swagger/model/Account.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/io/swagger/model/Account.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/io/swagger/repository/AccountRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/io/swagger/repository/AccountRepository.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/io/swagger/service/AccountService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/io/swagger/service/AccountService.class" afterDir="false" />
+=======
+      <change afterPath="$PROJECT_DIR$/src/test/java/io/swagger/api/UsersApiTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/swagger/model/Account.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/swagger/model/Account.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/swagger/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/swagger/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/machine.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/machine.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/swagger-spring.iml" beforeDir="false" afterPath="$PROJECT_DIR$/swagger-spring.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/META-INF/swagger-spring.kotlin_module" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/io/swagger/model/Account.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/io/swagger/model/Account.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/io/swagger/service/UserService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/io/swagger/service/UserService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/allUsers.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/allUsers.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/css/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/machine.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/machine.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/signUp.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/signUp.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/updateUser.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/updateUser.html" afterDir="false" />
+>>>>>>> Stashed changes
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,16 +56,20 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="HTML File" />
         <option value="Class" />
+        <option value="HTML File" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+<<<<<<< Updated upstream
   <component name="ProjectId" id="1bdHeBRcuLjHY8h7NnCe3fpw6gH" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+=======
+  <component name="ProjectId" id="1bwGYEGrAA1Yo9w1e61ei4N8sTn" />
+>>>>>>> Stashed changes
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -52,6 +77,7 @@
   <component name="PropertiesComponent">
     <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
+<<<<<<< Updated upstream
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
@@ -62,8 +88,14 @@
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="restartRequiresConfirmation" value="false" />
+=======
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Downloads/CodeGeneratieG022/CodeGeneratieG02" />
+    <property name="restartRequiresConfirmation" value="false" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+>>>>>>> Stashed changes
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.Swagger2SpringBoot">
     <configuration name="Swagger2SpringBoot" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="io.swagger.Swagger2SpringBoot" />
       <module name="swagger-spring" />
@@ -77,9 +109,76 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="UsersApiTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="swagger-spring" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="io.swagger.api.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="io.swagger.api" />
+      <option name="MAIN_CLASS_NAME" value="io.swagger.api.UsersApiTest" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UsersApiTest.createUserTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="swagger-spring" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="io.swagger.api.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="io.swagger.api" />
+      <option name="MAIN_CLASS_NAME" value="io.swagger.api.UsersApiTest" />
+      <option name="METHOD_NAME" value="createUserTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UsersApiTest.getAllUsersTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="swagger-spring" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="io.swagger.api.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="io.swagger.api" />
+      <option name="MAIN_CLASS_NAME" value="io.swagger.api.UsersApiTest" />
+      <option name="METHOD_NAME" value="getAllUsersTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="UsersApiTest.getUserByIdTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="swagger-spring" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="io.swagger.api.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="io.swagger.api" />
+      <option name="MAIN_CLASS_NAME" value="io.swagger.api.UsersApiTest" />
+      <option name="METHOD_NAME" value="getUserByIdTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Application.Swagger2SpringBoot" />
+        <item itemvalue="JUnit.UsersApiTest.createUserTest" />
+        <item itemvalue="JUnit.UsersApiTest.getUserByIdTest" />
+        <item itemvalue="JUnit.UsersApiTest.getAllUsersTest" />
+        <item itemvalue="JUnit.UsersApiTest" />
       </list>
     </recent_temporary>
   </component>
@@ -115,6 +214,7 @@
     <state width="1877" height="323" key="GridCell.Tab.0.left" timestamp="1589282029527">
       <screen x="1920" y="0" width="1920" height="1040" />
     </state>
+<<<<<<< Updated upstream
     <state width="1877" height="323" key="GridCell.Tab.0.left/62.0.1474.864/1920.0.1920.1040@1920.0.1920.1040" timestamp="1589282029527" />
     <state width="1877" height="323" key="GridCell.Tab.0.right" timestamp="1589282029529">
       <screen x="1920" y="0" width="1920" height="1040" />
@@ -127,6 +227,44 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/swagger_spring$Swagger2SpringBoot.ic" NAME="Swagger2SpringBoot Coverage Results" MODIFIED="1589459307589" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+=======
+    <state x="761" y="411" width="397" height="222" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes/0.0.1920.1040@0.0.1920.1040" timestamp="1589793368185" />
+    <state x="740" y="277" key="FileChooserDialogImpl" timestamp="1590437980672">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="740" y="277" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1590437980672" />
+    <state width="1431" height="224" key="GridCell.Tab.0.bottom" timestamp="1590486209075">
+      <screen x="62" y="0" width="1474" height="864" />
+    </state>
+    <state width="1877" height="226" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1590437874988" />
+    <state width="1431" height="224" key="GridCell.Tab.0.bottom/62.0.1474.864@62.0.1474.864" timestamp="1590486209075" />
+    <state width="1431" height="224" key="GridCell.Tab.0.center" timestamp="1590486209075">
+      <screen x="62" y="0" width="1474" height="864" />
+    </state>
+    <state width="1877" height="226" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1590437874987" />
+    <state width="1431" height="224" key="GridCell.Tab.0.center/62.0.1474.864@62.0.1474.864" timestamp="1590486209075" />
+    <state width="1431" height="224" key="GridCell.Tab.0.left" timestamp="1590486209074">
+      <screen x="62" y="0" width="1474" height="864" />
+    </state>
+    <state width="1877" height="226" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1590437874987" />
+    <state width="1431" height="224" key="GridCell.Tab.0.left/62.0.1474.864@62.0.1474.864" timestamp="1590486209074" />
+    <state width="1431" height="224" key="GridCell.Tab.0.right" timestamp="1590486209075">
+      <screen x="62" y="0" width="1474" height="864" />
+    </state>
+    <state width="1877" height="226" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1590437874987" />
+    <state width="1431" height="224" key="GridCell.Tab.0.right/62.0.1474.864@62.0.1474.864" timestamp="1590486209075" />
+    <state x="463" y="165" key="SettingsEditor" timestamp="1590068876092">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="463" y="165" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1590068876092" />
+    <state x="616" y="240" key="run.anything.popup" timestamp="1590438752147">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="616" y="240" key="run.anything.popup/0.0.1920.1040@0.0.1920.1040" timestamp="1590438752147" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/Bank_API$Swagger2SpringBoot.ic" NAME="Swagger2SpringBoot Coverage Results" MODIFIED="1590437874778" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+>>>>>>> Stashed changes
       <FILTER>io.swagger.*</FILTER>
     </SUITE>
   </component>
