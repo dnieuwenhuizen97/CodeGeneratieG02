@@ -96,6 +96,10 @@ th, td
 	text-align : left;
 	background-color : white;
 }
+th:hover, td:hover
+{
+	cursor : pointer;
+}
 .buttons
 {
 	cursor: pointer;

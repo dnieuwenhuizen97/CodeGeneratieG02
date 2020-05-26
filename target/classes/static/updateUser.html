@@ -51,6 +51,10 @@
         else {
             document.getElementById("currentuser").innerHTML = "Hello user '" + userId + "'";
         }
+
+        var id = sessionStorage.getItem("UpdateId");
+
+        document.getElementById('uid').value = id;
     }
 
     function PUTUser() {
@@ -75,6 +79,11 @@
         ));
 
     }
+
+    window.onbeforeunload = function(){
+        sessionStorage.removeItem("UpdateId");
+    };
+
 </script>
 </div>
 </body>

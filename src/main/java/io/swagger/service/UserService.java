@@ -32,16 +32,6 @@ public class UserService {
         else if (!isValidPassword(user.getPassword()))
             throw new Exception("Password needs to be 8-15 characters long and should contain at least ONE digit, ONE special character and ONE uppercase letter");
 
-        //SecureRandom random = new SecureRandom();
-        //byte[] salt = new byte[16];
-        //random.nextBytes(salt);
-
-        //MessageDigest md = MessageDigest.getInstance("SHA-512");
-        //md.update(salt);
-
-        //byte[] hashedPassword = md.digest(user.getPassword().getBytes(StandardCharsets.UTF_8));
-        //user.setPassword(hashedPassword.toString());
-
         userRepository.save(user);
         return user;
     }
