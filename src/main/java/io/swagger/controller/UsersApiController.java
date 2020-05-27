@@ -72,7 +72,7 @@ public class UsersApiController implements UsersApi {
         if(!authService.IsUserAuthenticated(apiKeyAuth, 99, true)) {
             try {
                 authService.CreateRegisterRequest(new RegisterRequest(body.getFirstName(), body.getLastName(), body.getPassword(), body.getEmail()));
-                return new ResponseEntity(HttpStatus.OK);
+                return new ResponseEntity(HttpStatus.CREATED);
             }
             catch (Exception e) {
                 System.out.println(e);
