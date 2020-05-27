@@ -355,5 +355,4 @@ public class UsersControllerTest {
                 .header("ApiKeyAuth", "1234-abcd-5678-efgh"))
                 .andExpect(status().isNotAcceptable());
     }
-
 }
