@@ -51,13 +51,13 @@ function GetUserRequests()
                     .replace("%k",JSON.stringify(response[i].firstName))
                     .replace("%l",JSON.stringify(response[i].lastName))
                     .replace("%m",JSON.stringify(response[i].email))
-                    .replace("%n","<button onclick='acceptRequest("+ JSON.stringify(response[i].firstName) +","+ JSON.stringify(response[i].lastName)+ "," +JSON.stringify(response[i].password) + ","+JSON.stringify(response[i].email)+ ")'>Accept</button><button onclick='declineRequest("+ response[i].registerId+ ")'>Decline</button>")
+                    .replace("%n","<button onclick='acceptRequest("+ response[i].registerId+ ", "+ JSON.stringify(response[i].firstName) +","+ JSON.stringify(response[i].lastName)+ "," +JSON.stringify(response[i].password) + ","+JSON.stringify(response[i].email)+ ")'>Accept</button><button onclick='declineRequest("+ response[i].registerId+ ")'>Decline</button>")
 
             }
         }
         xhr.send();
 }
-function acceptRequest(firstName, lastName, password, email)
+function acceptRequest(requestId, firstName, lastName, password, email)
 {
 
         var xhr =  new XMLHttpRequest();

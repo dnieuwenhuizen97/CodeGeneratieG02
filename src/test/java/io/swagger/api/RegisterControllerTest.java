@@ -11,9 +11,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
@@ -32,9 +31,8 @@ public class RegisterControllerTest {
     this.mvc = webAppContextSetup(webApplicationContext).build();
     }
 
-
     @Test
-    public void registerRequestShouldWithValidInputsReturnCreated() throws Exception {
+    public void registerRequestShouldWithValidInputShouldReturnCreated() throws Exception {
 
         JSONObject user = new JSONObject();
         user.put("firstName", "Pascalle");
@@ -55,6 +53,21 @@ public class RegisterControllerTest {
                         "  'email': 'pascalle@test.com'\n" +
                         "}"));
 
+    }
+
+    @Test
+    public void registerRequestWithNotSecurityProofPasswordShouldReturnIsNotAcceptable() throws Exception {
+
+        JSONObject user = new JSONObject();
+        user.put("firstName", "Pascalle");
+        user.put("lastName", "Schipper");
+        user.put("password", "notSecurityProofPassword");
+        user.put("email", "pascalle@test.com");
+
+        mvc.perform(post("/register")
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .content(user.toString()))
+                .andExpect(status().isNotAcceptable());
     }
 
     @Test
@@ -87,20 +100,7 @@ public class RegisterControllerTest {
                 .content(user.toString()))
                 .andExpect(status().isNotAcceptable());
     }
-    @Test
-    public void registerRequestWithInvalidPasswordShouldReturnIsNotAcceptable() throws Exception {
 
-        JSONObject user = new JSONObject();
-        user.put("firstName", "Pascalle");
-        user.put("lastName", "Schipper");
-        user.put("password", "notanvalidpassword");
-        user.put("email", "pascalle@test.com");
-
-        mvc.perform(post("/register")
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .content(user.toString()))
-                .andExpect(status().isNotAcceptable());
-    }
     @Test
     public void registerRequestWithInvalidEmailShouldReturnIsNotAcceptable() throws Exception {
 
@@ -116,5 +116,6 @@ public class RegisterControllerTest {
                 .content(user.toString()))
                 .andExpect(status().isNotAcceptable());
     }
+
 
 }

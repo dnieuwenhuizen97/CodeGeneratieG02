@@ -36,14 +36,14 @@ public class LoginControllerTest {
     @Test
     public void loginWithValidCredentialsShouldReturnTokenAndStatusCreated() throws Exception{
         JSONObject userLogin = new JSONObject();
-        userLogin.put("username", "BankCodeGeneratie");
+        userLogin.put("username", "customer");
         userLogin.put("password", "password");
 
         mvc.perform(post("/login")
                         .contentType(MediaType.APPLICATION_JSON_VALUE)
                         .content(userLogin.toString()))
                         .andExpect(status().isCreated())
-                        .andExpect(content().json("{'authToken': '1234-abcd-5678-efgh','userId': 100001}"));
+                        .andExpect(content().json("{'authToken': '1111-abcd-5678-efgh','userId': 100003}"));
 
     }
 

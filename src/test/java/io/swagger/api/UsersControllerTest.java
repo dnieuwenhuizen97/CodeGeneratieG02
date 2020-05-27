@@ -14,8 +14,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import java.time.LocalDateTime;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
@@ -115,7 +114,7 @@ public class UsersControllerTest {
 
 
 
-    //user requests
+    //user register requests
     @Test
     public void usersGetRegisterRequestsWithValidAuthTokenAndTheValidRoleShouldReturnIsOk() throws Exception{
         mvc.perform(get("/users/requests")
@@ -134,5 +133,38 @@ public class UsersControllerTest {
         mvc.perform(get("/users/requests")
                 .header("ApiKeyAuth", "1111-abcd-5678-efgh"))
                 .andExpect(status().isForbidden());
+    }
+
+
+    @Test
+    public void userDeleteRegisterRequestWithValidUserRoleAndAuthTokenShouldReturnNoContent() throws Exception {
+
+        mvc.perform(delete("/users/requests/100001")
+                .header("ApiKeyAuth", "1234-abcd-5678-efgh"))
+                .andExpect(status().isNoContent());
+    }
+
+    @Test
+    public void userDeleteRegisterRequestWithInvalidUserRoleAndValidAuthTokenShouldIsForbidden() throws Exception {
+
+        mvc.perform(delete("/users/requests/100001")
+                .header("ApiKeyAuth", "1111-abcd-5678-efgh"))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    public void userDeleteRegisterRequestWithValidUserRoleAndInvalidAuthTokenShouldIsForbidden() throws Exception {
+
+        mvc.perform(delete("/users/requests/100001")
+                .header("ApiKeyAuth", "no valid token"))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    public void userDeleteNotExistingRegisterRequestShouldIsNotAcceptable() throws Exception {
+
+        mvc.perform(delete("/users/requests/1")
+                .header("ApiKeyAuth", "1234-abcd-5678-efgh"))
+                .andExpect(status().isNotAcceptable());
     }
 }

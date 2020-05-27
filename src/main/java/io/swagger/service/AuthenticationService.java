@@ -21,14 +21,14 @@ public class AuthenticationService {
     private AuthTokenRepository authTokenRepository;
     private UserRepository userRepository;
     private RegisterRequestRepository registerRequestRepository;
-    private UserService userService;
-    private MessageDigest md;
+    private GeneralMethodsService generalMethodsService;
 
-    public AuthenticationService(AuthTokenRepository authTokenRepository, UserRepository userRepository, RegisterRequestRepository registerRequestRepository, UserService userService) {
+
+    public AuthenticationService(AuthTokenRepository authTokenRepository, UserRepository userRepository, RegisterRequestRepository registerRequestRepository,GeneralMethodsService generalMethodsService) {
         this.authTokenRepository = authTokenRepository;
         this.userRepository = userRepository;
         this.registerRequestRepository = registerRequestRepository;
-        this.userService = userService;
+        this.generalMethodsService = generalMethodsService;
     }
 
     public RegisterRequest CreateRegisterRequest(RegisterRequest registerRequest)
@@ -38,10 +38,10 @@ public class AuthenticationService {
             return registerRequest;
         else if(!registerRequest.getEmail().matches("^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$"))
             return null;
-        else if(!isValidPassword(registerRequest.getPassword()))
+        else if(!generalMethodsService.isValidPassword(registerRequest.getPassword()))
             return null;
 
-        registerRequest.setPassword(cryptWithMD5(registerRequest.getPassword()));
+        registerRequest.setPassword(generalMethodsService.cryptWithMD5(registerRequest.getPassword()));
         registerRequestRepository.save(registerRequest);
         return registerRequest;
     }
@@ -92,7 +92,7 @@ public class AuthenticationService {
     public AuthToken ValidateUserAndReturnAuthToken(Login login)
     {
         User user;
-        if((user = userRepository.findUserByUserCredentials(login.getUsername(), cryptWithMD5(login.getPassword()))) == null)
+        if((user = userRepository.findUserByUserCredentials(login.getUsername(), generalMethodsService.cryptWithMD5(login.getPassword()))) == null)
             return null;
         AuthToken authToken = authTokenRepository.findAuthTokenByUser(user.getUserId());
         //user already has token
@@ -137,114 +137,4 @@ public class AuthenticationService {
         return token;
     }
 
-    public String cryptWithMD5(String pass){
-        try {
-            md = MessageDigest.getInstance("MD5");
-            byte[] passBytes = pass.getBytes();
-            md.reset();
-            byte[] digested = md.digest(passBytes);
-            StringBuffer sb = new StringBuffer();
-            for(int i=0;i<digested.length;i++){
-                sb.append(Integer.toHexString(0xff & digested[i]));
-            }
-            String hashedPassword = "";
-            for(int i = 0; i < 25; i++)
-            {
-                hashedPassword += sb.charAt(i);
-            }
-            return hashedPassword;
-        } catch (NoSuchAlgorithmException ex) {
-            Logger.getLogger(AuthenticationService.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
-
-
-    }
-
-    public boolean isValidPassword(String password)
-    {
-        // for checking if password length
-        // is between 8 and 15
-        if (!((password.length() >= 8)
-                && (password.length() <= 15))) {
-            return false;
-        }
-
-        // to check space
-        if (password.contains(" ")) {
-            return false;
-        }
-        if (true) {
-            int count = 0;
-
-            // check digits from 0 to 9
-            for (int i = 0; i <= 9; i++) {
-
-                // to convert int to string
-                String str1 = Integer.toString(i);
-
-                if (password.contains(str1)) {
-                    count = 1;
-                }
-            }
-            if (count == 0) {
-                return false;
-            }
-        }
-
-        // for special characters
-        if (!(password.contains("@") || password.contains("#")
-                || password.contains("!") || password.contains("~")
-                || password.contains("$") || password.contains("%")
-                || password.contains("^") || password.contains("&")
-                || password.contains("*") || password.contains("(")
-                || password.contains(")") || password.contains("-")
-                || password.contains("+") || password.contains("/")
-                || password.contains(":") || password.contains(".")
-                || password.contains(", ") || password.contains("<")
-                || password.contains(">") || password.contains("?")
-                || password.contains("|"))) {
-            return false;
-        }
-
-        if (true) {
-            int count = 0;
-
-            // checking capital letters
-            for (int i = 65; i <= 90; i++) {
-
-                // type casting
-                char c = (char) i;
-
-                String str1 = Character.toString(c);
-                if (password.contains(str1)) {
-                    count = 1;
-                }
-            }
-            if (count == 0) {
-                return false;
-            }
-        }
-
-        if (true) {
-            int count = 0;
-
-            // checking small letters
-            for (int i = 90; i <= 122; i++) {
-
-                // type casting
-                char c = (char) i;
-                String str1 = Character.toString(c);
-
-                if (password.contains(str1)) {
-                    count = 1;
-                }
-            }
-            if (count == 0) {
-                return false;
-            }
-        }
-
-        return true;
-    }
 }
