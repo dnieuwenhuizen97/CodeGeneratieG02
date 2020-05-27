@@ -60,6 +60,8 @@ public class TransactionsApiController implements TransactionsApi {
         }
     }
 
+    
+    
     public ResponseEntity<List<Transaction>> getAllTransactions(@ApiParam(value = "The number of items to skip before starting to collect the result set") @Valid @RequestParam(value = "offset", required = false) Integer offset
             ,@ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "limit", required = false) Integer limit
             ,@ApiParam(value = "The id of the user thats should ne involved within the transaction") @Valid @RequestParam(value = "userId", required = false) Integer userId
@@ -79,22 +81,24 @@ public class TransactionsApiController implements TransactionsApi {
 
         //if not authenticated
         String apiKeyAuth = request.getHeader("ApiKeyAuth");
-        if(!authService.IsUserAuthenticated(apiKeyAuth, 0, true))
+        if(!authService.IsUserAuthenticated(apiKeyAuth, 0, false))
             return new ResponseEntity(HttpStatus.FORBIDDEN);
 
-        //if there are 0 transactions, show a message instead of nothing
-        if(service.getAllTransactions().size() == 0){
-            try {
-                return new ResponseEntity<List<Transaction>>(objectMapper.readValue("[ \"No transactions found\"  ]", List.class), HttpStatus.OK);
-            } catch (IOException e) {
-                log.error("Couldn't serialize response for content type application/json", e);
-                return new ResponseEntity<List<Transaction>>(HttpStatus.INTERNAL_SERVER_ERROR);
-            }
-        } else {
-            return new ResponseEntity<List<Transaction>>(service.getAllTransactions(), HttpStatus.OK);
+        
+        try{
+        	if(iban==null){
+        		return new ResponseEntity<List<Transaction>>(service.getAllTransactions(limit, offset), HttpStatus.OK);
+        	}else{
+        		return new ResponseEntity<List<Transaction>>(service.getAllTransactionOfAccount(iban, apiKeyAuth, offset, limit), HttpStatus.OK);
+        	}
+        } catch (Exception e) {
+                ResponseEntity responseEntity = ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body((JsonNode) objectMapper.createObjectNode().put("message",e.getMessage()));
+                return responseEntity;
         }
 
     }
+    
+
 
     //Pagable is used in order to allow a paginated response for a user instead of pulling all the records at the time.
     /*@Override
@@ -135,34 +139,4 @@ public class TransactionsApiController implements TransactionsApi {
         return responseEntity;
     }*/
 
-
-
-    //Static account (needs to be changed)
-    private Account findAccountByUserId(Integer userId) {
-
-        // TODO Find account by calling AccountService
-
-        Account account =  new Account();
-        account.setIban("NL12INHO1234567890");
-        account.setBalance(1000.00f);
-        account.setOwner(userId);
-        account.setTransactionAmountLimit(new BigDecimal(10));
-        account.setTransactionDayLimit(10);
-
-        account.setAccountType(Account.AccountTypeEnum.CURRENT);
-        return account;
-    }
-
-
-    /**
-     * validate a account by accountId
-     * @param account
-     * @return true if account exist
-     */
-    private boolean verifyAccountTo( String accountID) {
-
-        // TODO get account by accountID from account service
-
-        return true;
-    }
 }

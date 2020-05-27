@@ -161,7 +161,7 @@ public class UsersApiController implements UsersApi {
         }
 
         try {
-            return new ResponseEntity<List<Transaction>>(transactionService.getAllTransactionsOfUser(userId , apiKeyAuth), HttpStatus.OK);
+            return new ResponseEntity<List<Transaction>>(transactionService.getAllTransactionsOfUser(userId, apiKeyAuth, offset, limit), HttpStatus.OK);
         } catch (Exception e) {
             ResponseEntity responseEntity = ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body((JsonNode) objectMapper.createObjectNode().put("message",e.getMessage()));
             return responseEntity;

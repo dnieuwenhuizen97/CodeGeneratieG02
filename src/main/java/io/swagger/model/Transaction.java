@@ -2,6 +2,8 @@ package io.swagger.model;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -83,6 +85,7 @@ public class Transaction   {
   private TransactionTypeEnum transactionType = null;
 
   @JsonProperty("timestamp")
+  @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy HH:mm:ss")
   private LocalDateTime timestamp = null;
 
   @JsonProperty("account_from")

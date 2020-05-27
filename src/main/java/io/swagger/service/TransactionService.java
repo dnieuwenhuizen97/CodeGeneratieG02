@@ -1,20 +1,29 @@
 package io.swagger.service;
 
-import io.swagger.model.*;
+import io.swagger.model.Account;
+import io.swagger.model.AuthToken;
+import io.swagger.model.MachineTransfer;
+import io.swagger.model.Transaction;
+import io.swagger.model.User;
+import io.swagger.model.User.UserTypeEnum;
 import io.swagger.repository.AccountRepository;
 import io.swagger.repository.AuthTokenRepository;
-import io.swagger.repository.UserRepository;
-import org.springframework.stereotype.Service;
 import io.swagger.repository.TransactionRepository;
+import io.swagger.repository.UserRepository;
 
-import java.math.BigDecimal;
-import java.sql.Time;
-import java.sql.Timestamp;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
+
+import javax.validation.Valid;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 
 @Service
 public class TransactionService {
@@ -22,6 +31,8 @@ public class TransactionService {
     private UserRepository userRepository;
     private AccountRepository accountRepository;
     private AuthTokenRepository authTokenRepository;
+    
+    public static String EXTERNAL_IBAN = "NL01INHO0000000001";
 
     public TransactionService(TransactionRepository transactionRepository, UserRepository userRepository, AccountRepository accountRepository, AuthTokenRepository authTokenRepository) {
         this.transactionRepository = transactionRepository;
@@ -30,11 +41,54 @@ public class TransactionService {
         this.authTokenRepository = authTokenRepository;
     }
 
-    public List<Transaction> getAllTransactions() {
-        return (List<Transaction>) transactionRepository.findAll();
+    public List<Transaction> getAllTransactions(Integer limit, Integer offset) throws Exception {
+    	 
+    	 List<Transaction> allTransaction = (List<Transaction>) transactionRepository.findAll();
+    	 
+    	  if(allTransaction.size() == 0){   	return allTransaction;       } //No transactions found
+
+          //apply pagination with respect to offset and limit
+          allTransaction = createPageable(offset, limit, allTransaction);
+
+          return allTransaction;
+    	
     }
 
-    public List<Transaction> getAllTransactionsOfUser(Integer userId, String token) throws Exception {
+    public List<Transaction> getAllTransactionOfAccount(String iban, String token, Integer offset, Integer limit) throws Exception {
+        //User id must be provided
+        if(iban == null){
+            throw new Exception("The iban you entered is wrong");
+        }
+        //Find performing user
+        //User user = getUserById(userId);
+
+        //Find logged-in user
+        User loggedInUser = getLoggedInUser(token);
+       
+        List<Transaction>  allTransaction = transactionRepository.findByIban(iban);
+        Set<Transaction> allTransactionSet = new HashSet<Transaction>();
+        if(loggedInUser.getUserType()==UserTypeEnum.CUSTOMER){
+        	 List<Account> accounts = accountRepository.findAccountByOwner(loggedInUser.getUserId());
+        	 for(Account account: accounts){
+        		 for(Transaction tans:allTransaction){
+        			 if(tans.getAccountFrom().equals(account.getIban()) ||tans.getAccountFrom().equals(account.getIban())){
+        				 allTransactionSet.add(tans);
+        			 }
+        			 
+        		 }
+        	 }
+        	 allTransaction = new ArrayList<Transaction>(allTransactionSet);
+        }
+        
+        if(allTransaction.size() == 0){   	return allTransaction;       }
+
+        //apply pagination with respect to offset and limit
+        allTransaction = createPageable(offset, limit, allTransaction);
+
+        return allTransaction;
+    }
+    
+    public List<Transaction> getAllTransactionsOfUser(Integer userId, String token, Integer offset, Integer limit) throws Exception {
         //User id must be provided
         if(userId == null){
             throw new Exception("The user id you entered is wrong");
@@ -56,6 +110,53 @@ public class TransactionService {
         }
 
         List<Transaction> allTransaction = new ArrayList<Transaction>(allTransactionSet);
+        
+        if(allTransaction.size() == 0){   	return allTransaction;       }
+
+        //apply pagination with respect to offset and limit
+        allTransaction = createPageable(offset, limit, allTransaction);
+
+        return allTransaction;
+    }
+
+
+    /**
+     * Apply Pagination
+     * @param offset
+     * @param limit
+     * @param allTransaction
+     * @return
+     * @throws Exception
+     */
+    private List<Transaction> createPageable(Integer offset, Integer limit, List<Transaction> allTransaction) throws Exception{
+
+    	if(limit == null && offset == null){
+    		// No pagination 
+    		return allTransaction;
+    	}
+    	
+        int size = allTransaction.size();
+        if (offset == null) {
+            offset = 0;
+        }
+        if (limit == null) {
+            limit = size;
+        }
+        if (limit <= 0) {
+            throw new Exception("limit can't be zero or negative");
+        }
+
+        if (offset < 0) {
+            throw new Exception("offset can't be  negative");
+        }
+
+        limit = offset + limit ;
+
+        if(limit > size) { limit  = size;}
+        if(offset > size){ offset = size;}
+
+        allTransaction= allTransaction.subList(offset, limit);
+
         return allTransaction;
     }
 
@@ -89,27 +190,64 @@ public class TransactionService {
         //Find loggedIn user
         User loggedInUser = getLoggedInUser(token);
 
-        //use current time if not provided in the input attribute
-        if(transaction.getTimestamp() == null){
-            transaction.setTimestamp(LocalDateTime.now());
-        }
+        //use current time
+        transaction.setTimestamp(LocalDateTime.now());
+        //use logged-in userId as performing user
+        transaction.setUserPerforming(loggedInUser.getUserId());
         //use default transaction if not provided in the input attribute
         if(transaction.getTransactionType() == null){
             transaction.setTransactionType(Transaction.TransactionTypeEnum.TRANSACTION);
         }
-        //use logged-in userId if performing user is not provided in the input attribute
-        if(transaction.getUserPerforming() == null){
-            transaction.setUserPerforming(loggedInUser.getUserId());
-        }
+
 
         //Validate the provided input before creating transaction
         validateInput(transaction, loggedInUser);
 
+        //deduct amount from account
+        updateAccountFromBalance(transaction);
+        //add amount to account
+        updateAccountToBalance(transaction);
 
         return transactionRepository.save(transaction);
     }
 
+    /**
+     *   Add amount to account
+     * @param transaction
+     */
+    private void updateAccountToBalance(Transaction transaction) {
+    	Account account = null;
+        if(accountRepository.findById(transaction.getAccountTo()).isPresent()){
+            //This is internal bank account
+            account = accountRepository.findById(transaction.getAccountTo()).get();
+            double newBalance = account.getBalance()+transaction.getAmount();
+            account.setBalance(newBalance);
+        }else{
+            //This is external bank account 
+        	account = accountRepository.findById(EXTERNAL_IBAN).get();
+        	 double newBalance = account.getBalance()-transaction.getAmount();
+             account.setBalance(newBalance);
+        }
+       
+        accountRepository.save(account);
+    }
 
+    /**
+     * deduct amount from account
+     * @param transaction
+     */
+    private void updateAccountFromBalance(Transaction transaction) {
+    	Account account = null;
+    	if(accountRepository.findById(transaction.getAccountFrom()).isPresent()){
+    		 //This is internal bank account
+	         account = accountRepository.findById(transaction.getAccountFrom()).get();
+    	}else{
+    		//This is external bank account do nothing    		
+    	}
+    	 double newBalance = account.getBalance()-transaction.getAmount();
+	     account.setBalance(newBalance);
+	     accountRepository.save(account);
+    }
 
     /**
      * Validate the provided input to perform transaction
@@ -120,68 +258,74 @@ public class TransactionService {
     private void validateInput(Transaction transaction, User loggedInUser) throws Exception {
 
         User user = getUserById(transaction.getUserPerforming());
-        //Check if user is a valid user
-        if(user == null){
-            throw new Exception("The user your are performing is does not exists");
-        }
 
         Account accountFrom = getAccountById(transaction.getAccountFrom());
-        Account accountTo = getAccountById(transaction.getAccountTo());
+
         //Check if account from is a valid account
-        if(accountFrom == null){
-            throw new Exception("The account your sending money from does not exists");
-        }
-        //Check if account to is a valid account
-        else if(accountTo == null){
-            throw new Exception("The account your sending money to does not exists");
-        }
+        if(accountRepository.findById(transaction.getAccountFrom()).isPresent()){
 
-        //Check for customer
-        if(loggedInUser.getUserType() == User.UserTypeEnum.CUSTOMER ){
-            //First two checks: user is only able to transfer if it's the same userId or type is employee
-            if(user.getUserId() != loggedInUser.getUserId()){
-                throw new Exception("You are trying to perform a transaction on someone else !");
-            }
-            //AND the sender is sending money with his own IBAN
-            else if(accountFrom.getOwner().intValue() != loggedInUser.getUserId().intValue() ){
-                throw new Exception("You are trying to perform a transaction on someone else account !");
-            }
-        }
+        	 //Customer can transfer from there account only
+        	if(loggedInUser.getUserType() == User.UserTypeEnum.CUSTOMER && (!accountFrom.getOwner().equals(loggedInUser.getUserId()))){
+       			 throw new Exception("You cannot transfer from other's account");
+        	}
+	        //Unable to transfer to own account (Account to is the same as account from)
+	        if(transaction.getAccountFrom().equals(transaction.getAccountTo())){
+	            throw new Exception("You cannot transfer to your own account!");
+	        }
+	        //Unable to transfer funds to another savings (besides your own)
+	        else if (accountFrom.getAccountType() == Account.AccountTypeEnum.SAVINGS && user.getUserType() != User.UserTypeEnum.CUSTOMER){
+	            throw new Exception("You cannot transfer the funds to a savings account.");
+	        }
+	        //Check if amount is higher than 0
+	        if(transaction.getAmount() < 0){
+	            throw new Exception("You cannot transfer a negative number.");
+	        }
+	        //Customer cannot transfer 0 (nothing)
+	        else if(transaction.getAmount() == 0){
+	            throw new Exception("You cannot transfer nothing.");
+	        }
+	        //Needs to be changed to the absolute limit
+	        else if(accountFrom.getBalanceLimit().doubleValue() < transaction.getAmount()){
+	            throw new Exception("Your have extended your absolute limit, please deposit money first.");
+	        }
+	        //Check is transfer is higher than balance
+	        else if(accountFrom.getBalance() < transaction.getAmount()){
+	            throw new Exception("You do not have enough balance to transfer this amount!");
+	        }
+	        //A user has a maximum of transactions per day
+	        else if(accountFrom.getTransactionDayLimit() <= getTodaysTransactionCount(user)){
+	            throw new Exception(String.format("You have reached your day limit of %d transactions.",accountFrom.getTransactionDayLimit()));
+	        }
+	        //Amount of transactions per day
+	        else if((getTodaysTransactionAmount(user) + transaction.getAmount()) >= accountFrom.getTransactionAmountLimit().doubleValue()){
+	            throw new Exception("You have reached your transaction limit, please wait until tomorrow.");
+	        }
+        }else{
+        	//account_from is an external 
+	    	if(accountRepository.findById(transaction.getAccountTo()).isPresent()){
+	    		//account_to is an internal account 
 
-        //Unable to transfer to own account (Account to is the same as account from)
-        else if(transaction.getAccountFrom().equals(transaction.getAccountTo())){
-            throw new Exception("You cannot transfer to your own account!");
-        }
-        //Unable to transfer funds to another savings (besides your own)
-        else if (accountFrom.getAccountType() == Account.AccountTypeEnum.SAVINGS && user.getUserType() != User.UserTypeEnum.CUSTOMER){
-            throw new Exception("You cannot transfer the funds to a savings account.");
-        }
-
-        //Check if amount is higher than 0
-        if(transaction.getAmount() < 0){
-            throw new Exception("You cannot transfer a negative number.");
-        }
-        //Customer cannot transfer 0 (nothing)
-        else if(transaction.getAmount() == 0){
-            throw new Exception("You cannot transfer nothing.");
-        }
-        //Needs to be changed to the absolute limit
-        else if(accountFrom.getBalanceLimit().doubleValue() < transaction.getAmount()){
-            throw new Exception("Your have extended your absolute limit, please deposit money first.");
-        }
-        //Check is transfer is higher than balance
-        else if(accountFrom.getBalance() < transaction.getAmount()){
-            throw new Exception("You do not have enough balance to transfer this amount!");
-        }
-        //A user has a maximum of transactions per day
-        else if(accountFrom.getTransactionDayLimit() <= getTodaysTransactionCount(user)){
-            throw new Exception(String.format("You have reached your day limit of %d transactions.",accountFrom.getTransactionDayLimit()));
-        }
-        //Amount of transactions per day
-        else if((getTodaysTransactionAmount(user) + transaction.getAmount()) >= accountFrom.getTransactionAmountLimit().doubleValue()){
-            throw new Exception("You have reached your transaction limit, please wait until tomorrow.");
+	    		 //Customer can transfer from there account only, they can't transfer from external account
+	        	if(loggedInUser.getUserType() == User.UserTypeEnum.CUSTOMER ){
+	       			 throw new Exception("You cannot transfer from other's bank account");
+	        	}
+	    		//Check if amount is higher than 0
+		        if(transaction.getAmount() < 0){
+		            throw new Exception("You cannot transfer a negative number.");
+		        }
+		        //Customer cannot transfer 0 (nothing)
+		        else if(transaction.getAmount() == 0){
+		            throw new Exception("You cannot transfer nothing.");
+		        }
+	    		
+	        }else{
+	        	//account_to is an external account too
+	    		 throw new Exception("You cannot make transaction as both accounts are external");
+	        }
+	    	
         }
     }
+
 
     /**Get all transaction done by a User on same day
      * @param user
@@ -236,6 +380,7 @@ public class TransactionService {
 
         return todaysTransaction.size();
     }
+
     /**
      * get logged-in user from authentication token
      * @param token
