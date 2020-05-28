@@ -86,7 +86,7 @@ public class TransactionsApiController implements TransactionsApi {
             message = "You have reached your day limit of 100 transactions.";
         }
         //Amount of transactions per day
-        else if(account.getTransactionAmountLimit().doubleValue() >= 200){
+        else if(account.getTransactionAmountLimit() >= 200){
             message = "You have reached your transaction limit, please wait until tomorrow.";
         }
         //Unable to transfer to own account (Account to is the same as account from)
@@ -200,7 +200,7 @@ public class TransactionsApiController implements TransactionsApi {
         account.setIban("NL12INHO1234567890");
         account.setBalance(1000.00f);
         account.setOwner(userId);
-        account.setTransactionAmountLimit(new BigDecimal(10));
+        account.setTransactionAmountLimit(10);
         account.setTransactionDayLimit(10);
 
         account.setAccountType(Account.AccountTypeEnum.CURRENT);

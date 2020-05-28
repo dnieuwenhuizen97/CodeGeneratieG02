@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link
+        rel="stylesheet"
+        type="text/css"
+        href="css/style.css"
+    />
+    <title>All Users</title>
+</head>
+<body>
+<div class="bodydiv">
+    <div class="navbar">
+        <a class="aNav" href="http://localhost:8080/index.html">Home</a>
+        <a class="aNav" href="http://localhost:8080/login.html">Login</a>
+        <a class="aNav" href="http://localhost:8080/machine.html">Machine</a>
+        <div class="dropdown">
+            <button class="dropbtn">Users
+            </button>
+            <div class="dropdown-content">
+                <a class="aNav" href="http://localhost:8080/signUp.html">SignUp</a>
+                <a class="aNav" href="http://localhost:8080/allUsers.html">Show Users</a>
+                <a class="aNav" href="http://localhost:8080/updateUser.html">Update User</a>
+            </div>
+        </div>
+        <div class="dropdown">
+            <button class="dropbtn">Accounts
+            </button>
+            <div class="dropdown-content">
+                <a class="aNav" href="http://localhost:8080/getAccounts.html">Show accounts</a>
+                <a class="aNav" href="http://localhost:8080/updateAccount.html">Update account</a>
+                <a class="aNav" href="http://localhost:8080/createAccount.html">Create account</a>
+            </div>
+        </div>
+
+    <div id="currentuser"></div>
+    </div>
+
+    <form id="search">
+
+
+        <br>
+        <label>Search By ID: </label> <input name="user_id">
+        <br />
+        <input type="button" id="getById" class="buttons" value="Search" onclick="GETUserById()">
+        <input type="button" id="deleteById" class="buttons" value="Delete" onclick="DELETEUserById()">
+        <br><br>
+        <label>Search By Email: </label> <input name="email"><br>
+        <input type="button" id="getByEmail" class="buttons" value="Search" onclick="GETUserByEmail()">
+        <br>
+        <label>Search By Name: </label> <input name="lastName"><br>
+        <input type="button" id="getByName" class="buttons" value="Search" onclick="GETUserByName()">
+        <input type="button" id="GetAll" class="buttons" value="Show All Users" onclick="GETAllUsers()">
+    </form>
+
+    <p id="datadisplay">
+        <br>
+    </p>
+    <p id="statusdisplay"></p>
+</div>
+
+<script>
+
+    window.onload = function() {
+        var userId = sessionStorage.getItem("UserId");
+
+        if (userId === null) {
+            document.getElementById("currentuser").innerHTML = "Not logged in";
+        }
+        else {
+            document.getElementById("currentuser").innerHTML = "Hello user '" + userId + "'";
+        }
+
+        GETAllUsers();
+    }
+
+    function GETAllUsers() {
+
+        var xhr =  new XMLHttpRequest();
+
+        var url = 'http://localhost:8080/users';
+
+        xhr.open("GET", url);
+        xhr.setRequestHeader("ApiKeyAuth", sessionStorage.getItem("AuthToken"));
+        xhr.onload= (e) => {
+            alert(xhr.status);
+        }
+        xhr.send();
+
+        xhr.onreadystatechange=(e)=>{
+            var obj = JSON.parse(xhr.responseText);
+            CreateTableFromJSON(obj)
+            document.getElementById("statusdisplay").innerHTML = "";
+            document.getElementById("search").reset();
+        }
+    }
+
+    function GETUserById() {
+
+        var xhr =  new XMLHttpRequest();
+
+        var url = 'http://localhost:8080/users/'+document.forms["search"]["user_id"].value;
+
+        xhr.open("GET", url);
+        xhr.setRequestHeader("ApiKeyAuth", sessionStorage.getItem("AuthToken"));
+
+        xhr.onload= (e) => {
+            alert(xhr.status);
+        }
+
+        xhr.send();
+
+        xhr.onreadystatechange=(e)=>{
+            var obj = JSON.parse("[" + xhr.responseText + "]");
+            CreateTableFromJSON(obj);
+            document.getElementById("search").reset();
+        }
+    }
+
+    function GETUserByEmail() {
+
+        var xhr =  new XMLHttpRequest();
+
+        var url = 'http://localhost:8080/users?email='+document.forms["search"]["email"].value;
+
+        xhr.open("GET", url);
+        xhr.setRequestHeader("ApiKeyAuth", sessionStorage.getItem("AuthToken"));
+
+        xhr.onload= (e) => {
+            alert(xhr.status);
+        }
+
+        xhr.send();
+
+        xhr.onreadystatechange=(e)=>{
+            var obj = JSON.parse(xhr.responseText);
+            CreateTableFromJSON(obj);
+            document.getElementById("search").reset();
+        }
+    }
+
+    function GETUserByName() {
+
+        var xhr =  new XMLHttpRequest();
+
+        var url = 'http://localhost:8080/users?name='+document.forms["search"]["lastName"].value;
+
+        xhr.open("GET", url);
+        xhr.setRequestHeader("ApiKeyAuth", sessionStorage.getItem("AuthToken"));
+
+        xhr.onload= (e) => {
+            alert(xhr.status);
+        }
+
+        xhr.send();
+
+        xhr.onreadystatechange=(e)=>{
+            var obj = JSON.parse(xhr.responseText);
+            CreateTableFromJSON(obj);
+            document.getElementById("search").reset();
+        }
+    }
+
+    function DELETEUserById() {
+
+        var xhr =  new XMLHttpRequest();
+
+        var url = 'http://localhost:8080/users/'+document.forms["search"]["user_id"].value;
+
+        xhr.open("DELETE", url);
+        xhr.setRequestHeader("ApiKeyAuth", sessionStorage.getItem("AuthToken"));
+
+        xhr.onload= (e) => {
+            alert(xhr.status);
+        }
+
+        xhr.send();
+
+        xhr.onreadystatechange=(e)=>{
+            document.getElementById("statusdisplay").innerHTML = "User " + document.forms["search"]["user_id"].value + " succesfully deleted!";
+            document.getElementById("datadisplay").innerHTML = "";
+            document.getElementById("search").reset();
+        }
+    }
+
+    function CreateTableFromJSON(obj) {
+
+        var col = [];
+        for (var i = 0; i < obj.length; i++) {
+            for (var key in obj[i]) {
+                if (col.indexOf(key) === -1) {
+                    col.push(key);
+                }
+            }
+        }
+
+        // CREATE DYNAMIC TABLE.
+        var table = document.createElement("table");
+
+        // CREATE HTML TABLE HEADER ROW USING THE EXTRACTED HEADERS ABOVE.
+
+        var tr = table.insertRow(-1);                   // TABLE ROW.
+
+        for (var i = 0; i < col.length; i++) {
+            var th = document.createElement("th");      // TABLE HEADER.
+            th.innerHTML = col[i];
+            tr.appendChild(th);
+        }
+
+        // ADD JSON DATA TO THE TABLE AS ROWS.
+        for (var i = 0; i < obj.length; i++) {
+
+            tr = table.insertRow(-1);
+
+            for (var j = 0; j < col.length; j++) {
+                var tabCell = tr.insertCell(-1);
+                if (j === 3) {
+                    col[j] = null;
+                }
+                tabCell.innerHTML = obj[i][col[j]];
+            }
+        }
+
+        // FINALLY ADD THE NEWLY CREATED TABLE WITH JSON DATA TO A CONTAINER.
+        var divContainer = document.getElementById("datadisplay");
+        divContainer.innerHTML = "";
+        divContainer.appendChild(table);
+    }
+
+
+</script>
+
+</body>
+</html>

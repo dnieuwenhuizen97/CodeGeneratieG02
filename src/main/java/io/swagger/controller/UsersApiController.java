@@ -1,7 +1,5 @@
 package io.swagger.controller;
 
-import com.sun.xml.internal.ws.server.sei.EndpointArgumentsBuilder;
-import com.sun.xml.internal.ws.wsdl.writer.document.soap.Body;
 import io.swagger.api.UsersApi;
 import io.swagger.model.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -14,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.StreamingHttpOutputMessage;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -53,13 +52,12 @@ public class UsersApiController implements UsersApi {
     }
     public ResponseEntity<Account> createAccountByUser(@ApiParam(value = "" ,required=true )  @Valid @RequestBody Account body
             , @ApiParam(value = "user of a specific account",required=true) @PathVariable("userId") Integer userId
-    ) {
+    ){
         String accept = request.getHeader("Accept");
 
         String apiKeyAuth = request.getHeader("ApiKeyAuth");
         if(!authService.IsUserAuthenticated(apiKeyAuth, userId, true))
             return new ResponseEntity(HttpStatus.FORBIDDEN);
-
 
         return new ResponseEntity<Account>(accountService.createAccount(body, userId), HttpStatus.CREATED);
     }
@@ -197,7 +195,7 @@ public class UsersApiController implements UsersApi {
     }
 
     public ResponseEntity<Transaction> machineTransfer(@ApiParam(value = "",required=true) @PathVariable("userId") Integer userId
-            ,@ApiParam(value = ""  )  @Valid @RequestBody Body body
+            ,@ApiParam(value = ""  )  @Valid @RequestBody StreamingHttpOutputMessage.Body body
     ) {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {

@@ -5,12 +5,7 @@ import io.swagger.model.MachineTransfer;
 import io.swagger.model.Transaction;
 import org.springframework.stereotype.Service;
 import io.swagger.repository.TransactionRepository;
-
-import java.math.BigDecimal;
-import java.sql.Time;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -29,7 +24,7 @@ public class TransactionService {
         account.setIban("NL12INHO1234567890");
         account.setBalance(1000.00f);
         account.setOwner(userId);
-        account.setTransactionAmountLimit(new BigDecimal(10));
+        account.setTransactionAmountLimit(10);
         account.setTransactionDayLimit(10);
         account.setAccountType(Account.AccountTypeEnum.CURRENT);
 
