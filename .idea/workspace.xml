@@ -156,6 +156,9 @@
         <option value="HTML File" />
         <option value="JUnit5 Test Class" />
         <option value="Class" />
+        <option value="CSS File" />
+        <option value="JavaScript File" />
+        <option value="HTML File" />
       </list>
     </option>
   </component>
@@ -363,6 +366,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="JAVA" />
@@ -524,7 +528,32 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1588502554351</updated>
+      <workItem from="1589475575200" duration="303000" />
+      <workItem from="1589475909113" duration="347000" />
+      <workItem from="1589527479623" duration="121000" />
+      <workItem from="1589532929908" duration="2424000" />
+      <workItem from="1589713830484" duration="4370000" />
+      <workItem from="1589731966894" duration="1211000" />
+      <workItem from="1589739580891" duration="1847000" />
+      <workItem from="1589798373661" duration="785000" />
+      <workItem from="1589891251391" duration="4912000" />
+      <workItem from="1589968826225" duration="13699000" />
+      <workItem from="1590060536821" duration="1278000" />
+      <workItem from="1590088349892" duration="122000" />
+      <workItem from="1590411006504" duration="5905000" />
+      <workItem from="1590488478423" duration="4000" />
+      <workItem from="1590571784365" duration="3517000" />
+      <workItem from="1590660935247" duration="33000" />
+      <workItem from="1590661734532" duration="567000" />
     </task>
+    <task id="LOCAL-00001" summary="Tests geschreven voor Transactions (Controller/Repo/Model)">
+      <created>1590662212596</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1590662212596</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TestHistory">

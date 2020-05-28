@@ -83,9 +83,15 @@
             sessionStorage.setItem("AuthToken", response.AuthToken);
             sessionStorage.setItem("UserId", response.userId);
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
             location.reload();
 >>>>>>> DylanBranch
+=======
+            var userId = sessionStorage.getItem("UserId");
+        	alert(userId)
+        	alert(response.AuthToken)
+>>>>>>> DaryBranch
         }
         xhr.send(JSON.stringify(
             {

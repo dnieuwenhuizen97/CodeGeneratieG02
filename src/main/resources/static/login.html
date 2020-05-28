@@ -78,6 +78,9 @@
             let response = JSON.parse(xhr.response);
             sessionStorage.setItem("AuthToken", response.authToken);
             sessionStorage.setItem("UserId", response.userId);
+            var userId = sessionStorage.getItem("UserId");
+        	alert(userId)
+        	alert(response.AuthToken)
         }
         xhr.send(JSON.stringify(
             {
