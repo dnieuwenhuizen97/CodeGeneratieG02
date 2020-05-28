@@ -50,17 +50,31 @@ public class myApplicationRunner implements ApplicationRunner {
         accountRepository.save(new Account("NL04INHO0463973767", "current", 200, new BigDecimal(3500), new BigDecimal(35000000), 100052, 25.00));// employee 100052 current account
         accountRepository.save(new Account("NL67INHO0463973767", "savings", 200, new BigDecimal(3500), new BigDecimal(35000000), 100052, 25.00));// employee 100052 saving account
         accountRepository.save(new Account("NL15INHO0463973767", "savings", 200, new BigDecimal(3500), new BigDecimal(35000000), 100052, 25.00));// employee 100052 saving account
+        accountRepository.save(new Account("NL01INHO0000000001", "current",    1, new BigDecimal(3500), new BigDecimal(35000000), 100054, 100.00));
         accountRepository.findAll()
                 .forEach(System.out::println);
 
         transactionRepository.save(new Transaction( "transaction", LocalDateTime.now(), "NL88INHO0993873040", "NL05INHO0993873040", 30.44, 100052 )); // employee doing transaction for customer
         transactionRepository.save(new Transaction( "transaction", LocalDateTime.now(), "NL04INHO0463973767", "NL67INHO0463973767", 40.44, 100052 )); // employee doing transaction for himself
+        transactionRepository.save(new Transaction( "transaction", LocalDateTime.now(), "NL88INHO0993873040", "NL05INHO0993873040", 60.44, 100053 )); // customer doing transaction for himself
         transactionRepository.save(new Transaction( "transaction", LocalDateTime.now(), "NL88INHO0993873040", "NL05INHO0993873040", 50.44, 100053 )); // customer doing transaction for himself
+        transactionRepository.save(new Transaction( "transaction", LocalDateTime.now(), "NL88INHO0993873040", "NL05INHO0993873040", 50.44, 100053 )); // customer doing transaction for himself
+        transactionRepository.save(new Transaction( "transaction", LocalDateTime.now(), "NL88INHO0993873040", "NL05INHO0993873040", 50.44, 100053 )); // customer doing transaction for himself
+        transactionRepository.save(new Transaction( "transaction", LocalDateTime.now(), "NL88INHO0993873040", "NL05INHO0993873040", 50.44, 100053 )); // customer doing transaction for himself
+        transactionRepository.save(new Transaction( "transaction", LocalDateTime.now(), "NL88INHO0993873040", "NL05INHO0993873040", 50.44, 100053 )); // customer doing transaction for himself
+        transactionRepository.save(new Transaction( "transaction", LocalDateTime.now(), "NL88INHO0993873040", "NL05INHO0993873040", 50.44, 100053 )); // customer doing transaction for himself
+        transactionRepository.save(new Transaction( "transaction", LocalDateTime.now(), "NL88INHO0993873040", "NL05INHO0993873040", 50.44, 100053 )); // customer doing transaction for himself
+        transactionRepository.save(new Transaction( "transaction", LocalDateTime.now(), "NL88INHO0993873040", "NL05INHO0993873040", 50.44, 100053 )); // customer doing transaction for himself
+        transactionRepository.save(new Transaction( "transaction", LocalDateTime.now(), "NL88INHO0993873040", "NL05INHO0993873040", 50.44, 100053 )); // customer doing transaction for himself
+        transactionRepository.save(new Transaction( "transaction", LocalDateTime.now(), "NL88INHO0993873040", "NL05INHO0993873040", 50.44, 100053 )); // customer doing transaction for himself
+        transactionRepository.save(new Transaction( "transaction", LocalDateTime.now(), "NL88INHO0993873040", "NL05INHO0993873040", 50.44, 100053 )); // customer doing transaction for himself
+        transactionRepository.save(new Transaction( "transaction", LocalDateTime.now(), "NL88INHO0993873040", "NL10INHO0993873040", 50.44, 100053 )); // customer doing transaction for himself
         transactionRepository.findAll()
                 .forEach(System.out::println);
 
         userRepository.save(new User("employee", "employee", "password","employee",  "employee")); // 100052
         userRepository.save(new User("customer", "customer", "password","customer",  "customer")); // 100053
+        userRepository.save(new User("Bank", "CodeGeneratie", "password","BankCodeGeneratie", "employee"));//100054
         userRepository.findAll()
                 .forEach(System.out::println);
 
