@@ -4,11 +4,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
 import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.Entity;
@@ -26,7 +22,7 @@ public class Account   {
     public Account()
     {
     }
-  public Account(String iban, String accountType, Integer transactionDayLimit, BigDecimal transactionAmountLimit, BigDecimal balanceLimit, Integer owner, double balance){
+  public Account(String iban, String accountType, Integer transactionDayLimit, double transactionAmountLimit, double balanceLimit, Integer owner, double balance){
     this.iban = iban;
     this.accountType = AccountTypeEnum.fromValue(accountType);
     this.transactionDayLimit = transactionDayLimit;
@@ -36,13 +32,13 @@ public class Account   {
     this.balance = balance;
   }
 
-  public Account(Integer transactionDayLimit, BigDecimal transactionAmountLimit, BigDecimal balanceLimit){
+  public Account(Integer transactionDayLimit, double transactionAmountLimit, double balanceLimit){
     this.transactionDayLimit = transactionDayLimit;
     this.transactionAmountLimit = transactionAmountLimit;
     this.balanceLimit = balanceLimit;
   }
 
-  public Account(String accountType, double balance, Integer transactionDayLimit, BigDecimal transactionAmountLimit, BigDecimal balanceLimit){
+  public Account(String accountType, double balance, Integer transactionDayLimit, double transactionAmountLimit, double balanceLimit){
     this.accountType = AccountTypeEnum.fromValue(accountType);
     this.balance = balance;
     this.transactionDayLimit = transactionDayLimit;
@@ -52,7 +48,7 @@ public class Account   {
 
   @Id
   @JsonProperty("iban")
-  private String iban = "NL00INHO0123456789";
+  private String iban = "";
 
   /**
    * Gets or Sets accountType
@@ -95,10 +91,10 @@ public class Account   {
   private Integer transactionDayLimit = 0;
 
   @JsonProperty("transactionAmountLimit")
-  private BigDecimal transactionAmountLimit = new BigDecimal(0.00);
+  private double transactionAmountLimit = 0.00;
 
   @JsonProperty("balanceLimit")
-  private BigDecimal balanceLimit = new BigDecimal(0.00);
+  private double balanceLimit = 0.00;
 
   @JsonProperty("owner")
   private Integer owner = null;
@@ -183,7 +179,7 @@ public class Account   {
     this.transactionDayLimit = transactionDayLimit;
   }
 
-  public Account transactionAmountLimit(BigDecimal transactionAmountLimit) {
+  public Account transactionAmountLimit(double transactionAmountLimit) {
     this.transactionAmountLimit = transactionAmountLimit;
     return this;
   }
@@ -195,15 +191,15 @@ public class Account   {
   @ApiModelProperty(example = "200", value = "")
 
   @Valid
-  public BigDecimal getTransactionAmountLimit() {
+  public double getTransactionAmountLimit() {
     return transactionAmountLimit;
   }
 
-  public void setTransactionAmountLimit(BigDecimal transactionAmountLimit) {
+  public void setTransactionAmountLimit(double transactionAmountLimit) {
     this.transactionAmountLimit = transactionAmountLimit;
   }
 
-  public Account balanceLimit(BigDecimal balanceLimit) {
+  public Account balanceLimit(double balanceLimit) {
     this.balanceLimit = balanceLimit;
     return this;
   }
@@ -216,11 +212,11 @@ public class Account   {
   @NotNull
 
   @Valid
-  public BigDecimal getBalanceLimit() {
+  public double getBalanceLimit() {
     return balanceLimit;
   }
 
-  public void setBalanceLimit(BigDecimal balanceLimit) {
+  public void setBalanceLimit(double balanceLimit) {
     this.balanceLimit = balanceLimit;
   }
 

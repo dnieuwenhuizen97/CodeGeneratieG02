@@ -59,13 +59,12 @@ public class UsersApiController implements UsersApi {
             return new ResponseEntity(HttpStatus.FORBIDDEN);
     public ResponseEntity<Account> createAccountByUser(@ApiParam(value = "" ,required=true )  @Valid @RequestBody Account body
             , @ApiParam(value = "user of a specific account",required=true) @PathVariable("userId") Integer userId
-    ) {
+    ){
         String accept = request.getHeader("Accept");
 
         String apiKeyAuth = request.getHeader("ApiKeyAuth");
         if(!authService.IsUserAuthenticated(apiKeyAuth, userId, true))
             return new ResponseEntity(HttpStatus.FORBIDDEN);
-
 
         return new ResponseEntity<Account>(accountService.createAccount(body, userId), HttpStatus.CREATED);
     }

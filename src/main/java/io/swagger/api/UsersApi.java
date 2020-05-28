@@ -60,7 +60,7 @@ public interface UsersApi {
             method = RequestMethod.POST)
     ResponseEntity<Account> createAccountByUser(@ApiParam(value = "" ,required=true )  @Valid @RequestBody Account body
             ,@ApiParam(value = "user of a specific account",required=true) @PathVariable("userId") Integer userId
-    );
+    ) throws Exception;
 
 
     @ApiOperation(value = "Create user", nickname = "createUser", notes = "Creates user and adds it to the database.", response = User.class, authorizations = {
