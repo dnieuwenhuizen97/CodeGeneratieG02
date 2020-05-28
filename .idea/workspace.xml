@@ -1,33 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d049dca3-d6f9-4932-a4e5-24057367c984" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/static/createtransaction.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/static/css/style.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/static/getAllTransactions.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/static/getAllTransactionsForCustomer.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/static/img/bank-banner.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/static/js/javascript.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/static/style.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/io/swagger/api/TransactionsControllerTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/io/swagger/api/LoginModelTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/io/swagger/api/RegisterRequestRepositoryTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/io/swagger/api/TransactionModelTest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/io/swagger/api/TransactionRepositoryTest.java" afterDir="false" />
+    <list default="true" id="d049dca3-d6f9-4932-a4e5-24057367c984" name="Default Changelist" comment="Tests geschreven voor Transactions (Controller/Repo/Model)">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/io/swagger/config/myApplicationRunner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/swagger/config/myApplicationRunner.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/io/swagger/controller/TransactionsApiController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/swagger/controller/TransactionsApiController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/io/swagger/controller/UsersApiController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/swagger/controller/UsersApiController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/io/swagger/model/Transaction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/swagger/model/Transaction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/io/swagger/service/TransactionService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/swagger/service/TransactionService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/swagger-spring.iml" beforeDir="false" afterPath="$PROJECT_DIR$/swagger-spring.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/io/swagger/config/myApplicationRunner$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/io/swagger/config/myApplicationRunner$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/io/swagger/config/myApplicationRunner.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/io/swagger/config/myApplicationRunner.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/io/swagger/controller/TransactionsApiController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/io/swagger/controller/TransactionsApiController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/io/swagger/controller/UsersApiController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/io/swagger/controller/UsersApiController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/io/swagger/model/Transaction$TransactionTypeEnum.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/io/swagger/model/Transaction$TransactionTypeEnum.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/io/swagger/model/Transaction.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/io/swagger/model/Transaction.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/io/swagger/service/TransactionService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/io/swagger/service/TransactionService.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -89,6 +64,11 @@
     <property name="project.structure.side.proportion" value="0.2" />
     <property name="restartRequiresConfirmation" value="false" />
     <property name="settings.editor.selected.configurable" value="configurable.group.editor" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="io.swagger.api" />
+    </key>
   </component>
   <component name="RunManager" selected="JUnit.TransactionRepositoryTest.findTransactionByAccountToShouldReturnNotNull">
     <configuration name="Swagger2SpringBoot" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
@@ -187,8 +167,16 @@
       <workItem from="1590488478423" duration="4000" />
       <workItem from="1590571784365" duration="3517000" />
       <workItem from="1590660935247" duration="33000" />
-      <workItem from="1590661734532" duration="265000" />
+      <workItem from="1590661734532" duration="567000" />
     </task>
+    <task id="LOCAL-00001" summary="Tests geschreven voor Transactions (Controller/Repo/Model)">
+      <created>1590662212596</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1590662212596</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -196,6 +184,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="Tests geschreven voor Transactions (Controller/Repo/Model)" />
+    <option name="LAST_COMMIT_MESSAGE" value="Tests geschreven voor Transactions (Controller/Repo/Model)" />
   </component>
   <component name="WindowStateProjectService">
     <state x="2000" y="205" key="#Notifications" timestamp="1589738112470">
@@ -218,10 +208,10 @@
       <screen x="1440" y="0" width="1920" height="1080" />
     </state>
     <state x="2188" y="406" width="423" height="276" key="#com.intellij.refactoring.move.moveClassesOrPackages.MoveClassesOrPackagesDialog.classes/0.0.1440.900/1440.0.1920.1080@1440.0.1920.1080" timestamp="1590662094594" />
-    <state x="1987" y="142" key="CommitChangelistDialog2" timestamp="1590662193741">
+    <state x="1987" y="142" key="CommitChangelistDialog2" timestamp="1590662279432">
       <screen x="1440" y="0" width="1920" height="1080" />
     </state>
-    <state x="1987" y="142" key="CommitChangelistDialog2/0.0.1440.900/1440.0.1920.1080@1440.0.1920.1080" timestamp="1590662193741" />
+    <state x="1987" y="142" key="CommitChangelistDialog2/0.0.1440.900/1440.0.1920.1080@1440.0.1920.1080" timestamp="1590662279432" />
     <state width="1878" height="276" key="GridCell.Tab.0.bottom" timestamp="1590662193785">
       <screen x="1440" y="0" width="1920" height="1080" />
     </state>
@@ -323,14 +313,18 @@
     <state width="1878" height="374" key="GridCell.Tab.1.right/0.0.1440.900/1440.0.1920.1080@1440.0.1920.1080" timestamp="1590662019038" />
     <state width="1398" height="303" key="GridCell.Tab.1.right/0.0.1440.900@0.0.1440.900" timestamp="1589989500048" />
     <state width="1398" height="303" key="GridCell.Tab.1.right/0.23.1440.823@0.23.1440.823" timestamp="1590006949718" />
+    <state x="2116" y="263" key="MultipleFileMergeDialog" timestamp="1590662242876">
+      <screen x="1440" y="0" width="1920" height="1080" />
+    </state>
+    <state x="2116" y="263" key="MultipleFileMergeDialog/0.0.1440.900/1440.0.1920.1080@1440.0.1920.1080" timestamp="1590662242876" />
     <state x="1909" y="179" key="SettingsEditor" timestamp="1590661952675">
       <screen x="1440" y="0" width="1920" height="1080" />
     </state>
     <state x="1909" y="179" key="SettingsEditor/0.0.1440.900/1440.0.1920.1080@1440.0.1920.1080" timestamp="1590661952675" />
-    <state x="2000" y="268" key="Vcs.Push.Dialog.v2" timestamp="1589738102594">
+    <state x="2000" y="268" key="Vcs.Push.Dialog.v2" timestamp="1590662217169">
       <screen x="1440" y="0" width="1920" height="1080" />
     </state>
-    <state x="2000" y="268" key="Vcs.Push.Dialog.v2/0.0.1440.900/1440.0.1920.1080@1440.0.1920.1080" timestamp="1589738102594" />
+    <state x="2000" y="268" key="Vcs.Push.Dialog.v2/0.0.1440.900/1440.0.1920.1080@1440.0.1920.1080" timestamp="1590662217169" />
     <state x="2183" y="325" key="chooseDestDirectoryDialog" timestamp="1590662055874">
       <screen x="1440" y="0" width="1920" height="1080" />
     </state>
@@ -343,6 +337,10 @@
     <state x="397" y="280" key="com.intellij.ide.util.TipDialog/0.23.1440.820/1440.23.1920.1057@0.23.1440.820" timestamp="1589968875487" />
     <state x="1969" y="354" key="com.intellij.ide.util.TipDialog/0.23.1440.820/1440.23.1920.1057@1440.23.1920.1057" timestamp="1589891253558" />
     <state x="397" y="281" key="com.intellij.ide.util.TipDialog/0.23.1440.822@0.23.1440.822" timestamp="1590060537787" />
+    <state x="2205" y="464" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1590662275703">
+      <screen x="1440" y="0" width="1920" height="1080" />
+    </state>
+    <state x="2205" y="464" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1440.900/1440.0.1920.1080@1440.0.1920.1080" timestamp="1590662275703" />
     <state width="600" height="424" key="javadoc.popup" timestamp="1589718675940">
       <screen x="1440" y="0" width="1920" height="1080" />
     </state>
