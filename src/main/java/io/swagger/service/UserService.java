@@ -8,10 +8,13 @@ import org.springframework.stereotype.Service;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
+import java.security.SecureRandom;
 
 @Service
 public class UserService {
@@ -29,6 +32,13 @@ public class UserService {
     }
     public List<RegisterRequest> FindAllRegisterRequests(){return (List<RegisterRequest>) registerRequestRepository.findAll();};
 
+    public User SignUpUser(User user) throws Exception {
+        if (FindUserByEmail(user.getEmail()) != null)
+            throw new Exception("User already exists");
+        else if (!user.getEmail().matches("^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$"))
+            throw new Exception("Invalid email");
+        else if (!isValidPassword(user.getPassword()))
+            throw new Exception("Password needs to be 8-15 characters long and should contain at least ONE digit, ONE special character and ONE uppercase letter");
     public User SignUpUser(User user) throws Exception {
         //register request will give an hashed password
         if(generalMethodsService.isPasswordHashed(user.getPassword())) {
@@ -62,6 +72,8 @@ public class UserService {
         return userRepository.findUserByEmail(email);
     }
 
+    public List<User> FindUserByName(String name) {return userRepository.findUsersByLastName(name.toLowerCase()); }
+
     public List<User> GetAllUsers() {
         return (List<User>)userRepository.findAll();
     }
@@ -90,7 +102,6 @@ public class UserService {
             throw new Exception("Invalid email");
 
         userRepository.updateUser(u.getFirstName(), u.getLastName(), u.getEmail(), u.getPassword(), userId);
-
         User updatedUser = userRepository.findById(userId).get();
         return updatedUser;
     }

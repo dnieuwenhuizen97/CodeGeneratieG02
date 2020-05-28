@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+<<<<<<< HEAD
     <title>Login</title>
 </head>
 <body>
@@ -17,12 +18,61 @@
     <label>Password:</label> <input name="password" type="password"><br>
     <br />
     <input type="button" id="loginUser" value="Login" onclick="POSTLogin()">
+=======
+    <link
+        rel="stylesheet"
+        type="text/css"
+        href="css/style.css"
+    />
+    <title>Login</title>
+</head>
+<body>
+<div class="bodydiv">
+    <div class="navbar">
+        <a class="aNav" href="http://localhost:8080/index.html">Home</a>
+        <a class="aNav" href="http://localhost:8080/login.html">Login</a>
+        <a class="aNav" href="http://localhost:8080/machine.html">Machine</a>
+        <div class="dropdown">
+            <button class="dropbtn">Users
+                <i class="drop"></i>
+            </button>
+            <div class="dropdown-content">
+                <a class="aNav" href="http://localhost:8080/signUp.html">SignUp</a>
+                <a class="aNav" href="http://localhost:8080/allUsers.html">Show Users</a>
+                <a class="aNav" href="http://localhost:8080/updateUser.html">Update User</a>
+            </div>
+        </div>
+        <div id="currentuser"></div>
+    </div>
+
+<form id="loginForm">
+
+    <br>
+    <label>Email: </label> <input name="username"><br>
+    <label>Password:</label> <input name="password" type="password"><br>
+    <br />
+    <input type="button" id="loginUser" class="buttons" value="Login" onclick="POSTLogin()">
+>>>>>>> DylanBranch
 </form>
 
 <table id="table" border="1"></table>
 <h1 id="authToken"></h1>
 <script>
 
+<<<<<<< HEAD
+=======
+    window.onload = function() {
+        var userId = sessionStorage.getItem("UserId");
+
+        if (userId === null) {
+            document.getElementById("currentuser").innerHTML = "Not logged in";
+        }
+        else {
+            document.getElementById("currentuser").innerHTML = "Hello user '" + userId + "'";
+        }
+    }
+
+>>>>>>> DylanBranch
     function POSTLogin(){
         var xhr =  new XMLHttpRequest();
         xhr.open('POST','http://localhost:8080/login');
@@ -32,6 +82,10 @@
             let response = JSON.parse(xhr.response);
             sessionStorage.setItem("AuthToken", response.AuthToken);
             sessionStorage.setItem("UserId", response.userId);
+<<<<<<< HEAD
+=======
+            location.reload();
+>>>>>>> DylanBranch
         }
         xhr.send(JSON.stringify(
             {
@@ -42,5 +96,9 @@
 
     }
 </script>
+<<<<<<< HEAD
+=======
+</div>
+>>>>>>> DylanBranch
 </body>
 </html>

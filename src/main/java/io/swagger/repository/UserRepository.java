@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.data.jpa.repository.Query;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Repository
 public interface UserRepository extends CrudRepository<User, Integer> {
@@ -17,6 +18,9 @@ public interface UserRepository extends CrudRepository<User, Integer> {
 
     @Query("SELECT u FROM User u WHERE u.email =:email")
     User findUserByEmail(@Param("email") String email);
+
+    @Query("Select u FROM User u WHERE LOWER(u.lastName) =:lastName")
+    List<User> findUsersByLastName(@Param("lastName") String lastName);
 
     @Transactional
     @Modifying
