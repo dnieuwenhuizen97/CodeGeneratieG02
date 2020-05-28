@@ -38,6 +38,21 @@ public class myApplicationRunner implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments applicationArguments) throws Exception {
+
+        /*       Files.lines(Paths.get("address.csv"))
+                .forEach(
+                        line -> addressRepository.save(
+                                new Address(line.split(",")[0],
+                                        line.split(",")[1],
+                                        line.split(",")[2],
+                                        line.split(",")[3])
+                                        //check how many lines.
+                        )
+                );
+*/
+
+
+
        registerRequestRepository.save(new RegisterRequest("Pascalle", "Schipper", generalMethodsService.cryptWithMD5("password"), "pa@test.com"));
 
         transactionRepository.save(new Transaction( "transaction", LocalDateTime.now(), "NL12INHO1234567890", "NL13INHO1234567890", 44.44, 100053 ));
