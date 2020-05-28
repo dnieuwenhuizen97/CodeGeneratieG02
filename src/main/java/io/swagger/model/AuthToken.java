@@ -20,7 +20,7 @@ import javax.validation.constraints.*;
 @Entity
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-05-03T10:32:36.707Z[GMT]")
 public class AuthToken   {
-  @JsonProperty("AuthToken")
+  @JsonProperty("authToken")
   @Id
   private String authToken = null;
 

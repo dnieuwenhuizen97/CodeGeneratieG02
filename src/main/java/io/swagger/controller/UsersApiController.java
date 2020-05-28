@@ -51,6 +51,17 @@ public class UsersApiController implements UsersApi {
         this.transactionService = transactionService;
         this.accountService = accountService;
     }
+    public ResponseEntity<Void> deleteRegisterRequestById(@ApiParam(value = "The id from the request",required=true) @PathVariable("requestId") Integer requestId
+    ) {
+        String apiKeyAuth = request.getHeader("ApiKeyAuth");
+        if(!authService.IsUserAuthenticated(apiKeyAuth, 0, true))
+            return new ResponseEntity(HttpStatus.FORBIDDEN);
+
+        String accept = request.getHeader("Accept");
+        return new ResponseEntity<Void>(HttpStatus.valueOf(authService.DeleteRegisterRequest(requestId)));
+    }
+
+
     public ResponseEntity<Account> createAccountByUser(@ApiParam(value = "" ,required=true )  @Valid @RequestBody Account body
             , @ApiParam(value = "user of a specific account",required=true) @PathVariable("userId") Integer userId
     ) {
@@ -69,7 +80,7 @@ public class UsersApiController implements UsersApi {
         String accept = request.getHeader("Accept");
 
         String apiKeyAuth = request.getHeader("ApiKeyAuth");
-        if(!authService.IsUserAuthenticated(apiKeyAuth, 99, true)) {
+        if(!authService.IsUserAuthenticated(apiKeyAuth, 0, true)) {
             try {
                 authService.CreateRegisterRequest(new RegisterRequest(body.getFirstName(), body.getLastName(), body.getPassword(), body.getEmail()));
                 return new ResponseEntity(HttpStatus.OK);
@@ -94,7 +105,7 @@ public class UsersApiController implements UsersApi {
         String accept = request.getHeader("Accept");
 
         String apiKeyAuth = request.getHeader("ApiKeyAuth");
-        if(!authService.IsUserAuthenticated(apiKeyAuth, 99, true))
+        if(!authService.IsUserAuthenticated(apiKeyAuth, 0, true))
             return new ResponseEntity(HttpStatus.FORBIDDEN);
 
         return new ResponseEntity<Void>(HttpStatus.valueOf(userService.DeleteUserById(userId)));
@@ -170,7 +181,7 @@ public class UsersApiController implements UsersApi {
         String accept = request.getHeader("Accept");
 
         String apiKeyAuth = request.getHeader("ApiKeyAuth");
-        if(!authService.IsUserAuthenticated(apiKeyAuth, 99, true))
+        if(!authService.IsUserAuthenticated(apiKeyAuth, 0, true))
             return new ResponseEntity(HttpStatus.FORBIDDEN);
 
         if (accept != null && accept.contains("application/json")) {
@@ -212,8 +223,11 @@ public class UsersApiController implements UsersApi {
                 return new ResponseEntity<Transaction>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
+        Transaction machineTransfer = transactionService.createMachineTransfer(userId, body);
+        if(machineTransfer == null)
+            return new ResponseEntity<Transaction>(HttpStatus.NOT_ACCEPTABLE);
 
-        return new ResponseEntity<Transaction>(transactionService.createMachineTransfer(userId, body), HttpStatus.CREATED);
+        return new ResponseEntity<Transaction>(machineTransfer, HttpStatus.CREATED);
     }
 
     public ResponseEntity<User> updateUserById(@ApiParam(value = "" ,required=true )  @Valid @RequestBody User body

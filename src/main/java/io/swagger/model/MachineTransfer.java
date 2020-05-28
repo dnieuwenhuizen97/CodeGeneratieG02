@@ -14,6 +14,7 @@ import java.math.BigDecimal;
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-05-12T14:55:03.233Z[GMT]")
 public class MachineTransfer {
 
+
     public MachineTransfer(double amount, String transferType) {
         this.amount = amount;
         this.transferType = TransferTypeEnum.fromValue(transferType);

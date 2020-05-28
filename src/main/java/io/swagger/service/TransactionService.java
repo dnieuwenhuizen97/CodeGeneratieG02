@@ -3,6 +3,7 @@ package io.swagger.service;
 import io.swagger.model.Account;
 import io.swagger.model.MachineTransfer;
 import io.swagger.model.Transaction;
+import io.swagger.repository.AccountRepository;
 import org.springframework.stereotype.Service;
 import io.swagger.repository.TransactionRepository;
 
@@ -10,15 +11,20 @@ import java.math.BigDecimal;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class TransactionService {
     TransactionRepository transactionRepository;
+    AccountRepository accountRepository;
+    private Account bankOwnAccount;
 
-    public TransactionService(TransactionRepository transactionRepository) {
+    public TransactionService(TransactionRepository transactionRepository, AccountRepository accountRepository) {
         this.transactionRepository = transactionRepository;
+        this.accountRepository = accountRepository;
     }
     public List<Transaction> getAllTransactions() {
         return (List<Transaction>) transactionRepository.findAll();
@@ -41,10 +47,38 @@ public class TransactionService {
 
     public Transaction createMachineTransfer(int userId, MachineTransfer machineTransfer)
     {
-        //withdraw remove from bank account and banks own
-        //deposit add to bank account and banks own
+        this.bankOwnAccount =  accountRepository.findById("NL01INHO0000000001").get();
+        List<Account> userAccounts = accountRepository.findAccountByOwner(userId);
 
-        Transaction machineTransaction = new Transaction(machineTransfer.getTransferType().toString(), LocalDateTime.now(), "NL13INHO1234567890", "NL13INHO1234567890", machineTransfer.getAmount(), userId);
+        if(userAccounts == null)
+            return null;
+
+        String currentUserAccount = null;
+        for (Account userAccount: userAccounts) {
+            if(userAccount.getAccountType() == Account.AccountTypeEnum.CURRENT)
+            {
+                currentUserAccount = userAccount.getIban();
+                switch (machineTransfer.getTransferType())
+                {
+                    //add amount to account and bank own account;
+                    case DEPOSIT:
+                        userAccount.setBalance(userAccount.getBalance() + machineTransfer.getAmount());
+                        bankOwnAccount.setBalance(bankOwnAccount.getBalance() + machineTransfer.getAmount());
+                        break;
+                    //remove amount from user account and bank account
+                    case WITHDRAW:
+                        if(userAccount.getBalance() < machineTransfer.getAmount())
+                            return null;
+                        userAccount.setBalance(userAccount.getBalance() - machineTransfer.getAmount());
+                        bankOwnAccount.setBalance(bankOwnAccount.getBalance() - machineTransfer.getAmount());
+                        break;
+                }
+            }
+        }
+        //only savings
+        if(currentUserAccount == null)
+            return null;
+        Transaction machineTransaction = new Transaction(machineTransfer.getTransferType().toString(), LocalDateTime.now().withSecond(0).withNano(0), currentUserAccount, currentUserAccount, machineTransfer.getAmount(), userId);
         transactionRepository.save(machineTransaction);
         return machineTransaction;
     }
