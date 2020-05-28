@@ -8,16 +8,23 @@ import static org.junit.Assert.assertNotNull;
 
 public class UserTest {
 
-    private User user;
+    private User userWithAllParams;
+    private User userWithoutParams;
 
     @Before
     public void setUp() {
-        user = new User("John", "Doe", "Password1!", "johndoe@gmail.com", "customer");
+        userWithAllParams = new User("John", "Doe", "Password1!", "johndoe@gmail.com", "customer");
+        userWithoutParams = new User();
     }
 
     @Test
-    public void creatingNewUserShouldNotBeNull() throws Exception {
-        assertNotNull(user);
+    public void creatingNewUserWithAllParamsShouldNotBeNull() throws Exception {
+        assertNotNull(userWithAllParams);
+    }
+
+    @Test
+    public void creatingNewUserWithoutParamsShouldNotBeNull() throws Exception {
+        assertNotNull(userWithoutParams);
     }
 
 }

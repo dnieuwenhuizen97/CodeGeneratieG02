@@ -48,13 +48,6 @@ public class UsersControllerTest {
     }
 
     @Test
-    public void getAllUsersThatReturnsInvalidJSONFormatShouldReturnInternalServerError() throws Exception {
-        //mvc.perform(get("/users")
-          //      .header("ApiKeyAuth", "1234-abcd-5678-efgh"))
-            //    .andExpect(status().isInternalServerError());
-    }
-
-    @Test
     public void getAllUsersWithInvalidTokenShouldReturnForbidden() throws Exception {
         mvc.perform(get("/users")
                 .header("ApiKeyAuth", "InvalidToken"))
