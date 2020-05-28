@@ -45,8 +45,9 @@ public class myApplicationRunner implements ApplicationRunner {
         transactionRepository.findAll()
                 .forEach(System.out::println);
 
-        userRepository.save(new User("employee", "employee", "password","employee@gmail.com",  "employee"));
+        userRepository.save(new User("employee", "employee", "password","employee",  "employee"));
         userRepository.save(new User("customer", "customer", "password","customer",  "customer"));
+        userRepository.save(new User("test", "user", "Password1!","testuser@gmail.com",  "customer"));
         userRepository.findAll()
                 .forEach(System.out::println);
 

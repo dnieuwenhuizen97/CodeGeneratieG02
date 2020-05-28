@@ -118,7 +118,7 @@ public class UsersControllerTest {
                 .header("ApiKeyAuth", "1234-abcd-5678-efgh"))
                 .andExpect(status().isCreated())
                 .andExpect(content().json("{\n" +
-                        "    'user_id': 100054,\n" +
+                        "    'user_id': 100055,\n" +
                         "    'firstName': 'John',\n" +
                         "    'lastName': 'Doe',\n" +
                         "    'password': 'Password1!',\n" +
@@ -208,7 +208,7 @@ public class UsersControllerTest {
         createUser.put("firstName", "John");
         createUser.put("lastName", "Doe");
         createUser.put("password", "Password1!");
-        createUser.put("email", "employee@gmail.com");
+        createUser.put("email", "testuser@gmail.com");
         createUser.put("user_type", "customer");
 
         mvc.perform(post("/users")

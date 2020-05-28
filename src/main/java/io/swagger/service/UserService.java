@@ -39,8 +39,6 @@ public class UserService {
 
     public User FindUserById(int userId)
     {
-        //to do user bestaat niet
-
         return userRepository.findById(userId).get();
     }
 
