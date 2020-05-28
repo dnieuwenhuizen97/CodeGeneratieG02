@@ -55,11 +55,11 @@ public class myApplicationRunner implements ApplicationRunner {
                 .forEach(System.out::println);
 
 
-        accountRepository.save(new Account("NL05INHO0993873040","savings", 200, new BigDecimal(3500), new BigDecimal(35000000), 100053, 25.00));
-        accountRepository.save(new Account("NL88INHO0993873040","current", 200, new BigDecimal(3500), new BigDecimal(35000000), 100053, 25.00));
-        accountRepository.save(new Account("NL04INHO0463973767", "current", 200, new BigDecimal(3500), new BigDecimal(35000000), 100052, 25.00));
-        accountRepository.save(new Account("NL67INHO0463973767", "savings", 200, new BigDecimal(3500), new BigDecimal(35000000), 100052, 25.00));
-        accountRepository.save(new Account("NL15INHO0463973767", "savings", 200, new BigDecimal(3500), new BigDecimal(35000000), 100052, 25.00));
+        accountRepository.save(new Account("NL05INHO0993873040","savings", 200, 3500, 0, 100053, 25.00));
+        accountRepository.save(new Account("NL88INHO0993873040","current", 200, 3500, 35000000, 100053, 25.00));
+        accountRepository.save(new Account("NL12INHO0123456789", "current", 200, 3500, 35000000, 100052, 25.00));
+        accountRepository.save(new Account("NL67INHO0463973767", "savings", 200, 3500,35000000, 100052, 25.00));
+        accountRepository.save(new Account("NL15INHO0463973767", "savings", 200, 3500, 35000000, 100052, 25.00));
         accountRepository.findAll()
                 .forEach(System.out::println);
 
