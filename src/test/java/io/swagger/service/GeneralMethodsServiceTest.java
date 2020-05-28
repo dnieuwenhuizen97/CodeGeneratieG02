@@ -1,4 +1,4 @@
-package io.swagger.api;
+package io.swagger.service;
 
 import io.swagger.service.GeneralMethodsService;
 import junit.framework.Assert;

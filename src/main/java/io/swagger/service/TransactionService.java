@@ -1,10 +1,8 @@
 package io.swagger.service;
 
-import io.swagger.model.Account;
-import io.swagger.model.AuthToken;
-import io.swagger.model.MachineTransfer;
-import io.swagger.model.Transaction;
+import io.swagger.model.*;
 import io.swagger.repository.AccountRepository;
+import io.swagger.repository.AuthTokenRepository;
 import org.springframework.stereotype.Service;
 import io.swagger.repository.TransactionRepository;
 import io.swagger.repository.UserRepository;
@@ -27,11 +25,10 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class TransactionService {
-    TransactionRepository transactionRepository;
-    AccountRepository accountRepository;
+    private TransactionRepository transactionRepository;
+    private AccountRepository accountRepository;
     private Account bankOwnAccount;
     private UserRepository userRepository;
-    private AccountRepository accountRepository;
     private AuthTokenRepository authTokenRepository;
 
     public static String EXTERNAL_IBAN = "NL01INHO0000000001";
@@ -69,7 +66,7 @@ public class TransactionService {
 
         List<Transaction>  allTransaction = transactionRepository.findByIban(iban);
         Set<Transaction> allTransactionSet = new HashSet<Transaction>();
-        if(loggedInUser.getUserType()==UserTypeEnum.CUSTOMER){
+        if(loggedInUser.getUserType()== User.UserTypeEnum.CUSTOMER){
             List<Account> accounts = accountRepository.findAccountByOwner(loggedInUser.getUserId());
             for(Account account: accounts){
                 for(Transaction tans:allTransaction){
@@ -315,7 +312,7 @@ public class TransactionService {
                 throw new Exception("You cannot transfer nothing.");
             }
             //Needs to be changed to the absolute limit
-            else if(accountFrom.getBalanceLimit().doubleValue() < transaction.getAmount()){
+            else if(accountFrom.getBalanceLimit() < transaction.getAmount()){
                 throw new Exception("Your have extended your absolute limit, please deposit money first.");
             }
             //Check is transfer is higher than balance
@@ -327,7 +324,7 @@ public class TransactionService {
                 throw new Exception(String.format("You have reached your day limit of %d transactions.",accountFrom.getTransactionDayLimit()));
             }
             //Amount of transactions per day
-            else if((getTodaysTransactionAmount(user) + transaction.getAmount()) >= accountFrom.getTransactionAmountLimit().doubleValue()){
+            else if((getTodaysTransactionAmount(user) + transaction.getAmount()) >= accountFrom.getTransactionAmountLimit()){
                 throw new Exception("You have reached your transaction limit, please wait until tomorrow.");
             }
         }else{

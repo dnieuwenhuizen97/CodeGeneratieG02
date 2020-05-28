@@ -55,9 +55,9 @@ public class myApplicationRunner implements ApplicationRunner {
 
        registerRequestRepository.save(new RegisterRequest("Pascalle", "Schipper", generalMethodsService.cryptWithMD5("password"), "pa@test.com"));
 
-        transactionRepository.save(new Transaction( "transaction", LocalDateTime.now(), "NL12INHO1234567890", "NL13INHO1234567890", 44.44, 100053 ));
-        transactionRepository.save(new Transaction( "transaction", LocalDateTime.now(), "NL13INHO1234567890", "NL13INHO1234567890", 44.44, 100053 ));
-        transactionRepository.save(new Transaction( "transaction", LocalDateTime.now(), "NL14INHO1234567890", "NL13INHO1234567890", 44.44, 100052));
+        transactionRepository.save(new Transaction( "transaction", LocalDateTime.now(), "NL12INHO1234567890", "NL13INHO1234567890", 44.44, 100002 ));
+        transactionRepository.save(new Transaction( "transaction", LocalDateTime.now(), "NL13INHO1234567890", "NL13INHO1234567890", 44.44, 100002 ));
+        transactionRepository.save(new Transaction( "transaction", LocalDateTime.now(), "NL14INHO1234567890", "NL13INHO1234567890", 44.44, 100002));
         transactionRepository.findAll()
                 .forEach(System.out::println);
 
@@ -74,40 +74,35 @@ public class myApplicationRunner implements ApplicationRunner {
                 .forEach(System.out::println);
 
 
-        accountRepository.save(new Account("NL01INHO0000000001","current", 1, new BigDecimal(3500), new BigDecimal(35000000), 100001, 100.00));
-
-        accountRepository.save(new Account("NL05INHO0993873040","savings", 200, new BigDecimal(3500), new BigDecimal(35000000), 100002, 25.00));
-        accountRepository.save(new Account("NL88INHO0993873040","current", 200, new BigDecimal(3500), new BigDecimal(35000000), 100002, 25.00));
-
-        accountRepository.save(new Account("NL04INHO0463973767", "current", 200, new BigDecimal(3500), new BigDecimal(35000000), 100003, 25.00));
-        accountRepository.save(new Account("NL67INHO0463973767", "savings", 200, new BigDecimal(3500), new BigDecimal(35000000), 100003, 25.00));
-
-        accountRepository.save(new Account("NL67INHO0463973768", "savings", 200, new BigDecimal(3500), new BigDecimal(35000000), 100004, 25.00));
+        accountRepository.save(new Account("NL01INHO0000000001","current", 1, 3500, 35000000, 100001, 100.00));
+        accountRepository.save(new Account("NL05INHO0993873040","savings", 200, 3500, 35000000, 100002, 25.00));
+        accountRepository.save(new Account("NL88INHO0993873040","current", 200, 3500, 35000000, 100002, 25.00));
+        accountRepository.save(new Account("NL67INHO0463973767", "savings", 200, 3500, 35000000, 100003, 25.00));
+        accountRepository.save(new Account("NL67INHO0463973768", "savings", 200, 3500, 35000000, 100004, 25.00));
 
         accountRepository.findAll()
                 .forEach(System.out::println);
 
-        transactionRepository.save(new Transaction( "transaction", LocalDateTime.now(), "NL88INHO0993873040", "NL05INHO0993873040", 30.44, 100052 )); // employee doing transaction for customer
-        transactionRepository.save(new Transaction( "transaction", LocalDateTime.now(), "NL04INHO0463973767", "NL67INHO0463973767", 40.44, 100052 )); // employee doing transaction for himself
-        transactionRepository.save(new Transaction( "transaction", LocalDateTime.now(), "NL88INHO0993873040", "NL05INHO0993873040", 60.44, 100053 )); // customer doing transaction for himself
-        transactionRepository.save(new Transaction( "transaction", LocalDateTime.now(), "NL88INHO0993873040", "NL05INHO0993873040", 50.44, 100053 )); // customer doing transaction for himself
-        transactionRepository.save(new Transaction( "transaction", LocalDateTime.now(), "NL88INHO0993873040", "NL05INHO0993873040", 50.44, 100053 )); // customer doing transaction for himself
-        transactionRepository.save(new Transaction( "transaction", LocalDateTime.now(), "NL88INHO0993873040", "NL05INHO0993873040", 50.44, 100053 )); // customer doing transaction for himself
-        transactionRepository.save(new Transaction( "transaction", LocalDateTime.now(), "NL88INHO0993873040", "NL05INHO0993873040", 50.44, 100053 )); // customer doing transaction for himself
-        transactionRepository.save(new Transaction( "transaction", LocalDateTime.now(), "NL88INHO0993873040", "NL05INHO0993873040", 50.44, 100053 )); // customer doing transaction for himself
-        transactionRepository.save(new Transaction( "transaction", LocalDateTime.now(), "NL88INHO0993873040", "NL05INHO0993873040", 50.44, 100053 )); // customer doing transaction for himself
-        transactionRepository.save(new Transaction( "transaction", LocalDateTime.now(), "NL88INHO0993873040", "NL05INHO0993873040", 50.44, 100053 )); // customer doing transaction for himself
-        transactionRepository.save(new Transaction( "transaction", LocalDateTime.now(), "NL88INHO0993873040", "NL05INHO0993873040", 50.44, 100053 )); // customer doing transaction for himself
-        transactionRepository.save(new Transaction( "transaction", LocalDateTime.now(), "NL88INHO0993873040", "NL05INHO0993873040", 50.44, 100053 )); // customer doing transaction for himself
-        transactionRepository.save(new Transaction( "transaction", LocalDateTime.now(), "NL88INHO0993873040", "NL05INHO0993873040", 50.44, 100053 )); // customer doing transaction for himself
-        transactionRepository.save(new Transaction( "transaction", LocalDateTime.now(), "NL88INHO0993873040", "NL05INHO0993873040", 50.44, 100053 )); // customer doing transaction for himself
-        transactionRepository.save(new Transaction( "transaction", LocalDateTime.now(), "NL88INHO0993873040", "NL10INHO0993873040", 50.44, 100053 )); // customer doing transaction for himself
+        transactionRepository.save(new Transaction( "transaction", LocalDateTime.now(), "NL88INHO0993873040", "NL05INHO0993873040", 30.44, 100002 )); // employee doing transaction for customer
+        transactionRepository.save(new Transaction( "transaction", LocalDateTime.now(), "NL04INHO0463973767", "NL67INHO0463973767", 40.44, 100002 )); // employee doing transaction for himself
+        transactionRepository.save(new Transaction( "transaction", LocalDateTime.now(), "NL88INHO0993873040", "NL05INHO0993873040", 60.44, 100002 )); // customer doing transaction for himself
+        transactionRepository.save(new Transaction( "transaction", LocalDateTime.now(), "NL88INHO0993873040", "NL05INHO0993873040", 50.44, 100003 )); // customer doing transaction for himself
+        transactionRepository.save(new Transaction( "transaction", LocalDateTime.now(), "NL88INHO0993873040", "NL05INHO0993873040", 50.44, 100004)); // customer doing transaction for himself
+        transactionRepository.save(new Transaction( "transaction", LocalDateTime.now(), "NL88INHO0993873040", "NL05INHO0993873040", 50.44, 100004 )); // customer doing transaction for himself
+        transactionRepository.save(new Transaction( "transaction", LocalDateTime.now(), "NL88INHO0993873040", "NL05INHO0993873040", 50.44, 100004 )); // customer doing transaction for himself
+        transactionRepository.save(new Transaction( "transaction", LocalDateTime.now(), "NL88INHO0993873040", "NL05INHO0993873040", 50.44, 100004 )); // customer doing transaction for himself
+        transactionRepository.save(new Transaction( "transaction", LocalDateTime.now(), "NL88INHO0993873040", "NL05INHO0993873040", 50.44, 100004)); // customer doing transaction for himself
+        transactionRepository.save(new Transaction( "transaction", LocalDateTime.now(), "NL88INHO0993873040", "NL05INHO0993873040", 50.44, 100004 )); // customer doing transaction for himself
+        transactionRepository.save(new Transaction( "transaction", LocalDateTime.now(), "NL88INHO0993873040", "NL05INHO0993873040", 50.44, 100004 )); // customer doing transaction for himself
+        transactionRepository.save(new Transaction( "transaction", LocalDateTime.now(), "NL88INHO0993873040", "NL05INHO0993873040", 50.44, 100004 )); // customer doing transaction for himself
+        transactionRepository.save(new Transaction( "transaction", LocalDateTime.now(), "NL88INHO0993873040", "NL05INHO0993873040", 50.44, 100004 )); // customer doing transaction for himself
+        transactionRepository.save(new Transaction( "transaction", LocalDateTime.now(), "NL88INHO0993873040", "NL05INHO0993873040", 50.44, 100004)); // customer doing transaction for himself
+        transactionRepository.save(new Transaction( "transaction", LocalDateTime.now(), "NL88INHO0993873040", "NL10INHO0993873040", 50.44, 100004 )); // customer doing transaction for himself
         transactionRepository.findAll()
                 .forEach(System.out::println);
 
-        userRepository.save(new User("employee", "employee", "password","employee",  "employee")); // 100052
-        userRepository.save(new User("customer", "customer", "password","customer",  "customer")); // 100053
-        userRepository.save(new User("Bank", "CodeGeneratie", "password","BankCodeGeneratie", "employee"));//100054
+
+
         userRepository.findAll()
                 .forEach(System.out::println);
 

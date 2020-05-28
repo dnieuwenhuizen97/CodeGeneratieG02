@@ -33,13 +33,6 @@ public class UserService {
     public List<RegisterRequest> FindAllRegisterRequests(){return (List<RegisterRequest>) registerRequestRepository.findAll();};
 
     public User SignUpUser(User user) throws Exception {
-        if (FindUserByEmail(user.getEmail()) != null)
-            throw new Exception("User already exists");
-        else if (!user.getEmail().matches("^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$"))
-            throw new Exception("Invalid email");
-        else if (!isValidPassword(user.getPassword()))
-            throw new Exception("Password needs to be 8-15 characters long and should contain at least ONE digit, ONE special character and ONE uppercase letter");
-    public User SignUpUser(User user) throws Exception {
         //register request will give an hashed password
         if(generalMethodsService.isPasswordHashed(user.getPassword())) {
             userRepository.save(user);

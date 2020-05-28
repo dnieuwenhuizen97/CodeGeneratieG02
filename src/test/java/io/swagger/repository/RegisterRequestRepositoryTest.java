@@ -1,4 +1,4 @@
-package io.swagger.api;
+package io.swagger.repository;
 
 import io.swagger.model.RegisterRequest;
 import io.swagger.repository.RegisterRequestRepository;

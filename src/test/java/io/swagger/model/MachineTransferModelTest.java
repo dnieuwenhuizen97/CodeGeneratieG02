@@ -1,4 +1,4 @@
-package io.swagger.api;
+package io.swagger.model;
 
 import io.swagger.model.MachineTransfer;
 import org.json.JSONObject;

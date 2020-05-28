@@ -14,6 +14,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 
 import static org.hamcrest.Matchers.hasSize;
@@ -63,7 +64,7 @@ public class UsersControllerTest {
 
     @Test
     public void getAllUsersFilteredByEmailWithNonexistingEmailShouldReturnNotAcceptable() throws Exception {
-        mvc.perform(get("/users?email=invalidemail")
+        mvc.perform(get("/users?email=noEmail")
                 .header("ApiKeyAuth", "1234-abcd-5678-efgh"))
                 .andExpect(status().isNotAcceptable());
     }
@@ -85,7 +86,7 @@ public class UsersControllerTest {
     //Get User By ID
     @Test
     public void getUserByIdWithValidTokenAndValidRoleShouldReturnOk() throws Exception {
-        mvc.perform(get("/users/100052")
+        mvc.perform(get("/users/100002")
                 .header("ApiKeyAuth", "1234-abcd-5678-efgh"))
                 .andExpect(status().isOk());
     }
@@ -121,10 +122,10 @@ public class UsersControllerTest {
                 .header("ApiKeyAuth", "1234-abcd-5678-efgh"))
                 .andExpect(status().isCreated())
                 .andExpect(content().json("{\n" +
-                        "    'user_id': 100055,\n" +
+                        "    'user_id': 100005,\n" +
                         "    'firstName': 'John',\n" +
                         "    'lastName': 'Doe',\n" +
-                        "    'password': 'Password1!',\n" +
+                        "    'password': 'cef1fb1f60529028a71f58e54',\n" +
                         "    'email': 'johndoe@gmail.com',\n" +
                         "    'user_type': 'customer'\n" +
                         "}"));
@@ -211,7 +212,7 @@ public class UsersControllerTest {
         createUser.put("firstName", "John");
         createUser.put("lastName", "Doe");
         createUser.put("password", "Password1!");
-        createUser.put("email", "testuser@gmail.com");
+        createUser.put("email", "employee");
         createUser.put("user_type", "customer");
 
         mvc.perform(post("/users")
@@ -224,7 +225,7 @@ public class UsersControllerTest {
     //Delete User
     @Test
     public void deleteUserByIdWithValidTokenAndValidRoleShouldReturnNoContent() throws Exception {
-        mvc.perform(delete("/users/100053")
+        mvc.perform(delete("/users/100002")
                 .header("ApiKeyAuth", "1234-abcd-5678-efgh"))
                 .andExpect(status().isNoContent());
     }
@@ -260,7 +261,7 @@ public class UsersControllerTest {
         updateUser.put("password", "Password1!");
         updateUser.put("email", "johndoe@gmail.com");
 
-        mvc.perform(put("/users/100052")
+        mvc.perform(put("/users/100001")
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .content(updateUser.toString())
                 .header("ApiKeyAuth", "1234-abcd-5678-efgh"))
@@ -358,4 +359,240 @@ public class UsersControllerTest {
                 .header("ApiKeyAuth", "1234-abcd-5678-efgh"))
                 .andExpect(status().isNotAcceptable());
     }
+
+    //machine transfer
+    @Test
+    public void userPerformMachineTransferWithValidInputShouldReturnIsCreated() throws Exception{
+
+        JSONObject machineTransfer = new JSONObject();
+        machineTransfer.put("amount", 400);
+        machineTransfer.put("transfer_type", "deposit");
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+
+        mvc.perform(post("/users/100001/machine")
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .content(machineTransfer.toString())
+                .header("ApiKeyAuth", "1234-abcd-5678-efgh"))
+                .andExpect(status().isCreated())
+                .andExpect(content().json("{\n" +
+                        "    'transaction_id': 100019,\n" +
+                        "    'transaction_type': 'deposit',\n" +
+                        "    'timestamp': '"+  LocalDateTime.now().format(formatter)+ "',\n" +
+                        "    'account_from': 'NL01INHO0000000001',\n" +
+                        "    'account_to': 'NL01INHO0000000001',\n" +
+                        "    'amount': 400.0,\n" +
+                        "    'user_performing': 100001\n" +
+                        "}"));
+
+    }
+    @Test
+    public void userPerformMachineTransferWithoutRequiredInputShouldReturnBadRequest() throws Exception{
+        JSONObject machineTransfer = new JSONObject();
+        machineTransfer.put("amount", 400);
+        machineTransfer.put("transfer_type", null);
+
+        mvc.perform(post("/users/100001/machine")
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .content(machineTransfer.toString())
+                .header("ApiKeyAuth", "1234-abcd-5678-efgh"))
+                .andExpect(status().isBadRequest());
+    }
+    @Test
+    public void userPerformMachineTransferWithNotAcceptableAmountShouldReturnIsNotAcceptable() throws Exception{
+
+        //machine withdraw that is more than the  account balance
+        JSONObject machineTransfer = new JSONObject();
+        machineTransfer.put("amount", 400000);
+        machineTransfer.put("transfer_type", "withdraw");
+
+        mvc.perform(post("/users/100001/machine")
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .content(machineTransfer.toString())
+                .header("ApiKeyAuth", "1234-abcd-5678-efgh"))
+                .andExpect(status().isNotAcceptable());
+    }
+    @Test
+    public void userPerformMachineTransferWithoutHavingACurrentAccountShouldReturnIsNotAcceptable() throws Exception{
+
+        JSONObject machineTransfer = new JSONObject();
+        machineTransfer.put("amount", 10);
+        machineTransfer.put("transfer_type", "withdraw");
+
+        //user 100004 has no current account
+        mvc.perform(post("/users/100004/machine")
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .content(machineTransfer.toString())
+                .header("ApiKeyAuth", "1234-abcd-5678-efgh"))
+                .andExpect(status().isNotAcceptable());
+    }
+    @Test
+    public void userPerformMachineTransferWithoutValidTokenShouldReturnForbidden() throws Exception{
+
+        JSONObject machineTransfer = new JSONObject();
+        machineTransfer.put("amount", 400);
+        machineTransfer.put("transfer_type", "deposit");
+
+        mvc.perform(post("/users/100001/machine")
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .content(machineTransfer.toString())
+                .header("ApiKeyAuth", "no valid token"))
+                .andExpect(status().isForbidden());
+    }
+
+
+
+    //user register requests
+    @Test
+    public void usersGetRegisterRequestsWithValidAuthTokenAndTheValidRoleShouldReturnIsOk() throws Exception{
+        mvc.perform(get("/users/requests")
+                .header("ApiKeyAuth", "1234-abcd-5678-efgh"))
+                .andExpect(status().isOk());
+    }
+    @Test
+    public void usersGetRegisterRequestsWithInvalidAuthTokenShouldReturnIsForbidden() throws Exception{
+        mvc.perform(get("/users/requests")
+                .header("ApiKeyAuth", "no valid token"))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    public void usersGetRegisterRequestsWithValidAuthTokenButInvalidRoleShouldReturnIsForbidden() throws Exception{
+        mvc.perform(get("/users/requests")
+                .header("ApiKeyAuth", "1111-abcd-5678-efgh"))
+                .andExpect(status().isForbidden());
+    }
+
+
+    @Test
+    public void userDeleteRegisterRequestWithValidUserRoleAndAuthTokenShouldReturnNoContent() throws Exception {
+
+        mvc.perform(delete("/users/requests/100001")
+                .header("ApiKeyAuth", "1234-abcd-5678-efgh"))
+                .andExpect(status().isNoContent());
+    }
+
+    @Test
+    public void userDeleteRegisterRequestWithInvalidUserRoleAndValidAuthTokenShouldIsForbidden() throws Exception {
+
+        mvc.perform(delete("/users/requests/100001")
+                .header("ApiKeyAuth", "1111-abcd-5678-efgh"))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    public void userDeleteRegisterRequestWithValidUserRoleAndInvalidAuthTokenShouldIsForbidden() throws Exception {
+
+        mvc.perform(delete("/users/requests/100001")
+                .header("ApiKeyAuth", "no valid token"))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    public void userDeleteNotExistingRegisterRequestShouldIsNotAcceptable() throws Exception {
+
+        mvc.perform(delete("/users/requests/1")
+                .header("ApiKeyAuth", "1234-abcd-5678-efgh"))
+                .andExpect(status().isNotAcceptable());
+    }
+
+    //accounts
+
+    @Test
+    public void CreateAccountWithValidInputShouldReturnJsonObjectAndStatusCreated() throws Exception{
+        JSONObject createAccount = new JSONObject();
+        createAccount.put("account_type", "current");
+        createAccount.put("balance", 50);
+        createAccount.put("transactionDayLimit", 100000);
+        createAccount.put("transactionAmountLimit", 2000);
+        createAccount.put("balanceLimit", -500);
+
+        mvc.perform(post("/users/100003/accounts")
+                .header("ApiKeyAuth", "1234-abcd-5678-efgh")
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .content(createAccount.toString()))
+                .andExpect(status().isCreated())
+                .andExpect(content().json("{\n" +
+                        "    'iban': 'NL54INHO0123456789',\n" +
+                        "    'account_type': 'current',\n" +
+                        "    'balance': 50.0, \n" +
+                        "    'transactionDayLimit': 100000,\n" +
+                        "    'transactionAmountLimit': 2000.0,\n" +
+                        "    'balanceLimit': -500.0,\n" +
+                        "    'owner': 100002\n" +
+                        "}"));
+    }
+    @Test
+    public void CreateAccountWithoutValidInputShouldReturnBadRequest() throws Exception{
+        JSONObject createAccount = new JSONObject();
+        createAccount.put("account_type", "curr");
+        createAccount.put("balance", 0);
+        createAccount.put("transactionDayLimit", 100000);
+        createAccount.put("transactionAmountLimit", 2000);
+        createAccount.put("balanceLimit", -500);
+
+        mvc.perform(post("/users/100053/accounts")
+                .header("ApiKeyAuth", "1234-abcd-5678-efgh")
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .content(createAccount.toString()))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void CreateAccountByUserNotAuthenticatedShouldReturnIsForbidden() throws Exception{
+        JSONObject createAccount = new JSONObject();
+        createAccount.put("account_type", "current");
+        createAccount.put("balance", 0);
+        createAccount.put("transactionDayLimit", 100000);
+        createAccount.put("transactionAmountLimit", 2000);
+        createAccount.put("balanceLimit", -500);
+
+        mvc.perform(post("/users/100002/accounts")
+                .header("ApiKeyAuth", "1234-abcd-5678-efgh")
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .content(createAccount.toString()))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    public void CreateAccountByUserWithoutValidTokenShouldReturnIsForbidden() throws Exception{
+        JSONObject createAccount = new JSONObject();
+        createAccount.put("account_type", "current");
+        createAccount.put("balance", 0);
+        createAccount.put("transactionDayLimit", 100000);
+        createAccount.put("transactionAmountLimit", 2000);
+        createAccount.put("balanceLimit", -500);
+
+        mvc.perform(post("/users/100002/accounts")
+                .header("ApiKeyAuth", "no valid token")
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .content(createAccount.toString()))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    public void GetAccountByUserIdShouldReturnIsOk() throws Exception {
+        mvc.perform(get("/users/100053/accounts")
+                .header("ApiKeyAuth", "1234-abcd-5678-efgh"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void GetAccountByUserIdWithoutValidTokenShouldReturnIsForbidden() throws Exception {
+        mvc.perform(get("/users/100053/accounts")
+                .header("ApiKeyAuth", "no valid token"))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    public void GetAccountByUserIdWithoutAuthenticationShouldReturnIsForbidden() throws Exception {
+        mvc.perform(get("/users/100053/accounts")
+                .header("ApiKeyAuth", "1235-abcd-5678-efgh"))
+                .andExpect(status().isForbidden());
+    }
+
+
+    //transactions
+    //to do dary
+
 }

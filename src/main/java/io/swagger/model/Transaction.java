@@ -42,8 +42,8 @@ public class Transaction   {
     }
 
     @Id
-    @SequenceGenerator(name="seq", initialValue = 100001)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq")
+    @SequenceGenerator(name="seqTransaction", initialValue = 100001)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seqTransaction")
     @JsonProperty("transaction_id")
     private Long transactionId = null;
 

@@ -1,6 +1,6 @@
-package io.swagger.api;
+package io.swagger.model;
 
-import io.swagger.model.Login;
+import io.swagger.model.RegisterRequest;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,20 +22,18 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class LoginModelTest {
+public class RegisterRequestModelTest {
     @Autowired
     private WebApplicationContext webApplicationContext;
 
 
-
     @Before
-    public void setUp(){
-    }
+    public void setUp(){}
 
     @Test
-    public void createLoginShouldNotBeNull() throws Exception
+    public void createRegisterRequestShouldNotBeNull() throws Exception
     {
-        Login login = new Login();
-        assertNotNull(login);
+        RegisterRequest registerRequest = new RegisterRequest();
+        assertNotNull(registerRequest);
     }
 }

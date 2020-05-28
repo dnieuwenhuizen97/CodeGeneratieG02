@@ -1,4 +1,4 @@
-package io.swagger.api;
+package io.swagger.repository;
 
 import org.json.JSONObject;
 import org.junit.Before;

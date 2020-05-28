@@ -1,6 +1,4 @@
-package io.swagger.api;
-
-import io.swagger.model.RegisterRequest;
+package io.swagger.controller;
 import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,7 +12,8 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import org.springframework.web.context.WebApplicationContext;
 
-import static junit.framework.TestCase.assertNotNull;
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.header;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -22,18 +21,32 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class RegisterRequestModelTest {
+
+public class LogoutControllerTest {
+
     @Autowired
     private WebApplicationContext webApplicationContext;
 
+    private MockMvc mvc;
 
     @Before
-    public void setUp(){}
+    public void setUp() {
+        this.mvc = webAppContextSetup(webApplicationContext).build();
+    }
+
 
     @Test
-    public void createRegisterRequestShouldNotBeNull() throws Exception
-    {
-        RegisterRequest registerRequest = new RegisterRequest();
-        assertNotNull(registerRequest);
+    public void logoutWithValidAuthTokenShouldReturnIsNoContent() throws Exception {
+
+        mvc.perform(delete("/logout")
+                .header("ApiKeyAuth", "1234-abcd-5678-efgh"))
+                .andExpect(status().isNoContent());
+    }
+    @Test
+    public void logoutWithInvalidAuthTokenShouldReturnIsUnauthorized() throws Exception {
+
+        mvc.perform(delete("/logout")
+                .header("ApiKeyAuth", "no valid token"))
+                .andExpect(status().isForbidden());
     }
 }

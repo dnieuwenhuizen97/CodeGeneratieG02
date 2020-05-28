@@ -1,4 +1,4 @@
-package io.swagger.api;
+package io.swagger.repository;
 
 import io.swagger.model.AuthToken;
 
@@ -30,7 +30,7 @@ public class AuthTokenRepositoryTest {
     @Test
     public void findAuthTokenByExistingUserIdShouldReturnNotNull() throws Exception
     {
-        AuthToken authToken = authTokenRepository.findAuthTokenByUser(100001);
+        AuthToken authToken = authTokenRepository.findAuthTokenByUser(100002);
         assertNotNull(authToken);
     }
 
