@@ -5,10 +5,10 @@
  */
 package io.swagger.api;
 
+import com.sun.xml.internal.ws.wsdl.writer.document.soap.Body;
 import io.swagger.model.*;
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.StreamingHttpOutputMessage;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -44,7 +44,7 @@ public interface UsersApi {
             method = RequestMethod.POST)
     ResponseEntity<Account> createAccountByUser(@ApiParam(value = "" ,required=true )  @Valid @RequestBody Account body
             ,@ApiParam(value = "user of a specific account",required=true) @PathVariable("userId") Integer userId
-    ) throws Exception;
+    );
 
 
     @ApiOperation(value = "Create user", nickname = "createUser", notes = "Creates user and adds it to the database.", response = User.class, authorizations = {
@@ -185,7 +185,7 @@ public interface UsersApi {
             consumes = { "application/json" },
             method = RequestMethod.POST)
     ResponseEntity<Transaction> machineTransfer(@ApiParam(value = "",required=true) @PathVariable("userId") Integer userId
-            ,@ApiParam(value = ""  )  @Valid @RequestBody StreamingHttpOutputMessage.Body body
+            ,@ApiParam(value = ""  )  @Valid @RequestBody Body body
     );
 
 

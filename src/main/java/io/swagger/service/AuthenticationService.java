@@ -4,6 +4,7 @@ import io.swagger.model.*;
 import io.swagger.repository.AuthTokenRepository;
 import io.swagger.repository.RegisterRequestRepository;
 import io.swagger.repository.UserRepository;
+import jdk.nashorn.internal.parser.Token;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
