@@ -2,47 +2,18 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link
-        rel="stylesheet"
-        type="text/css"
-        href="css/style.css"
-    />
     <title>Bank groep 2</title>
 </head>
 <body>
-<div class="bodydiv">
-    <div class="navbar">
-        <a class="aNav" href="http://localhost:8080/index.html">Home</a>
-        <a class="aNav" href="http://localhost:8080/login.html">Login</a>
-        <a class="aNav" href="http://localhost:8080/machine.html">Machine</a>
-        <div class="dropdown">
-            <button class="dropbtn">Users
-                <i class="drop"></i>
-            </button>
-            <div class="dropdown-content">
-                <a class="aNav" href="http://localhost:8080/signUp.html">SignUp</a>
-                <a class="aNav" href="http://localhost:8080/allUsers.html">Show Users</a>
-                <a class="aNav" href="http://localhost:8080/updateUser.html">Update User</a>
-            </div>
-        </div>
-        <div id="currentuser"></div>
-    </div>
+<div class="navbar">
+    <a href="http://localhost:8080/login.html">Login</a>
+    <a href="http://localhost:8080/machine.html">Machine</a>
+    <a href="http://localhost:8080/index.html">Home</a>
+</div>
 
 <div class="main">
     <p>Some text some text some text some text..</p>
 </div>
-</div>
-<script>
-    window.onload = function() {
-        var userId = sessionStorage.getItem("UserId");
 
-        if (userId === null) {
-            document.getElementById("currentuser").innerHTML = "Not logged in";
-        }
-        else {
-            document.getElementById("currentuser").innerHTML = "Hello user '" + userId + "'";
-        }
-    }
-</script>
 </body>
 </html>

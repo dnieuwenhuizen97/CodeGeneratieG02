@@ -102,7 +102,6 @@ public class AccountsApiController implements AccountsApi {
 
         String apiKeyAuth = request.getHeader("ApiKeyAuth");
 
-        //bespreken of userrequest
         if(!authenticationService.IsUserAuthenticated(apiKeyAuth, 0, true))
             return new ResponseEntity(HttpStatus.FORBIDDEN);
 
@@ -114,6 +113,7 @@ public class AccountsApiController implements AccountsApi {
                 return new ResponseEntity<Account>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
+
 
         return new ResponseEntity<Account>(accountService.updateAccount(body, iban), HttpStatus.OK);
     }

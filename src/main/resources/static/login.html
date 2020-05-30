@@ -18,10 +18,56 @@
     <br />
     <input type="button" id="loginUser" value="Login" onclick="POSTLogin()">
 </form>
+<br />
+<br />
+<form id="registerForm">
+    <label>Firstname: </label> <input name="firstName"><br>
+    <label>Lastname: </label> <input name="lastName"><br>
+    <label>Email: </label> <input name="email"><br>
+    <label>Password:</label> <input name="passwordRegister" type="password"><br>
+    <br />
+    <input type="button" id="registerUser" value="Register" onclick="POSTRegister()">
+</form>
+
+<br>
+<input type="button" id="logoutUser" value="Logout" onclick="DELETELogout()">
 
 <table id="table" border="1"></table>
 <h1 id="authToken"></h1>
 <script>
+
+    function DELETELogout()
+    {
+      var xhr =  new XMLHttpRequest();
+        xhr.open('DELETE','http://localhost:8080/logout');
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.setRequestHeader("ApiKeyAuth", sessionStorage.getItem("AuthToken"));
+        xhr.onload= (e) => {
+            alert(xhr.status);
+            sessionStorage.setItem("AuthToken", "");
+            sessionStorage.setItem("UserId", "");
+        }
+        xhr.send();
+    }
+    function POSTRegister()
+    {
+        var xhr =  new XMLHttpRequest();
+        xhr.open('POST','http://localhost:8080/register');
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.onload= (e) => {
+            alert(xhr.status);
+
+        }
+        xhr.send(JSON.stringify(
+            {
+                "firstName": document.forms["registerForm"]["firstName"].value ,
+                "lastName": document.forms["registerForm"]["lastName"].value,
+                "email": document.forms["registerForm"]["email"].value,
+                "password": document.forms["registerForm"]["passwordRegister"].value
+            }
+        ));
+    }
+
 
     function POSTLogin(){
         var xhr =  new XMLHttpRequest();
@@ -30,8 +76,11 @@
         xhr.onload= (e) => {
             alert(xhr.status);
             let response = JSON.parse(xhr.response);
-            sessionStorage.setItem("AuthToken", response.AuthToken);
+            sessionStorage.setItem("AuthToken", response.authToken);
             sessionStorage.setItem("UserId", response.userId);
+            var userId = sessionStorage.getItem("UserId");
+        	alert(userId)
+        	alert(response.AuthToken)
         }
         xhr.send(JSON.stringify(
             {

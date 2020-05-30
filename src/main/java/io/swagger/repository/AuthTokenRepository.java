@@ -12,7 +12,6 @@ import java.time.LocalDateTime;
 
 @Repository
 public interface AuthTokenRepository extends CrudRepository<AuthToken,String> {
-   // AuthToken findAuthTokenByToken (String authToken);
 
 
     @Query("SELECT t FROM AuthToken t WHERE t.userId =:userId")

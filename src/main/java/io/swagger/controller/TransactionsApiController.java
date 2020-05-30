@@ -28,6 +28,7 @@ import java.util.List;
 @Controller
 public class TransactionsApiController implements TransactionsApi {
     private TransactionService service;
+
     private static final Logger log = LoggerFactory.getLogger(TransactionsApiController.class);
 
     private final ObjectMapper objectMapper;
@@ -44,75 +45,22 @@ public class TransactionsApiController implements TransactionsApi {
         this.authService = authService;
     }
 
-    public ResponseEntity<Transaction> createTransaction(@ApiParam(value = "Created transaction object" ,required=true)  @Valid @RequestBody Transaction transaction    ) {
+    public ResponseEntity<Transaction> createTransaction(@ApiParam(value = "Created transaction object" ,required=true)  @Valid @RequestBody Transaction transaction) {
 
-        Integer userId = 100053; // Static user, get the logged in user here
         String apiKeyAuth = request.getHeader("ApiKeyAuth");
 
         if(!authService.IsUserAuthenticated(apiKeyAuth, 0, false))
             return new ResponseEntity(HttpStatus.FORBIDDEN);
 
-
-        Account account = findAccountByUserId(userId);
-        User user;
-
-        String message = null;
-
-        //Still static--------------------------------------Checks in service
-        //First two checks: user is only able to transfer if it's the same userId or type is employee
-        //AND the sender is sending money with his own IBAN
-        //Check if amount is higher than 0
-        if(transaction.getAmount() < 0){
-            message = "You cannot transfer a negative number.";
-        }
-        //Customer cannot transfer 0 (nothing)
-        else if(transaction.getAmount() == 0){
-            message = "You cannot transfer nothing.";
-        }
-        //Check is transfer is higher than balance
-        else if(account.getBalance() < transaction.getAmount()){
-            message = "You do not have enough balance to transfer this amount!";
-        }
-        //Unable to transfer funds to another savings (besides your own)
-        else if (account.getIban().equals(transaction.getAccountFrom()) && account.getAccountType() == Account.AccountTypeEnum.SAVINGS){
-            message = "You cannot transfer the funds to a savings account.";
-        }
-        //Needs to be changed to the absolute limit
-        else if(account.getBalance() < -1200){
-            message = "Your have extended your absolute limit, please deposit money first.";
-        }
-        //A user has a maximum of transactions per day
-        else if(account.getTransactionDayLimit() >= 100){
-            message = "You have reached your day limit of 100 transactions.";
-        }
-        //Amount of transactions per day
-        else if(account.getTransactionAmountLimit().doubleValue() >= 200){
-            message = "You have reached your transaction limit, please wait until tomorrow.";
-        }
-        //Unable to transfer to own account (Account to is the same as account from)
-        else if(transaction.getAccountFrom().equals(transaction.getAccountTo())){
-            message = "You cannot transfer to your own account!";
-        }
-
-        else if(transaction.getUserPerforming() == userId) { //Need to add employee type too
-            message = "You are trying to perform a transaction on someone else!";
-        }
-        /*
-           else if(verifyAccountTo(transaction.getAccountTo())){
-             message = "You cannot transfer nothing";
-        }*/
-
-
-        ResponseEntity responseEntity = null;
-        if(message != null){
-            responseEntity = ResponseEntity.status(HttpStatus.OK).body(
-                    (JsonNode) objectMapper.createObjectNode().put("message",
-                            message));
+        try {
+            return new ResponseEntity<Transaction>(	service.createTransactionForUser(transaction , apiKeyAuth),	HttpStatus.CREATED);
+        }  catch (Exception e) {
+            ResponseEntity responseEntity = ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body((JsonNode) objectMapper.createObjectNode().put("message",e.getMessage()));
             return responseEntity;
         }
-
-        return new ResponseEntity<Transaction>(service.createTransactionForUser(transaction), HttpStatus.CREATED);
     }
+
+
 
     public ResponseEntity<List<Transaction>> getAllTransactions(@ApiParam(value = "The number of items to skip before starting to collect the result set") @Valid @RequestParam(value = "offset", required = false) Integer offset
             ,@ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "limit", required = false) Integer limit
@@ -136,19 +84,21 @@ public class TransactionsApiController implements TransactionsApi {
         if(!authService.IsUserAuthenticated(apiKeyAuth, 0, true))
             return new ResponseEntity(HttpStatus.FORBIDDEN);
 
-        //if there are 0 transactions, show a message instead of nothing
-        if(service.getAllTransactions().size() == 0){
-            try {
-                return new ResponseEntity<List<Transaction>>(objectMapper.readValue("[ \"No transactions found\"  ]", List.class), HttpStatus.OK);
-            } catch (IOException e) {
-                log.error("Couldn't serialize response for content type application/json", e);
-                return new ResponseEntity<List<Transaction>>(HttpStatus.INTERNAL_SERVER_ERROR);
+
+        try{
+            if(iban==null){
+                return new ResponseEntity<List<Transaction>>(service.getAllTransactions(limit, offset), HttpStatus.OK);
+            }else{
+                return new ResponseEntity<List<Transaction>>(service.getAllTransactionOfAccount(iban, apiKeyAuth, offset, limit), HttpStatus.OK);
             }
-        } else {
-            return new ResponseEntity<List<Transaction>>(service.getAllTransactions(), HttpStatus.OK);
+        } catch (Exception e) {
+            ResponseEntity responseEntity = ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body((JsonNode) objectMapper.createObjectNode().put("message",e.getMessage()));
+            return responseEntity;
         }
 
     }
+
+
 
     //Pagable is used in order to allow a paginated response for a user instead of pulling all the records at the time.
     /*@Override
@@ -189,34 +139,4 @@ public class TransactionsApiController implements TransactionsApi {
         return responseEntity;
     }*/
 
-
-
-    //Static account (needs to be changed)
-    private Account findAccountByUserId(Integer userId) {
-
-        // TODO Find account by calling AccountService
-
-        Account account =  new Account();
-        account.setIban("NL12INHO1234567890");
-        account.setBalance(1000.00f);
-        account.setOwner(userId);
-        account.setTransactionAmountLimit(new BigDecimal(10));
-        account.setTransactionDayLimit(10);
-
-        account.setAccountType(Account.AccountTypeEnum.CURRENT);
-        return account;
-    }
-
-
-    /**
-     * validate a account by accountId
-     * @param account
-     * @return true if account exist
-     */
-    private boolean verifyAccountTo( String accountID) {
-
-        // TODO get account by accountID from account service
-
-        return true;
-    }
 }

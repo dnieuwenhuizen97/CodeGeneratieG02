@@ -4,12 +4,15 @@ import io.swagger.model.*;
 import io.swagger.repository.AuthTokenRepository;
 import io.swagger.repository.RegisterRequestRepository;
 import io.swagger.repository.UserRepository;
-//import jdk.nashorn.internal.parser.Token;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Service
 @Transactional
@@ -17,11 +20,14 @@ public class AuthenticationService {
     private AuthTokenRepository authTokenRepository;
     private UserRepository userRepository;
     private RegisterRequestRepository registerRequestRepository;
+    private GeneralMethodsService generalMethodsService;
 
-    public AuthenticationService(AuthTokenRepository authTokenRepository, UserRepository userRepository, RegisterRequestRepository registerRequestRepository) {
+
+    public AuthenticationService(AuthTokenRepository authTokenRepository, UserRepository userRepository, RegisterRequestRepository registerRequestRepository,GeneralMethodsService generalMethodsService) {
         this.authTokenRepository = authTokenRepository;
         this.userRepository = userRepository;
         this.registerRequestRepository = registerRequestRepository;
+        this.generalMethodsService = generalMethodsService;
     }
 
     public RegisterRequest CreateRegisterRequest(RegisterRequest registerRequest)
@@ -29,15 +35,29 @@ public class AuthenticationService {
         //if user already reguested
         if(registerRequestRepository.findUserByEmail(registerRequest.getEmail()) != null)
             return registerRequest;
+        else if(!registerRequest.getEmail().matches("^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$"))
+            return null;
+        else if(!generalMethodsService.isValidPassword(registerRequest.getPassword()))
+            return null;
 
+        registerRequest.setPassword(generalMethodsService.cryptWithMD5(registerRequest.getPassword()));
         registerRequestRepository.save(registerRequest);
         return registerRequest;
+    }
+    public int DeleteRegisterRequest(int requestId)
+    {
+        if(!registerRequestRepository.existsById(requestId))
+            return 406;
+        registerRequestRepository.deleteById(requestId);
+        return 204;
     }
 
     public Integer SignOutUser(String authToken)
     {
+        if(!authTokenRepository.existsById(authToken))
+            return 406;
         authTokenRepository.deleteById(authToken);
-        return 200;
+        return 204;
     }
 
 
@@ -70,14 +90,12 @@ public class AuthenticationService {
 
     public AuthToken ValidateUserAndReturnAuthToken(Login login)
     {
-        User user = userRepository.findUserByUserCredentials(login.getUsername(), login.getPassword());
+        User user;
+        if((user = userRepository.findUserByUserCredentials(login.getUsername(), generalMethodsService.cryptWithMD5(login.getPassword()))) == null)
+            return null;
         AuthToken authToken = authTokenRepository.findAuthTokenByUser(user.getUserId());
-
-        //no user found with credentials
-        if(user == null)
-            return authToken;
         //user already has token
-        else if(authToken != null) {
+        if(authToken != null) {
             return authToken;
         }
 
@@ -117,4 +135,5 @@ public class AuthenticationService {
         token = token.replaceFirst("-", "");
         return token;
     }
+
 }

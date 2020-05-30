@@ -31,6 +31,20 @@ public class UserRepositoryTest {
     private UserRepository userRepository;
 
     @Test
+    public void findUserByExistingUserCredentialsShouldReturnNotNull() throws Exception
+    {
+        User user = userRepository.findUserByUserCredentials("employee", "5f4dcc3b5aa765d61d8327deb");
+        assertNotNull(user);
+    }
+
+    @Test
+    public void findUserByNotExistingUserCredentialsShouldReturnNull() throws Exception
+    {
+        User user = userRepository.findUserByUserCredentials("notExisting", "password");
+        assertNull(user);
+    }
+
+    @Test
     public void findUserByExistingEmailShouldNotReturnNull() throws Exception {
         assertNotNull(userRepository.findUserByEmail("testuser@gmail.com"));
     }

@@ -1,6 +1,7 @@
 package io.swagger.controller;
 
 
+import com.fasterxml.jackson.databind.JsonNode;
 import io.swagger.api.UsersApi;
 import io.swagger.model.*;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -23,7 +24,8 @@ import javax.validation.Valid;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotNull;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-28T15:21:59.457Z[GMT]")
 @Controller
@@ -51,16 +53,24 @@ public class UsersApiController implements UsersApi {
         this.transactionService = transactionService;
         this.accountService = accountService;
     }
+    public ResponseEntity<Void> deleteRegisterRequestById(@ApiParam(value = "The id from the request",required=true) @PathVariable("requestId") Integer requestId
+    ) {
+        String apiKeyAuth = request.getHeader("ApiKeyAuth");
+        if(!authService.IsUserAuthenticated(apiKeyAuth, 0, true))
+            return new ResponseEntity(HttpStatus.FORBIDDEN);
+
+        String accept = request.getHeader("Accept");
+        return new ResponseEntity<Void>(HttpStatus.valueOf(authService.DeleteRegisterRequest(requestId)));
+    }
+
+
     public ResponseEntity<Account> createAccountByUser(@ApiParam(value = "" ,required=true )  @Valid @RequestBody Account body
             , @ApiParam(value = "user of a specific account",required=true) @PathVariable("userId") Integer userId
-    ) {
+    ){
         String accept = request.getHeader("Accept");
-
         String apiKeyAuth = request.getHeader("ApiKeyAuth");
         if(!authService.IsUserAuthenticated(apiKeyAuth, userId, true))
             return new ResponseEntity(HttpStatus.FORBIDDEN);
-
-
         return new ResponseEntity<Account>(accountService.createAccount(body, userId), HttpStatus.CREATED);
     }
 
@@ -69,7 +79,7 @@ public class UsersApiController implements UsersApi {
         String accept = request.getHeader("Accept");
 
         String apiKeyAuth = request.getHeader("ApiKeyAuth");
-        if(!authService.IsUserAuthenticated(apiKeyAuth, 99, true)) {
+        if(!authService.IsUserAuthenticated(apiKeyAuth, 0, true)) {
             try {
                 authService.CreateRegisterRequest(new RegisterRequest(body.getFirstName(), body.getLastName(), body.getPassword(), body.getEmail()));
                 return new ResponseEntity(HttpStatus.CREATED);
@@ -94,7 +104,7 @@ public class UsersApiController implements UsersApi {
         String accept = request.getHeader("Accept");
 
         String apiKeyAuth = request.getHeader("ApiKeyAuth");
-        if(!authService.IsUserAuthenticated(apiKeyAuth, 99, true))
+        if(!authService.IsUserAuthenticated(apiKeyAuth, 0, true))
             return new ResponseEntity(HttpStatus.FORBIDDEN);
 
         return new ResponseEntity<Void>(HttpStatus.valueOf(userService.DeleteUserById(userId)));
@@ -144,11 +154,9 @@ public class UsersApiController implements UsersApi {
             ,@ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "limit", required = false) Integer limit
     ) {
         String accept = request.getHeader("Accept");
-
         String apiKeyAuth = request.getHeader("ApiKeyAuth");
         if(!authService.IsUserAuthenticated(apiKeyAuth, userId, false))
             return new ResponseEntity(HttpStatus.FORBIDDEN);
-
         if (accept != null && accept.contains("application/json")) {
             try {
                 return new ResponseEntity<List<Transaction>>(objectMapper.readValue("[ {\n  \"transaction_id\" : 10034,\n  \"amount\" : 22.30,\n  \"account_to\" : \"NL39ING008451843\",\n  \"account_from\" : \"NL39INGB007801007\",\n  \"transaction_type\" : [ \"withdraw\", \"withdraw\" ],\n  \"user_performing\" : 1,\n  \"timestamp\" : \"995-09-07T10:40:52Z\"\n}, {\n  \"transaction_id\" : 10034,\n  \"amount\" : 22.30,\n  \"account_to\" : \"NL39ING008451843\",\n  \"account_from\" : \"NL39INGB007801007\",\n  \"transaction_type\" : [ \"withdraw\", \"withdraw\" ],\n  \"user_performing\" : 1,\n  \"timestamp\" : \"995-09-07T10:40:52Z\"\n} ]", List.class), HttpStatus.NOT_IMPLEMENTED);
@@ -157,9 +165,14 @@ public class UsersApiController implements UsersApi {
                 return new ResponseEntity<List<Transaction>>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
-
-        return new ResponseEntity<List<Transaction>>(transactionService.getAllTransactionsOfUser(userId), HttpStatus.OK);
+        try {
+            return new ResponseEntity<List<Transaction>>(transactionService.getAllTransactionsOfUser(userId, apiKeyAuth, offset, limit), HttpStatus.OK);
+        } catch (Exception e) {
+            ResponseEntity responseEntity = ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body((JsonNode) objectMapper.createObjectNode().put("message",e.getMessage()));
+            return responseEntity;
+        }
     }
+
 
     public ResponseEntity<List<User>> getAllUsers(@ApiParam(value = "The number of items to skip before starting to collect the result set") @Valid @RequestParam(value = "offset", required = false) Integer offset
             ,@ApiParam(value = "The numbers of items to return") @Valid @RequestParam(value = "limit", required = false) Integer limit
@@ -170,7 +183,7 @@ public class UsersApiController implements UsersApi {
         String accept = request.getHeader("Accept");
 
         String apiKeyAuth = request.getHeader("ApiKeyAuth");
-        if(!authService.IsUserAuthenticated(apiKeyAuth, 99, true))
+        if(!authService.IsUserAuthenticated(apiKeyAuth, 0, true))
             return new ResponseEntity(HttpStatus.FORBIDDEN);
 
         if (accept != null && accept.contains("application/json")) {
@@ -224,9 +237,13 @@ public class UsersApiController implements UsersApi {
                 return new ResponseEntity<Transaction>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
+        Transaction machineTransfer = transactionService.createMachineTransfer(userId, body);
+        if(machineTransfer == null)
+            return new ResponseEntity<Transaction>(HttpStatus.NOT_ACCEPTABLE);
 
-        return new ResponseEntity<Transaction>(transactionService.createMachineTransfer(userId, body), HttpStatus.CREATED);
+        return new ResponseEntity<Transaction>(machineTransfer, HttpStatus.CREATED);
     }
+
 
     public ResponseEntity<User> updateUserById(@ApiParam(value = "" ,required=true )  @Valid @RequestBody User body
             ,@ApiParam(value = "The id from the user",required=true) @PathVariable("userId") Integer userId

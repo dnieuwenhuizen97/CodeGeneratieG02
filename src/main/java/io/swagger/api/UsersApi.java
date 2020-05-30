@@ -28,6 +28,21 @@ import java.util.Map;
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-05-03T10:32:36.707Z[GMT]")
 @Api(value = "users", description = "the users API")
 public interface UsersApi {
+    @ApiOperation(value = "Delete register request by id", nickname = "deleteRegisterRequestById", notes = "Deletes user register request", authorizations = {
+            @Authorization(value = "ApiKeyAuth")    }, tags={ "Employee operation", })
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Successful deleted"),
+            @ApiResponse(code = 400, message = "Bad Request."),
+            @ApiResponse(code = 401, message = "Unauthorized"),
+            @ApiResponse(code = 403, message = "Forbidden."),
+            @ApiResponse(code = 404, message = "Not found"),
+            @ApiResponse(code = 406, message = "Invalid input"),
+            @ApiResponse(code = 429, message = "Too Many Requests.") })
+    @RequestMapping(value = "/users/requests/{requestId}",
+            method = RequestMethod.DELETE)
+    ResponseEntity<Void> deleteRegisterRequestById(@ApiParam(value = "The id from the request",required=true) @PathVariable("requestId") Integer requestId
+    );
+
 
     @ApiOperation(value = "Create account for user", nickname = "createAccountByUser", notes = "Creates account for user", response = Account.class, authorizations = {
             @Authorization(value = "ApiKeyAuth")    }, tags={ "Accounts","Employee operation", })
@@ -45,7 +60,7 @@ public interface UsersApi {
             method = RequestMethod.POST)
     ResponseEntity<Account> createAccountByUser(@ApiParam(value = "" ,required=true )  @Valid @RequestBody Account body
             ,@ApiParam(value = "user of a specific account",required=true) @PathVariable("userId") Integer userId
-    );
+    ) throws Exception;
 
 
     @ApiOperation(value = "Create user", nickname = "createUser", notes = "Creates user and adds it to the database.", response = User.class, authorizations = {
