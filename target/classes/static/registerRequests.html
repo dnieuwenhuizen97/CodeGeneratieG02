@@ -17,7 +17,7 @@
             type="text/css"
             href="css/style.css"
     />
-    <title>Login</title>
+    <title>All Users</title>
 </head>
 <body>
 <nav class="top-nav">
@@ -68,30 +68,21 @@
 <div id="section-landing">
     <div class="wrapper-landing">
         <h1>
-            Please Login
+            Register Requests
         </h1>
-        <a href="http://localhost:8080/signUp.html" class="createtransaction-btn">
-            Register
+        <a href="http://localhost:8080/registerRequests.html" class="createtransaction-btn">
+            Show all requests
         </a>
     </div>
 </div>
-
-<div class="introduction-users">
-<form id="loginForm">
-
-    <label>Email: </label> <input name="username"><br>
-    <label>Password:</label> <input name="password" type="password"><br>
-    <br />
-    <button type="button" onclick="POSTLogin()">Login
-    </button>
-</form>
-
-</div>
-
-<br>
-<input type="button" id="logoutUser" value="Logout" onclick="DELETELogout()">
+<table id="userRequestsTable"></table>
 
 <script src="/js/javascript.js">
+</script>
+<script>
+    window.onload = function() {
+        GetUserRequests();
+    }
 </script>
 
 </body>

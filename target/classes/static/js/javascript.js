@@ -423,3 +423,155 @@ function PUTUser() {
     ));
 
 }
+
+function DELETELogout()
+{
+  var xhr =  new XMLHttpRequest();
+    xhr.open('DELETE','http://localhost:8080/logout');
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.setRequestHeader("ApiKeyAuth", sessionStorage.getItem("AuthToken"));
+    xhr.onload= (e) => {
+        alert(xhr.status);
+        sessionStorage.setItem("AuthToken", "");
+        sessionStorage.setItem("UserId", "");
+        location.reload();
+    }
+    xhr.send();
+}
+function POSTRegister()
+{
+    var xhr =  new XMLHttpRequest();
+    xhr.open('POST','http://localhost:8080/register');
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.onload= (e) => {
+        alert(xhr.status);
+
+    }
+    xhr.send(JSON.stringify(
+        {
+            "firstName": document.forms["registerForm"]["firstName"].value ,
+            "lastName": document.forms["registerForm"]["lastName"].value,
+            "email": document.forms["registerForm"]["email"].value,
+            "password": document.forms["registerForm"]["passwordRegister"].value
+        }
+    ));
+}
+
+function POSTLogin(){
+    var xhr =  new XMLHttpRequest();
+    xhr.open('POST','http://localhost:8080/login');
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.onload= (e) => {
+        alert(xhr.status);
+        let response = JSON.parse(xhr.response);
+        sessionStorage.setItem("AuthToken", response.authToken);
+        sessionStorage.setItem("UserId", response.userId);
+        var userId = sessionStorage.getItem("UserId");
+        location.reload();
+    }
+    xhr.send(JSON.stringify(
+        {
+            "username": document.forms["loginForm"]["username"].value ,
+            "password": document.forms["loginForm"]["password"].value
+        }
+    ));
+
+}
+function GetUserRequests()
+{
+  let table = document.getElementById("userRequestsTable");
+        table.innerHTML = "   <tr>\n" +
+            "       <th>Request id</th>\n" +
+            "       <th>Firstname</th>\n" +
+            "       <th>Lastname</th>\n" +
+            "       <th>Email</th>\n" +
+            "       <th>Accept/Decline</th>\n" +
+            "   </tr>";
+
+
+        var xhr =  new XMLHttpRequest();
+        xhr.open('GET','http://localhost:8080/users/requests');
+        xhr.setRequestHeader("ApiKeyAuth" ,sessionStorage.getItem("AuthToken"));
+        xhr.onload= (e) => {
+            alert(xhr.status);
+            let response = JSON.parse(xhr.response);
+            for (i=0;i<response.length;i++){
+                table.innerHTML+="<tr><td>%j</td><td>%k</td><td>%l</td><td>%m</td><td>%n</td></tr>"
+                    .replace("%j",JSON.stringify(response[i].registerId))
+                    .replace("%k",JSON.stringify(response[i].firstName))
+                    .replace("%l",JSON.stringify(response[i].lastName))
+                    .replace("%m",JSON.stringify(response[i].email))
+                    .replace("%n","<button onclick='acceptRequest("+ response[i].registerId+ ", "+ JSON.stringify(response[i].firstName) +","+ JSON.stringify(response[i].lastName)+ "," +JSON.stringify(response[i].password) + ","+JSON.stringify(response[i].email)+ ")'>Accept</button><button onclick='declineRequest("+ response[i].registerId+ ")'>Decline</button>")
+
+            }
+        }
+        xhr.send();
+}
+function acceptRequest(requestId, firstName, lastName, password, email)
+{
+
+        var xhr =  new XMLHttpRequest();
+        xhr.open('POST','http://localhost:8080/users');
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.setRequestHeader("ApiKeyAuth", sessionStorage.getItem("AuthToken"));
+        xhr.onload= (e) => {
+            alert(xhr.status);
+            declineRequest(requestId);
+        }
+
+        xhr.send(JSON.stringify(
+            {
+                "firstName": firstName,
+                "lastName": lastName,
+                "email":  email,
+                "password": password,
+                "user_type": "customer"
+            }
+        ));
+}
+
+function declineRequest(requestId)
+{
+    var xhr =  new XMLHttpRequest();
+        xhr.open('DELETE','http://localhost:8080/users/requests/' + requestId);
+        xhr.setRequestHeader("ApiKeyAuth" ,sessionStorage.getItem("AuthToken"));
+        xhr.onload= (e) => {
+            alert(xhr.status);
+            location.reload();
+        }
+        xhr.send();;
+}
+
+function PostMachineTransfer()
+{
+    var amount = document.getElementById("amount").value;
+    var t = document.getElementById("transferType");
+    var transferType = t.options[t.selectedIndex].value;
+
+    var xhr =  new XMLHttpRequest();
+
+    xhr.open('POST','http://localhost:8080/users/'+sessionStorage.getItem("UserId")+ '/machine');
+    xhr.setRequestHeader("Content-Type", "application/json" );
+    xhr.setRequestHeader("ApiKeyAuth" ,sessionStorage.getItem("AuthToken"));
+    xhr.onload= (e) => {
+    //haal transactie op
+        alert(xhr.status);
+    }
+    xhr.send(JSON.stringify(
+        {
+            "amount": amount,
+            "transfer_type": transferType
+        }
+    ));
+}
+
+window.onload = function() {
+    var userId = sessionStorage.getItem("UserId");
+
+    if (userId === null || userId === "") {
+        document.getElementById("currentuser").innerHTML = "Not logged in";
+    }
+    else {
+        document.getElementById("currentuser").innerHTML = "Hello user '" + userId + "'";
+    }
+}

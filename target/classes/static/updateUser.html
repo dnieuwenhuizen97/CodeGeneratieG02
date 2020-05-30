@@ -17,7 +17,7 @@
             type="text/css"
             href="css/style.css"
     />
-    <title>All Users</title>
+    <title>Update User</title>
 </head>
 <body>
 <nav class="top-nav">
@@ -35,6 +35,7 @@
                 <a class="aNav" href="http://localhost:8080/getAccounts.html">Show accounts</a>
                 <a class="aNav" href="http://localhost:8080/updateAccount.html">Update account</a>
                 <a class="aNav" href="http://localhost:8080/createAccount.html">Create account</a>
+                <a class="aNav" href="http://localhost:8080/machine.html">Withdraw/Deposit</a>
             </div>
         </li>
         <li class="dropdown">
@@ -44,6 +45,7 @@
                 <a class="aNav" href="http://localhost:8080/signUp.html">SignUp</a>
                 <a class="aNav" href="http://localhost:8080/allUsers.html">Show Users</a>
                 <a class="aNav" href="http://localhost:8080/updateUser.html">Update User</a>
+                <a class="aNav" href="http://localhost:8080/registerRequests.html">Show Requests</a>
             </div>
         </li>
         <li class="dropdown">
@@ -66,7 +68,7 @@
 <div id="section-landing">
     <div class="wrapper-landing">
         <h1>
-            All users
+            Update User
         </h1>
         <a href="http://localhost:8080/allUsers.html" class="createtransaction-btn">
             Show all users
@@ -84,10 +86,10 @@
     <label>Email: </label> <input name="email"><br>
     <label>Password: </label> <input name="password" type="password"><br>
     <br />
-    <button type="button" onclick="PUTUser()">
-        <i class="fas fa-search"></i> Update
+    <button type="button" onclick="PUTUser()">Update
     </button>
 </form>
+</div>
 
 <script src="/js/javascript.js">
 </script>
@@ -95,14 +97,7 @@
 <script>
 
 window.onload = function() {
-    var userId = sessionStorage.getItem("UserId");
 
-    if (userId === null) {
-        document.getElementById("currentuser").innerHTML = "Not logged in";
-    }
-    else {
-        document.getElementById("currentuser").innerHTML = "Hello user '" + userId + "'";
-    }
     var id = sessionStorage.getItem("UpdateId");
 
     document.getElementById('uid').value = id;
@@ -113,6 +108,5 @@ window.onbeforeunload = function(){
 };
 
 </script>
-</div>
 </body>
 </html>

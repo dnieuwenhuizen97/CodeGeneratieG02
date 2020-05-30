@@ -35,6 +35,7 @@
                 <a class="aNav" href="http://localhost:8080/getAccounts.html">Show accounts</a>
                 <a class="aNav" href="http://localhost:8080/updateAccount.html">Update account</a>
                 <a class="aNav" href="http://localhost:8080/createAccount.html">Create account</a>
+                <a class="aNav" href="http://localhost:8080/machine.html">Withdraw/Deposit</a>
             </div>
         </li>
         <li class="dropdown">
@@ -44,6 +45,7 @@
                 <a class="aNav" href="http://localhost:8080/signUp.html">SignUp</a>
                 <a class="aNav" href="http://localhost:8080/allUsers.html">Show Users</a>
                 <a class="aNav" href="http://localhost:8080/updateUser.html">Update User</a>
+                <a class="aNav" href="http://localhost:8080/registerRequests.html">Show Requests</a>
             </div>
         </li>
         <li class="dropdown">
@@ -91,7 +93,7 @@
     window.onload = function() {
         var userId = sessionStorage.getItem("UserId");
 
-        if (userId === null) {
+        if (userId === null || userId === "") {
             document.getElementById("currentuser").innerHTML = "Not logged in";
         }
         else {

@@ -2,94 +2,97 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link
+            href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,700;1,300&display=swap"
+            rel="stylesheet"
+    />
+    <link
+            rel="stylesheet"
+            href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+            integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
+            crossorigin="anonymous"
+    >
+    <link
+            rel="stylesheet"
+            type="text/css"
+            href="css/style.css"
+    />
     <title>Login</title>
 </head>
 <body>
-<div class="navbar">
-    <a href="http://localhost:8080/login.html">Login</a>
-    <a href="http://localhost:8080/machine.html">Machine</a>
-    <a href="http://localhost:8080/index.html">Home</a>
+<nav class="top-nav">
+    <div id="currentuser"></div>
+    <ul>
+        <li class="dropdown">
+            <a href="http://localhost:8080/index.html">
+                Home
+            </a>
+        </li>
+        <li class="dropdown">
+            <div class="dropbtn">Accounts
+            </div>
+            <div class="dropdown-content">
+                <a class="aNav" href="http://localhost:8080/getAccounts.html">Show accounts</a>
+                <a class="aNav" href="http://localhost:8080/updateAccount.html">Update account</a>
+                <a class="aNav" href="http://localhost:8080/createAccount.html">Create account</a>
+                <a class="aNav" href="http://localhost:8080/machine.html">Withdraw/Deposit</a>
+            </div>
+        </li>
+        <li class="dropdown">
+            <div class="dropbtn">Users
+            </div>
+            <div class="dropdown-content">
+                <a class="aNav" href="http://localhost:8080/signUp.html">SignUp</a>
+                <a class="aNav" href="http://localhost:8080/allUsers.html">Show Users</a>
+                <a class="aNav" href="http://localhost:8080/updateUser.html">Update User</a>
+                <a class="aNav" href="http://localhost:8080/registerRequests.html">Show Requests</a>
+            </div>
+        </li>
+        <li class="dropdown">
+            <div class="dropbtn">Transactions
+            </div>
+            <div class="dropdown-content">
+                <a class="aNav" href="http://localhost:8080/getAllTransactions.html">Show transactions</a>
+                <a class="aNav" href="http://localhost:8080/getAllTransactionsForCustomer.html">Show customer transactions</a>
+                <a class="aNav" href="http://localhost:8080/createtransaction.html">Create transaction</a>
+            </div>
+        </li>
+        <li class="btn-login">
+            <a href="http://localhost:8080/login.html">
+                Login
+            </a>
+        </li>
+    </ul>
+</nav>
+
+<div id="section-landing">
+    <div class="wrapper-landing">
+        <h1>
+            Please Login
+        </h1>
+        <a href="http://localhost:8080/signUp.html" class="createtransaction-btn">
+            Register
+        </a>
+    </div>
 </div>
 
+<div class="introduction-users">
 <form id="loginForm">
 
     <label>Email: </label> <input name="username"><br>
     <label>Password:</label> <input name="password" type="password"><br>
     <br />
-    <input type="button" id="loginUser" value="Login" onclick="POSTLogin()">
+    <button type="button" onclick="POSTLogin()">Login
+    </button>
 </form>
-<br />
-<br />
-<form id="registerForm">
-    <label>Firstname: </label> <input name="firstName"><br>
-    <label>Lastname: </label> <input name="lastName"><br>
-    <label>Email: </label> <input name="email"><br>
-    <label>Password:</label> <input name="passwordRegister" type="password"><br>
-    <br />
-    <input type="button" id="registerUser" value="Register" onclick="POSTRegister()">
-</form>
+
+</div>
 
 <br>
 <input type="button" id="logoutUser" value="Logout" onclick="DELETELogout()">
 
-<table id="table" border="1"></table>
-<h1 id="authToken"></h1>
-<script>
-
-    function DELETELogout()
-    {
-      var xhr =  new XMLHttpRequest();
-        xhr.open('DELETE','http://localhost:8080/logout');
-        xhr.setRequestHeader("Content-Type", "application/json");
-        xhr.setRequestHeader("ApiKeyAuth", sessionStorage.getItem("AuthToken"));
-        xhr.onload= (e) => {
-            alert(xhr.status);
-            sessionStorage.setItem("AuthToken", "");
-            sessionStorage.setItem("UserId", "");
-        }
-        xhr.send();
-    }
-    function POSTRegister()
-    {
-        var xhr =  new XMLHttpRequest();
-        xhr.open('POST','http://localhost:8080/register');
-        xhr.setRequestHeader("Content-Type", "application/json");
-        xhr.onload= (e) => {
-            alert(xhr.status);
-
-        }
-        xhr.send(JSON.stringify(
-            {
-                "firstName": document.forms["registerForm"]["firstName"].value ,
-                "lastName": document.forms["registerForm"]["lastName"].value,
-                "email": document.forms["registerForm"]["email"].value,
-                "password": document.forms["registerForm"]["passwordRegister"].value
-            }
-        ));
-    }
-
-
-    function POSTLogin(){
-        var xhr =  new XMLHttpRequest();
-        xhr.open('POST','http://localhost:8080/login');
-        xhr.setRequestHeader("Content-Type", "application/json");
-        xhr.onload= (e) => {
-            alert(xhr.status);
-            let response = JSON.parse(xhr.response);
-            sessionStorage.setItem("AuthToken", response.authToken);
-            sessionStorage.setItem("UserId", response.userId);
-            var userId = sessionStorage.getItem("UserId");
-        	alert(userId)
-        	alert(response.AuthToken)
-        }
-        xhr.send(JSON.stringify(
-            {
-                "username": document.forms["loginForm"]["username"].value ,
-                "password": document.forms["loginForm"]["password"].value
-            }
-        ));
-
-    }
+<script src="/js/javascript.js">
 </script>
+
 </body>
 </html>
