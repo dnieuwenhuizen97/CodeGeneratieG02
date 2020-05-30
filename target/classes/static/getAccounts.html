@@ -3,202 +3,113 @@
 <head>
     <meta charset="UTF-8">
     <link
+            href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,700;1,300&display=swap"
+            rel="stylesheet"
+    />
+    <link
+            rel="stylesheet"
+            href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+            integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
+            crossorigin="anonymous"
+    >
+    <link
             rel="stylesheet"
             type="text/css"
             href="css/style.css"
     />
-    <title>Show accounts</title>
+    <title>All Accounts</title>
 </head>
 <body>
-<div class="bodydiv">
-    <div class="navbar">
-        <a class="aNav" href="http://localhost:8080/index.html">Home</a>
-        <a class="aNav" href="http://localhost:8080/login.html">Login</a>
-        <a class="aNav" href="http://localhost:8080/machine.html">Machine</a>
-        <div class="dropdown">
-            <button class="dropbtn">Users
-            </button>
-            <div class="dropdown-content">
-                <a class="aNav" href="http://localhost:8080/signUp.html">SignUp</a>
-                <a class="aNav" href="http://localhost:8080/allUsers.html">Show Users</a>
-                <a class="aNav" href="http://localhost:8080/updateUser.html">Update User</a>
+<nav class="top-nav">
+    <div id="currentuser"></div>
+    <ul>
+        <li class="dropdown">
+            <a href="http://localhost:8080/index.html">
+                Home
+            </a>
+        </li>
+        <li class="dropdown">
+            <div class="dropbtn">Accounts
             </div>
-        </div>
-        <div class="dropdown">
-            <button class="dropbtn">Accounts
-            </button>
             <div class="dropdown-content">
                 <a class="aNav" href="http://localhost:8080/getAccounts.html">Show accounts</a>
                 <a class="aNav" href="http://localhost:8080/updateAccount.html">Update account</a>
                 <a class="aNav" href="http://localhost:8080/createAccount.html">Create account</a>
+                <a class="aNav" href="http://localhost:8080/machine.html">Withdraw/Deposit</a>
             </div>
-        </div>
+        </li>
+        <li class="dropdown">
+            <div class="dropbtn">Users
+            </div>
+            <div class="dropdown-content">
+                <a class="aNav" href="http://localhost:8080/signUp.html">SignUp</a>
+                <a class="aNav" href="http://localhost:8080/allUsers.html">Show Users</a>
+                <a class="aNav" href="http://localhost:8080/updateUser.html">Update User</a>
+                <a class="aNav" href="http://localhost:8080/registerRequests.html">Show Requests</a>
+            </div>
+        </li>
+        <li class="dropdown">
+            <div class="dropbtn">Transactions
+            </div>
+            <div class="dropdown-content">
+                <a class="aNav" href="http://localhost:8080/getAllTransactions.html">Show transactions</a>
+                <a class="aNav" href="http://localhost:8080/getAllTransactionsForCustomer.html">Show customer transactions</a>
+                <a class="aNav" href="http://localhost:8080/createtransaction.html">Create transaction</a>
+            </div>
+        </li>
+        <li class="btn-login">
+            <a href="http://localhost:8080/login.html">
+                Login
+            </a>
+        </li>
+    </ul>
+</nav>
 
-        <div id="currentuser"></div>
+<div id="section-landing">
+    <div class="wrapper-landing">
+        <h1>
+            All Accounts
+        </h1>
+        <a href="http://localhost:8080/getAccounts.html" class="createtransaction-btn">
+            Show all accounts
+        </a>
     </div>
 </div>
+
+<div class="introduction-users">
     <form id="search">
 
         <br>
         <label>Search by iban: </label> <input name="iban">
-        <input type="button" id="getByIban" class="buttons" value="Search" onclick="getAccountByIban()">
-        <input type="button" id="deleteByIban" class="buttons" value="Delete" onclick="deleteAccountByIban()">
+        <button type="button" onclick="getAccountByIban()">
+            <i class="fas fa-search"></i> Search
+        </button>
+        <button type="button" onclick="deleteAccountByIban()">
+            <i class="fas fa-search"></i> Delete
+        </button>
         <br><br>
         <label>Search by user id: </label> <input name="owner"><br>
-        <input type="button" id="getByOwner" class="buttons" value="Search" onclick="getAccountByUserId()">
-        <br>
-        <input type="button" id="GetAll" class="buttons" value="Show All Accounts" onclick="getAllAccounts()">
+        <button type="button" onclick="getAccountByUserId()">
+            <i class="fas fa-search"></i> Search
+        </button>
     </form>
+</div>
 
+    <div class="content">
     <p id="datadisplay">
         <br>
     </p>
     <p id="statusdisplay"></p>
+    </div>
 
+<script src="/js/javascript.js">
+</script>
 
 <script>
 
-    window.onload = function() {
-        var userId = sessionStorage.getItem("UserId");
-
-        if (userId === null) {
-            document.getElementById("currentuser").innerHTML = "Not logged in";
-        }
-        else {
-            document.getElementById("currentuser").innerHTML = "Hello user '" + userId + "'";
-        }
-
-        GETAllUsers();
-    }
-
-    function getAllAccounts() {
-
-        var xhr =  new XMLHttpRequest();
-
-        var url = 'http://localhost:8080/accounts';
-
-        xhr.open("GET", url);
-        xhr.setRequestHeader("ApiKeyAuth", sessionStorage.getItem("AuthToken"));
-        xhr.onload= (e) => {
-            alert(xhr.status);
-        }
-        xhr.send();
-
-        xhr.onreadystatechange=(e)=>{
-            var obj = JSON.parse(xhr.responseText);
-            CreateTableFromJSON(obj)
-            document.getElementById("statusdisplay").innerHTML = "";
-            document.getElementById("search").reset();
-        }
-    }
-
-    function getAccountByUserId() {
-
-        var xhr =  new XMLHttpRequest();
-
-        var url = 'http://localhost:8080/users/'+document.forms["search"]["owner"].value+'/accounts';
-
-        xhr.open("GET", url);
-        xhr.setRequestHeader("ApiKeyAuth", sessionStorage.getItem("AuthToken"));
-
-        xhr.onload= (e) => {
-            alert(xhr.status);
-        }
-
-        xhr.send();
-
-        xhr.onreadystatechange=(e)=>{
-            var obj = JSON.parse("[" + xhr.responseText + "]");
-            CreateTableFromJSON(obj);
-            document.getElementById("search").reset();
-        }
-    }
-
-    function getAccountByIban() {
-
-        var xhr =  new XMLHttpRequest();
-
-        var url = 'http://localhost:8080/accounts/'+document.forms["search"]["iban"].value;
-
-        xhr.open("GET", url);
-        xhr.setRequestHeader("ApiKeyAuth", sessionStorage.getItem("AuthToken"));
-
-        xhr.onload= (e) => {
-            alert(xhr.status);
-        }
-
-        xhr.send();
-
-        xhr.onreadystatechange=(e)=>{
-            var obj = JSON.parse(xhr.responseText);
-            CreateTableFromJSON(obj);
-            document.getElementById("search").reset();
-        }
-    }
-
-    function deleteAccountByIban() {
-
-        var xhr =  new XMLHttpRequest();
-
-        var url = 'http://localhost:8080/accounts/'+document.forms["search"]["iban"].value;
-
-        xhr.open("DELETE", url);
-        xhr.setRequestHeader("ApiKeyAuth", sessionStorage.getItem("AuthToken"));
-
-        xhr.onload= (e) => {
-            alert(xhr.status);
-        }
-
-        xhr.send();
-
-        xhr.onreadystatechange=(e)=>{
-            document.getElementById("statusdisplay").innerHTML = "User " + document.forms["search"]["user_id"].value + " succesfully deleted!";
-            document.getElementById("datadisplay").innerHTML = "";
-            document.getElementById("search").reset();
-        }
-    }
-
-    function CreateTableFromJSON(obj) {
-
-        var col = [];
-        for (var i = 0; i < obj.length; i++) {
-            for (var key in obj[i]) {
-                if (col.indexOf(key) === -1) {
-                    col.push(key);
-                }
-            }
-        }
-
-        // CREATE DYNAMIC TABLE.
-        var table = document.createElement("table");
-
-        // CREATE HTML TABLE HEADER ROW USING THE EXTRACTED HEADERS ABOVE.
-
-        var tr = table.insertRow(-1);                   // TABLE ROW.
-
-        for (var i = 0; i < col.length; i++) {
-            var th = document.createElement("th");      // TABLE HEADER.
-            th.innerHTML = col[i];
-            tr.appendChild(th);
-        }
-
-        // ADD JSON DATA TO THE TABLE AS ROWS.
-        for (var i = 0; i < obj.length; i++) {
-
-            tr = table.insertRow(-1);
-
-            for (var j = 0; j < col.length; j++) {
-                var tabCell = tr.insertCell(-1);
-                tabCell.innerHTML = obj[i][col[j]];
-            }
-        }
-
-        // FINALLY ADD THE NEWLY CREATED TABLE WITH JSON DATA TO A CONTAINER.
-        var divContainer = document.getElementById("datadisplay");
-        divContainer.innerHTML = "";
-        divContainer.appendChild(table);
-    }
-
+window.onload = function() {
+    getAllAccounts();
+}
 
 </script>
 

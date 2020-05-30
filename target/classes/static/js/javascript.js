@@ -565,6 +565,155 @@ function PostMachineTransfer()
     ));
 }
 
+function getAllAccounts() {
+
+    var xhr =  new XMLHttpRequest();
+
+    var url = 'http://localhost:8080/accounts';
+
+    xhr.open("GET", url);
+    xhr.setRequestHeader("ApiKeyAuth", sessionStorage.getItem("AuthToken"));
+    xhr.onload= (e) => {
+        alert(xhr.status);
+    }
+    xhr.send();
+
+    xhr.onreadystatechange=(e)=>{
+        var obj = JSON.parse(xhr.responseText);
+        CreateTableFromJSON(obj)
+        document.getElementById("statusdisplay").innerHTML = "";
+        document.getElementById("search").reset();
+    }
+}
+
+function getAccountByUserId() {
+
+    var xhr =  new XMLHttpRequest();
+
+    var url = 'http://localhost:8080/users/'+document.forms["search"]["owner"].value+'/accounts';
+
+    xhr.open("GET", url);
+    xhr.setRequestHeader("ApiKeyAuth", sessionStorage.getItem("AuthToken"));
+
+    xhr.onload= (e) => {
+        alert(xhr.status);
+    }
+
+    xhr.send();
+
+    xhr.onreadystatechange=(e)=>{
+        var obj = JSON.parse(xhr.responseText);
+        CreateTableFromJSON(obj);
+        document.getElementById("search").reset();
+    }
+}
+
+function getAccountByIban() {
+
+    var xhr =  new XMLHttpRequest();
+
+    var url = 'http://localhost:8080/accounts/'+document.forms["search"]["iban"].value;
+
+    xhr.open("GET", url);
+    xhr.setRequestHeader("ApiKeyAuth", sessionStorage.getItem("AuthToken"));
+
+    xhr.onload= (e) => {
+        alert(xhr.status);
+    }
+
+    xhr.send();
+
+    xhr.onreadystatechange=(e)=>{
+        var obj = JSON.parse("[" + xhr.responseText + "]");
+        CreateTableFromJSON(obj);
+        document.getElementById("search").reset();
+    }
+}
+
+function deleteAccountByIban() {
+
+    var xhr =  new XMLHttpRequest();
+
+    var url = 'http://localhost:8080/accounts/'+document.forms["search"]["iban"].value;
+
+    xhr.open("DELETE", url);
+    xhr.setRequestHeader("ApiKeyAuth", sessionStorage.getItem("AuthToken"));
+
+    xhr.onload= (e) => {
+        alert(xhr.status);
+        location.reload();
+    }
+
+    xhr.send();
+
+    xhr.onreadystatechange=(e)=>{
+        document.getElementById("statusdisplay").innerHTML = "User " + document.forms["search"]["user_id"].value + " succesfully deleted!";
+        document.getElementById("datadisplay").innerHTML = "";
+        document.getElementById("search").reset();
+    }
+}
+
+function updateAccount() {
+
+   var xhr =  new XMLHttpRequest();
+    xhr.open('PUT','http://localhost:8080/accounts/'+document.forms["updateform"]["iban"].value);
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.setRequestHeader("ApiKeyAuth", sessionStorage.getItem("AuthToken"));
+    xhr.onload= (e) => {
+        alert(xhr.status);
+        document.getElementById("updateform").reset();
+    }
+    xhr.send(JSON.stringify(
+        {
+            "balanceLimit": document.forms["updateform"]["balanceLimit"].value ,
+            "transactionAmountLimit": document.forms["updateform"]["transactionAmountLimit"].value ,
+            "transactionDayLimit": document.forms["updateform"]["transactionDayLimit"].value
+        }
+    ));
+}
+
+function postAccount(){
+    var xhr =  new XMLHttpRequest();
+
+    var userId = sessionStorage.getItem("UserId");
+    xhr.open('POST','http://localhost:8080/users/'+userId+'/accounts');
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.setRequestHeader("ApiKeyAuth", sessionStorage.getItem("AuthToken"));
+    xhr.onload= (e) => {
+        alert(xhr.status);
+        location.reload();
+    }
+    xhr.send(JSON.stringify(
+        {
+            "account_type": document.forms["createAccountForm"]["account_type"].value ,
+            "balance": document.forms["createAccountForm"]["balance"].value ,
+            "transactionDayLimit": document.forms["createAccountForm"]["transactionDayLimit"].value ,
+            "transactionAmountLimit": document.forms["createAccountForm"]["transactionAmountLimit"].value ,
+            "balanceLimit": document.forms["createAccountForm"]["balanceLimit"].value
+        }
+    ));
+}
+
+function createNewTransaction() {
+
+    var xhr =  new XMLHttpRequest();
+    xhr.open('POST','http://localhost:8080/transactions');
+    xhr.setRequestHeader("Content-Type", "application/json");
+    xhr.setRequestHeader("ApiKeyAuth", sessionStorage.getItem("AuthToken"));
+    xhr.onload= (e) => {
+        alert(xhr.status);
+        location.reload();
+    }
+    xhr.send(JSON.stringify(
+        {
+            "account_from": document.forms["createNewTransaction"]["account_from"].value,
+            "account_to": document.forms["createNewTransaction"]["account_to"].value,
+            "amount": document.forms["createNewTransaction"]["amount"].value
+        }
+    ));
+
+}
+
 window.onload = function() {
     var userId = sessionStorage.getItem("UserId");
 

@@ -68,10 +68,10 @@
 <div id="section-landing">
     <div class="wrapper-landing">
         <h1>
-            All users
+            Update Account
         </h1>
-        <a href="http://localhost:8080/allUsers.html" class="createtransaction-btn">
-            Show all users
+        <a href="http://localhost:8080/getAccounts.html" class="createtransaction-btn">
+            Show all accounts
         </a>
     </div>
 </div>
@@ -85,40 +85,11 @@
         <label>Transaction amount limit: </label> <input name="transactionAmountLimit"><br>
         <label>Transaction day limit:</label> <input name="transactionDayLimit"><br>
         <br />
-        <input type="button" id="updateaccount" class="buttons" value="Update" onclick="updateAccount()">
+        <button type="button" onclick="updateAccount()">Update</button>
     </form>
 </div>
-<script>
 
-    window.onload = function() {
-        var userId = sessionStorage.getItem("UserId");
-
-        if (userId === null || userId === "") {
-            document.getElementById("currentuser").innerHTML = "Not logged in";
-        }
-        else {
-            document.getElementById("currentuser").innerHTML = "Hello user '" + userId + "'";
-        }
-    }
-
-    function updateAccount() {
-
-       var xhr =  new XMLHttpRequest();
-        xhr.open('PUT','http://localhost:8080/accounts/'+document.forms["updateform"]["iban"].value);
-        xhr.setRequestHeader("Content-Type", "application/json");
-        xhr.setRequestHeader("ApiKeyAuth", sessionStorage.getItem("AuthToken"));
-        xhr.onload= (e) => {
-            alert(xhr.status);
-            document.getElementById("updateform").reset();
-        }
-        xhr.send(JSON.stringify(
-            {
-                "balanceLimit": document.forms["updateform"]["balanceLimit"].value ,
-                "transactionAmountLimit": document.forms["updateform"]["transactionAmountLimit"].value ,
-                "transactionDayLimit": document.forms["updateform"]["transactionDayLimit"].value
-            }
-        ));
-    }
+<script src="/js/javascript.js">
 </script>
 
 </body>
