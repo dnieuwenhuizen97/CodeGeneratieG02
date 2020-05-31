@@ -21,6 +21,7 @@ public class AuthenticationService {
     private UserRepository userRepository;
     private RegisterRequestRepository registerRequestRepository;
     private GeneralMethodsService generalMethodsService;
+    private BankAccount bankAccount = BankAccount.getBankAccount();
 
 
     public AuthenticationService(AuthTokenRepository authTokenRepository, UserRepository userRepository, RegisterRequestRepository registerRequestRepository,GeneralMethodsService generalMethodsService) {
@@ -68,6 +69,11 @@ public class AuthenticationService {
             return false;
 
         AuthToken authToken = authTokenRepository.findById(token).get();
+
+        //user performing request on bank own account that is not bank owner will be denied.
+        if(userId == bankAccount.getBankAccountOwnerId() && authToken.getUserId() != bankAccount.getBankAccountOwnerId())
+            return false;
+
         User.UserTypeEnum userType = userRepository.findById(authToken.getUserId()).get().getUserType();
 
         if(isEmployeeRequest && (userType == User.UserTypeEnum.CUSTOMER))

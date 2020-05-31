@@ -27,9 +27,9 @@ import org.springframework.stereotype.Service;
 public class TransactionService {
     private TransactionRepository transactionRepository;
     private AccountRepository accountRepository;
-    private Account bankOwnAccount;
     private UserRepository userRepository;
     private AuthTokenRepository authTokenRepository;
+    private BankAccount bankAccount = BankAccount.getBankAccount();
 
     public static String EXTERNAL_IBAN = "NL01INHO0000000001";
 
@@ -39,6 +39,45 @@ public class TransactionService {
         this.accountRepository = accountRepository;
         this.authTokenRepository = authTokenRepository;
     }
+
+    public Transaction createMachineTransfer(int userId, MachineTransfer machineTransfer)
+    {
+        List<Account> userAccounts = accountRepository.findAccountByOwner(userId);
+        if(userAccounts == null)
+            return null;
+
+        String currentUserAccount = null;
+        for (Account userAccount: userAccounts) {
+            if(userAccount.getAccountType() == Account.AccountTypeEnum.CURRENT)
+            {
+                currentUserAccount = userAccount.getIban();
+                switch (machineTransfer.getTransferType())
+                {
+                    //add amount to account and bank own account;
+                    case DEPOSIT:
+                        userAccount.setBalance(userAccount.getBalance() + machineTransfer.getAmount());
+                        bankAccount.addAmountToBankBalance(machineTransfer.getAmount());
+                        break;
+                    //remove amount from user account and bank account
+                    case WITHDRAW:
+                        if(userAccount.getBalance() < machineTransfer.getAmount())
+                            return null;
+                        userAccount.setBalance(userAccount.getBalance() - machineTransfer.getAmount());
+                        bankAccount.removeAmountFromBankBalance(machineTransfer.getAmount());
+                        break;
+                }
+            }
+        }
+        //only savings
+        if(currentUserAccount == null)
+            return null;
+        Transaction machineTransaction = new Transaction(machineTransfer.getTransferType().toString(), LocalDateTime.now().withSecond(0).withNano(0), currentUserAccount, currentUserAccount, machineTransfer.getAmount(), userId);
+        transactionRepository.save(machineTransaction);
+        return machineTransaction;
+    }
+
+
+
 
     public List<Transaction> getAllTransactions(Integer limit, Integer offset) throws Exception {
 
@@ -174,43 +213,7 @@ public class TransactionService {
         }
     }
 
-    public Transaction createMachineTransfer(int userId, MachineTransfer machineTransfer)
-    {
-        this.bankOwnAccount =  accountRepository.findById("NL01INHO0000000001").get();
-        List<Account> userAccounts = accountRepository.findAccountByOwner(userId);
 
-        if(userAccounts == null)
-            return null;
-
-        String currentUserAccount = null;
-        for (Account userAccount: userAccounts) {
-            if(userAccount.getAccountType() == Account.AccountTypeEnum.CURRENT)
-            {
-                currentUserAccount = userAccount.getIban();
-                switch (machineTransfer.getTransferType())
-                {
-                    //add amount to account and bank own account;
-                    case DEPOSIT:
-                        userAccount.setBalance(userAccount.getBalance() + machineTransfer.getAmount());
-                        bankOwnAccount.setBalance(bankOwnAccount.getBalance() + machineTransfer.getAmount());
-                        break;
-                    //remove amount from user account and bank account
-                    case WITHDRAW:
-                        if(userAccount.getBalance() < machineTransfer.getAmount())
-                            return null;
-                        userAccount.setBalance(userAccount.getBalance() - machineTransfer.getAmount());
-                        bankOwnAccount.setBalance(bankOwnAccount.getBalance() - machineTransfer.getAmount());
-                        break;
-                }
-            }
-        }
-        //only savings
-        if(currentUserAccount == null)
-            return null;
-        Transaction machineTransaction = new Transaction(machineTransfer.getTransferType().toString(), LocalDateTime.now().withSecond(0).withNano(0), currentUserAccount, currentUserAccount, machineTransfer.getAmount(), userId);
-        transactionRepository.save(machineTransaction);
-        return machineTransaction;
-    }
 
     //to do geld ook echt overschrijven
     public Transaction createTransactionForUser(Transaction transaction, String token) throws Exception {
@@ -226,6 +229,14 @@ public class TransactionService {
             transaction.setTransactionType(Transaction.TransactionTypeEnum.TRANSACTION);
         }
 
+        //if bank account transaction performed bij bank account owner
+        if(loggedInUser.getEmail().equals(bankAccount.getBankAccountOwnersEmail()) && transaction.getAccountFrom().equals(bankAccount.getBankAccountIban()))
+        {
+            bankAccount.peformBankTransfer(transaction.getAmount());
+            return transactionRepository.save(transaction);
+        }
+        else if(transaction.getAccountFrom().equals(bankAccount.getBankAccountIban()))
+            throw new Exception("You cannot transfer from the bank's own account");
 
         //Validate the provided input before creating transaction
         validateInput(transaction, loggedInUser);

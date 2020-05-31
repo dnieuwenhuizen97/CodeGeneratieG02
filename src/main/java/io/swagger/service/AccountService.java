@@ -2,9 +2,11 @@
 package io.swagger.service;
 
 import io.swagger.model.Account;
+import io.swagger.model.BankAccount;
 import io.swagger.repository.AccountRepository;
 import io.swagger.repository.UserRepository;
 import org.springframework.stereotype.Service;
+
 
 import java.util.List;
 import java.util.Random;
@@ -12,6 +14,7 @@ import java.util.Random;
 @Service
 public class AccountService {
     private AccountRepository accountRepository;
+    private BankAccount bankAccount = BankAccount.getBankAccount();
 
     public AccountService(AccountRepository repository) {
         this.accountRepository = repository;
@@ -27,13 +30,24 @@ public class AccountService {
     }
 
     public List<Account> getAllAccountsFromUser(Integer userId) {
+        //if owner bankown account, return account version of bank own account
+        if(userId == bankAccount.getBankAccountOwnerId())
+        {
+            List<Account> accountList = accountRepository.findAccountByOwner(userId);
+            accountList.add( new Account(bankAccount.getBankAccountIban(), "current", 0, 0, 0,0,bankAccount.getBankAccountBalance()));
+            return accountList;
+        }
 
         return (List<Account>)accountRepository.findAccountByOwner(userId);
     }
 
     public Account createAccount(Account newAccount, Integer userId){
+        //no checks on creating the account...
+
             newAccount.setIban(CreateIban());
             newAccount.setOwner(userId);
+
+            bankAccount.addAmountToBankBalance(newAccount.getBalance());
             accountRepository.save(newAccount);
             return newAccount;
     }
