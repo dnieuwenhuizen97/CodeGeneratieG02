@@ -31,7 +31,7 @@ public class AuthenticationService {
         this.generalMethodsService = generalMethodsService;
     }
 
-    public RegisterRequest CreateRegisterRequest(RegisterRequest registerRequest)
+    public RegisterRequest createRegisterRequest(RegisterRequest registerRequest)
     {
         //if user already reguested
         if(registerRequestRepository.findUserByEmail(registerRequest.getEmail()) != null)
@@ -42,10 +42,9 @@ public class AuthenticationService {
             return null;
 
         registerRequest.setPassword(generalMethodsService.cryptWithMD5(registerRequest.getPassword()));
-        registerRequestRepository.save(registerRequest);
-        return registerRequest;
+        return registerRequestRepository.save(registerRequest);
     }
-    public int DeleteRegisterRequest(int requestId)
+    public int deleteRegisterRequest(int requestId)
     {
         if(!registerRequestRepository.existsById(requestId))
             return 406;
@@ -53,7 +52,7 @@ public class AuthenticationService {
         return 204;
     }
 
-    public Integer SignOutUser(String authToken)
+    public Integer signOutUser(String authToken)
     {
         if(!authTokenRepository.existsById(authToken))
             return 406;
@@ -62,7 +61,7 @@ public class AuthenticationService {
     }
 
 
-    public boolean IsUserAuthenticated(String token, int userId, boolean isEmployeeRequest)
+    public boolean isUserAuthenticated(String token, int userId, boolean isEmployeeRequest)
     {
         //token exist
         if(!authTokenRepository.existsById(token))
@@ -94,7 +93,7 @@ public class AuthenticationService {
             return true;
     }
 
-    public AuthToken ValidateUserAndReturnAuthToken(Login login)
+    public AuthToken validateUserAndReturnAuthToken(Login login)
     {
         User user;
         if((user = userRepository.findUserByUserCredentials(login.getUsername(), generalMethodsService.cryptWithMD5(login.getPassword()))) == null)
@@ -106,12 +105,10 @@ public class AuthenticationService {
         }
 
         //token will expire after 30min from now
-        authToken = new AuthToken(CreateAuthToken(), user.getUserId(), LocalDateTime.now(), LocalDateTime.now().plusMinutes(30));
-        authTokenRepository.save(authToken);
-
-        return authToken;
+        return authTokenRepository.save(new AuthToken(createAuthToken(), user.getUserId(), LocalDateTime.now(), LocalDateTime.now().plusMinutes(30)));
     }
-    private String CreateAuthToken()
+
+    private String createAuthToken()
     {
         String alphabet = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
         Random rand = new Random();

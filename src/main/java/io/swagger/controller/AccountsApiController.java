@@ -46,7 +46,7 @@ public class AccountsApiController implements AccountsApi {
         String accept = request.getHeader("Accept");
 
         String apiKeyAuth = request.getHeader("ApiKeyAuth");
-        if(!authenticationService.IsUserAuthenticated(apiKeyAuth, 0, true))
+        if(!authenticationService.isUserAuthenticated(apiKeyAuth, 0, true))
             return new ResponseEntity(HttpStatus.FORBIDDEN);
 
         return new ResponseEntity<Void>(HttpStatus.valueOf(accountService.deleteAccount(iban)));
@@ -60,7 +60,7 @@ public class AccountsApiController implements AccountsApi {
         String accept = request.getHeader("Accept");
 
         String apiKeyAuth = request.getHeader("ApiKeyAuth");
-        if(!authenticationService.IsUserAuthenticated(apiKeyAuth, 0, true))
+        if(!authenticationService.isUserAuthenticated(apiKeyAuth, 0, true))
             return new ResponseEntity(HttpStatus.FORBIDDEN);
 
         if (accept != null && accept.contains("application/json")) {
@@ -80,7 +80,7 @@ public class AccountsApiController implements AccountsApi {
         String accept = request.getHeader("Accept");
 
         String apiKeyAuth = request.getHeader("ApiKeyAuth");
-        if(!authenticationService.IsUserAuthenticated(apiKeyAuth, 0, false))
+        if(!authenticationService.isUserAuthenticated(apiKeyAuth, 0, false))
             return new ResponseEntity(HttpStatus.FORBIDDEN);
 
         if (accept != null && accept.contains("application/json")) {
@@ -102,7 +102,7 @@ public class AccountsApiController implements AccountsApi {
 
         String apiKeyAuth = request.getHeader("ApiKeyAuth");
 
-        if(!authenticationService.IsUserAuthenticated(apiKeyAuth, 0, true))
+        if(!authenticationService.isUserAuthenticated(apiKeyAuth, 0, true))
             return new ResponseEntity(HttpStatus.FORBIDDEN);
 
         if (accept != null && accept.contains("application/json")) {

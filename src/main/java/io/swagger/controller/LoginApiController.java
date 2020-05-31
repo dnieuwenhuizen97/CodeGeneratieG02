@@ -48,7 +48,7 @@ public class LoginApiController implements LoginApi {
                 return new ResponseEntity<AuthToken>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
-        AuthToken authToken = authService.ValidateUserAndReturnAuthToken(body);
+        AuthToken authToken = authService.validateUserAndReturnAuthToken(body);
         //if no user found token is null
         if (authToken == null)
             return new ResponseEntity(HttpStatus.valueOf(401));

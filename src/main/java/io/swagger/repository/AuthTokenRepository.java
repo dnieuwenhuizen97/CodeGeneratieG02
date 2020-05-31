@@ -21,5 +21,5 @@ public interface AuthTokenRepository extends CrudRepository<AuthToken,String> {
     @Modifying
     @Transactional
     @Query("DELETE FROM AuthToken t WHERE t.tokenExpires <= :dateTime")
-    void DeleteAuthTokenByDate(@Param("dateTime") LocalDateTime dateTime);
+    void deleteAuthTokenByDate(@Param("dateTime") LocalDateTime dateTime);
 }

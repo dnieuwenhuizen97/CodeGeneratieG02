@@ -71,9 +71,7 @@ public class TransactionService {
         //only savings
         if(currentUserAccount == null)
             return null;
-        Transaction machineTransaction = new Transaction(machineTransfer.getTransferType().toString(), LocalDateTime.now().withSecond(0).withNano(0), currentUserAccount, currentUserAccount, machineTransfer.getAmount(), userId);
-        transactionRepository.save(machineTransaction);
-        return machineTransaction;
+        return transactionRepository.save(new Transaction(machineTransfer.getTransferType().toString(), LocalDateTime.now().withSecond(0).withNano(0), currentUserAccount, currentUserAccount, machineTransfer.getAmount(), userId));
     }
 
 
@@ -264,6 +262,9 @@ public class TransactionService {
             //This is external bank account
             account = accountRepository.findById(EXTERNAL_IBAN).get();
             double newBalance = account.getBalance()-transaction.getAmount();
+
+            //money will be removed from bank so also from the bank own account
+            bankAccount.removeAmountFromBankBalance(transaction.getAmount());
             account.setBalance(newBalance);
         }
 

@@ -49,7 +49,7 @@ public class TransactionsApiController implements TransactionsApi {
 
         String apiKeyAuth = request.getHeader("ApiKeyAuth");
 
-        if(!authService.IsUserAuthenticated(apiKeyAuth, 0, false))
+        if(!authService.isUserAuthenticated(apiKeyAuth, 0, false))
             return new ResponseEntity(HttpStatus.FORBIDDEN);
 
         try {
@@ -81,7 +81,7 @@ public class TransactionsApiController implements TransactionsApi {
 
         //if not authenticated
         String apiKeyAuth = request.getHeader("ApiKeyAuth");
-        if(!authService.IsUserAuthenticated(apiKeyAuth, 0, true))
+        if(!authService.isUserAuthenticated(apiKeyAuth, 0, true))
             return new ResponseEntity(HttpStatus.FORBIDDEN);
 
 
@@ -97,46 +97,5 @@ public class TransactionsApiController implements TransactionsApi {
         }
 
     }
-
-
-
-    //Pagable is used in order to allow a paginated response for a user instead of pulling all the records at the time.
-    /*@Override
-    public ResponseEntity getAllTransactionsForUser(@Valid Integer userId,
-                                                    Pageable pageable) {
-        ResponseEntity responseEntity = null;
-        String responseMessage = null;
-
-        User user  = userService.FindUserById(userId);
-        if (user == null) {
-            // no user found for give userId
-            responseMessage = String.format("The user id you entered is wrong %s",
-                    userId);
-        } else if (user.getUserType() != User.UserTypeEnum.EMPLOYEE) {
-            //user is not an employee
-            responseMessage = String.format("You cannot search for all transactions.");
-        }else {
-            responseMessage = String.format("failed.");
-
-        }
-
-        Page<Transaction> transactions = service.getAllTransactionsOfUser(userId, pageable);
-
-        if(transactions.isEmpty()){
-            // if there are no transactions found.
-            responseMessage = String.format("No transactions found for User ID %s", userId);
-        }else {
-            responseEntity = ResponseEntity.ok().body(new ResponseWrapper(transactions));
-        }
-
-        //If responseMessage is set create a response entity with responseMessage
-        if (responseMessage != null) {
-            responseEntity = ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-                    (JsonNode) objectMapper.createObjectNode().put("message",
-                            responseMessage));
-        }
-
-        return responseEntity;
-    }*/
 
 }

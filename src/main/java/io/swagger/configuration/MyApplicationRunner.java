@@ -121,7 +121,7 @@ public class MyApplicationRunner implements ApplicationRunner {
 
         expiredTokenDeleteTimer.scheduleAtFixedRate(new TimerTask() {
             public void run() {
-                authTokenRepository.DeleteAuthTokenByDate(LocalDateTime.now());
+                authTokenRepository.deleteAuthTokenByDate(LocalDateTime.now());
             }
         }, delay, period);
     }
