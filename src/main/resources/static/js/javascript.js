@@ -318,6 +318,24 @@ function GETUserById() {
     }
 }
 
+function GETCurrentUserById(userId) {
+
+    var xhr =  new XMLHttpRequest();
+
+    var url = 'http://localhost:8080/users/'+userId;
+
+    xhr.open("GET", url);
+    xhr.setRequestHeader("ApiKeyAuth", sessionStorage.getItem("AuthToken"));
+
+    xhr.send();
+
+    xhr.onreadystatechange=(e)=>{
+        var obj = JSON.parse(xhr.responseText);
+
+        document.getElementById("currentuser").innerHTML = "Hello " + obj.firstName + "!";
+    }
+}
+
 function GETUserByEmail() {
 
     var xhr =  new XMLHttpRequest();
@@ -727,12 +745,14 @@ window.onload = function() {
    var loginbtn = document.getElementById("login");
    var logoutbtn = document.getElementById("logout");
 
+
+
    if (userId === null || userId === "") {
        document.getElementById("currentuser").innerHTML = "Not logged in";
        logoutbtn.style.display='none';
    }
    else {
-       document.getElementById("currentuser").innerHTML = "Hello user '" + userId + "'";
+       GETCurrentUserById(userId);
        loginbtn.style.display='none';
    }
 }

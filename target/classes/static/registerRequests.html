@@ -80,7 +80,9 @@
         </a>
     </div>
 </div>
+<div class="content">
 <table id="userRequestsTable"></table>
+</div>
 
 <script src="/js/javascript.js">
 </script>
@@ -95,7 +97,7 @@
            logoutbtn.style.display='none';
        }
        else {
-           document.getElementById("currentuser").innerHTML = "Hello user '" + userId + "'";
+           GETCurrentUserById(userId);
            loginbtn.style.display='none';
        }
         GetUserRequests();
