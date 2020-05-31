@@ -63,20 +63,20 @@ public class AccountService {
 
     public String CreateIban()
     {
-        String iban = "NL54INHO0123456789";
-//        Random r = new Random();
-//
-//        iban += "NL";
-//        for(int i = 1; i <=2; i++)
-//        {
-//            iban += Integer.toString(r.nextInt(10));
-//        }
-//
-//        iban += "INHO0";
-//        for(int i = 1; i <=9; i++)
-//        {
-//            iban += Integer.toString(r.nextInt(10));
-//        }
+        String iban = "";
+        Random r = new Random();
+
+        iban += "NL";
+        for(int i = 1; i <=2; i++)
+        {
+            iban += Integer.toString(r.nextInt(10));
+        }
+
+        iban += "INHO0";
+        for(int i = 1; i <=9; i++)
+        {
+            iban += Integer.toString(r.nextInt(10));
+        }
         return iban;
     }
 }

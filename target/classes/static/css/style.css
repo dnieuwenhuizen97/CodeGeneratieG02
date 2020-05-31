@@ -184,6 +184,9 @@ th:hover, td:hover {
     border: 1px solid #ffffff;
     padding: 8px 26px;
 }
+.btn-login:hover {
+    cursor : pointer;
+}
 
 .createtransaction-btn {
     border: 1px solid #ffffff;

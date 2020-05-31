@@ -62,6 +62,11 @@
                 Login
             </a>
         </li>
+        <li class="btn-login" id="logout" onclick="DELETELogout()">
+            <a>
+                Logout
+            </a>
+        </li>
     </ul>
 </nav>
 
@@ -154,6 +159,18 @@
 <script src="/js/javascript.js"></script>
 <script>
     window.onload = function() {
+        var userId = sessionStorage.getItem("UserId");
+       var loginbtn = document.getElementById("login");
+       var logoutbtn = document.getElementById("logout");
+
+       if (userId === null || userId === "") {
+           document.getElementById("currentuser").innerHTML = "Not logged in";
+           logoutbtn.style.display='none';
+       }
+       else {
+           document.getElementById("currentuser").innerHTML = "Hello user '" + userId + "'";
+           loginbtn.style.display='none';
+       }
         searchTransactionByCustomer();
     }
 </script>

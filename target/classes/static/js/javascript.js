@@ -104,7 +104,12 @@ function CreateTableFromJSONUserPage(obj) {
     var idArr2 = idArr[1].split("<");
     var id = idArr2[0];
     sessionStorage.setItem("UpdateId", id);
-    window.location.href = "http://localhost:8080/updateUser.html";
+    if (id.length > 10) {
+        window.location.href = "http://localhost:8080/updateAccount.html";
+    }
+    else {
+        window.location.href = "http://localhost:8080/updateUser.html";
+    }
     var divContainer = document.getElementById("datadisplay");
     divContainer.innerHTML = sessionStorage.getItem("UpdateId");
     }
@@ -580,7 +585,7 @@ function getAllAccounts() {
 
     xhr.onreadystatechange=(e)=>{
         var obj = JSON.parse(xhr.responseText);
-        CreateTableFromJSON(obj)
+        CreateTableFromJSONUserPage(obj)
         document.getElementById("statusdisplay").innerHTML = "";
         document.getElementById("search").reset();
     }
@@ -603,7 +608,7 @@ function getAccountByUserId() {
 
     xhr.onreadystatechange=(e)=>{
         var obj = JSON.parse(xhr.responseText);
-        CreateTableFromJSON(obj);
+        CreateTableFromJSONUserPage(obj);
         document.getElementById("search").reset();
     }
 }
@@ -625,7 +630,7 @@ function getAccountByIban() {
 
     xhr.onreadystatechange=(e)=>{
         var obj = JSON.parse("[" + xhr.responseText + "]");
-        CreateTableFromJSON(obj);
+        CreateTableFromJSONUserPage(obj);
         document.getElementById("search").reset();
     }
 }
@@ -665,6 +670,7 @@ function updateAccount() {
     }
     xhr.send(JSON.stringify(
         {
+            "iban": document.forms["updateform"]["iban"].value ,
             "balanceLimit": document.forms["updateform"]["balanceLimit"].value ,
             "transactionAmountLimit": document.forms["updateform"]["transactionAmountLimit"].value ,
             "transactionDayLimit": document.forms["updateform"]["transactionDayLimit"].value
@@ -685,6 +691,7 @@ function postAccount(){
     }
     xhr.send(JSON.stringify(
         {
+            "iban": "nl00inho0000000000" ,
             "account_type": document.forms["createAccountForm"]["account_type"].value ,
             "balance": document.forms["createAccountForm"]["balance"].value ,
             "transactionDayLimit": document.forms["createAccountForm"]["transactionDayLimit"].value ,
@@ -715,12 +722,16 @@ function createNewTransaction() {
 }
 
 window.onload = function() {
-    var userId = sessionStorage.getItem("UserId");
+   var userId = sessionStorage.getItem("UserId");
+   var loginbtn = document.getElementById("login");
+   var logoutbtn = document.getElementById("logout");
 
-    if (userId === null || userId === "") {
-        document.getElementById("currentuser").innerHTML = "Not logged in";
-    }
-    else {
-        document.getElementById("currentuser").innerHTML = "Hello user '" + userId + "'";
-    }
+   if (userId === null || userId === "") {
+       document.getElementById("currentuser").innerHTML = "Not logged in";
+       logoutbtn.style.display='none';
+   }
+   else {
+       document.getElementById("currentuser").innerHTML = "Hello user '" + userId + "'";
+       loginbtn.style.display='none';
+   }
 }
