@@ -3,10 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="d049dca3-d6f9-4932-a4e5-24057367c984" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/io/swagger/service/AccountService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/swagger/service/AccountService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/static/allUsers.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/allUsers.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/static/createAccount.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/createAccount.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/static/createtransaction.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/createtransaction.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/css/style.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/static/getAccounts.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/getAccounts.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/static/getAllTransactions.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/getAllTransactions.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/static/getAllTransactionsForCustomer.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/getAllTransactionsForCustomer.html" afterDir="false" />
@@ -18,15 +18,19 @@
       <change beforePath="$PROJECT_DIR$/src/main/resources/static/signUp.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/signUp.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/static/updateAccount.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/updateAccount.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/static/updateUser.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/updateUser.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/io/swagger/service/AccountService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/io/swagger/service/AccountService.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/static/allUsers.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/allUsers.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/createAccount.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/createAccount.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/createtransaction.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/createtransaction.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/static/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/css/style.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/static/getAccounts.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/getAccounts.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/static/getAllTransactions.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/getAllTransactions.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/static/getAllTransactionsForCustomer.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/getAllTransactionsForCustomer.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/static/js/javascript.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/js/javascript.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/static/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/machine.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/machine.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/static/registerRequests.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/registerRequests.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/static/signUp.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/signUp.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/static/updateAccount.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/updateAccount.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/static/updateUser.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/updateUser.html" afterDir="false" />
     </list>
@@ -270,22 +274,22 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="811" y="411" key="#com.intellij.ide.util.projectWizard.JdkChooserPanel.MyDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1590830405129" />
-    <state width="1877" height="183" key="GridCell.Tab.0.bottom" timestamp="1590914344514">
+    <state width="1877" height="183" key="GridCell.Tab.0.bottom" timestamp="1590915949611">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="183" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1590914344514" />
-    <state width="1877" height="183" key="GridCell.Tab.0.center" timestamp="1590914344514">
+    <state width="1877" height="183" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1590915949611" />
+    <state width="1877" height="183" key="GridCell.Tab.0.center" timestamp="1590915949611">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="183" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1590914344514" />
-    <state width="1877" height="183" key="GridCell.Tab.0.left" timestamp="1590914344514">
+    <state width="1877" height="183" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1590915949611" />
+    <state width="1877" height="183" key="GridCell.Tab.0.left" timestamp="1590915949611">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="183" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1590914344514" />
-    <state width="1877" height="183" key="GridCell.Tab.0.right" timestamp="1590914344514">
+    <state width="1877" height="183" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1590915949611" />
+    <state width="1877" height="183" key="GridCell.Tab.0.right" timestamp="1590915949611">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1877" height="183" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1590914344514" />
+    <state width="1877" height="183" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1590915949611" />
     <state x="490" y="177" key="Maven.ArtifactSearchDialog" timestamp="1590837720379">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

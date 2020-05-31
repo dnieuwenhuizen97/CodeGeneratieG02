@@ -680,6 +680,7 @@ function updateAccount() {
 
 function postAccount(){
     var xhr =  new XMLHttpRequest();
+    var t = document.getElementById("account_type");
 
     var userId = sessionStorage.getItem("UserId");
     xhr.open('POST','http://localhost:8080/users/'+userId+'/accounts');
@@ -692,7 +693,7 @@ function postAccount(){
     xhr.send(JSON.stringify(
         {
             "iban": "nl00inho0000000000" ,
-            "account_type": document.forms["createAccountForm"]["account_type"].value ,
+            "account_type": t.options[t.selectedIndex].value,
             "balance": document.forms["createAccountForm"]["balance"].value ,
             "transactionDayLimit": document.forms["createAccountForm"]["transactionDayLimit"].value ,
             "transactionAmountLimit": document.forms["createAccountForm"]["transactionAmountLimit"].value ,

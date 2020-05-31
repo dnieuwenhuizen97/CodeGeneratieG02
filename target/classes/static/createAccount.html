@@ -57,7 +57,7 @@
                 <a class="aNav" href="http://localhost:8080/createtransaction.html">Create transaction</a>
             </div>
         </li>
-        <li class="btn-login">
+        <li class="btn-login" id="login">
             <a href="http://localhost:8080/login.html">
                 Login
             </a>
@@ -84,9 +84,7 @@
 <div class="introduction-users">
 <form id="createAccountForm">
     <br>
-    <p>Choose a type for account:</p>
-    <input type="radio" id="current" name="account_type" value="current" checked="checked"/><label for="current"> Current</label><br>
-    <input type="radio" id="savings" name="account_type" value="savings"/><label for="savings"> Savings</label><br>
+    <label>Accout type:</label><select id="account_type"><option value="current">Current</option><option value="savings">Savings</option></select>
     <br><br>
     <label>Transaction Day Limit:</label> <input name="transactionDayLimit"><br>
     <label>Transaction Amount Limit:</label> <input name="transactionAmountLimit"><br>
