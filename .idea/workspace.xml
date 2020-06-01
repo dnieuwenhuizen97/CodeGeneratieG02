@@ -3,15 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="d049dca3-d6f9-4932-a4e5-24057367c984" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/allUsers.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/allUsers.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/getAccounts.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/getAccounts.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/getAllTransactions.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/getAllTransactions.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/getAllTransactionsForCustomer.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/getAllTransactionsForCustomer.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/js/javascript.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/js/javascript.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/registerRequests.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/registerRequests.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/updateAccount.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/updateAccount.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/static/updateUser.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/updateUser.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/static/js/javascript.js" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/static/js/javascript.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/swagger/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/swagger/service/UserService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

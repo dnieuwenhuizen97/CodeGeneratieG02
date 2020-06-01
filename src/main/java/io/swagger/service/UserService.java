@@ -47,7 +47,7 @@ public class UserService {
 
         //encrypt password
         user.setPassword(generalMethodsService.cryptWithMD5(user.getPassword()));
-        userRepository.save(user);
+        createUser(user);
         return user;
     }
 
