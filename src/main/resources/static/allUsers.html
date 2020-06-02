@@ -84,7 +84,7 @@
     <div class="introduction-users">
     <form id="search">
 
-        <label>Search By ID: </label> <input name="user_id">
+        <label>Search By ID: </label> <input name="user_id" placeholder="Example: 123456">
         <button type="button" onclick="GETUserById()">
             <i class="fas fa-search"></i> Search
         </button>
@@ -92,12 +92,12 @@
             <i class="fas fa-search"></i> Delete
         </button>
         <br>
-        <label>Search By Email: </label> <input name="email">
+        <label>Search By Email: </label> <input name="email" placeholder="Example: example@mail.com">
         <button type="button"  onclick="GETUserByEmail()">
             <i class="fas fa-search"></i> Search
         </button>
         <br>
-        <label>Search By Name: </label> <input name="lastName">
+        <label>Search By Name: </label> <input name="lastName" placeholder="Example: Lastname">
         <button type="button" onclick="GETUserByName()">
             <i class="fas fa-search"></i> Search
         </button>
@@ -116,18 +116,7 @@
 
 <script>
     window.onload = function() {
-        var userId = sessionStorage.getItem("UserId");
-       var loginbtn = document.getElementById("login");
-       var logoutbtn = document.getElementById("logout");
-
-       if (userId === null || userId === "") {
-           document.getElementById("currentuser").innerHTML = "Not logged in";
-           logoutbtn.style.display='none';
-       }
-       else {
-           GETCurrentUserById(userId);
-           loginbtn.style.display='none';
-       }
+       DisplayCurrentUser();
         GETAllUsers();
     }
 </script>

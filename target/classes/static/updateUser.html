@@ -85,11 +85,11 @@
 <form id="updateform">
 
     <br>
-    <label>User ID: </label> <input id="uid" name="user_id"><br>
-    <label>First Name: </label> <input name="firstName"><br>
-    <label>Last Name:</label> <input name="lastName"><br>
-    <label>Email: </label> <input name="email"><br>
-    <label>Password: </label> <input name="password" type="password"><br>
+    <label>User ID: </label> <input id="uid" name="user_id" placeholder="Example: 123456"><br>
+    <label>First Name: </label> <input name="firstName" placeholder="Example: John"><br>
+    <label>Last Name:</label> <input name="lastName" placeholder="Example: Doe"><br>
+    <label>Email: </label> <input name="email" placeholder="Example: johndoe@examplemail.com"><br>
+    <label>Password: </label> <input name="password" type="password" placeholder="Example: password"><br>
     <br />
     <button type="button" onclick="PUTUser()">Update
     </button>
@@ -102,18 +102,7 @@
 <script>
 
 window.onload = function() {
-    var userId = sessionStorage.getItem("UserId");
-   var loginbtn = document.getElementById("login");
-   var logoutbtn = document.getElementById("logout");
-
-   if (userId === null || userId === "") {
-       document.getElementById("currentuser").innerHTML = "Not logged in";
-       logoutbtn.style.display='none';
-   }
-   else {
-       GETCurrentUserById(userId);
-       loginbtn.style.display='none';
-   }
+    DisplayCurrentUser();
 
     var id = sessionStorage.getItem("UpdateId");
 

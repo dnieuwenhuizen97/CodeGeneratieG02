@@ -88,18 +88,7 @@
 </script>
 <script>
     window.onload = function() {
-        var userId = sessionStorage.getItem("UserId");
-       var loginbtn = document.getElementById("login");
-       var logoutbtn = document.getElementById("logout");
-
-       if (userId === null || userId === "") {
-           document.getElementById("currentuser").innerHTML = "Not logged in";
-           logoutbtn.style.display='none';
-       }
-       else {
-           GETCurrentUserById(userId);
-           loginbtn.style.display='none';
-       }
+        DisplayCurrentUser();
         GetUserRequests();
     }
 </script>

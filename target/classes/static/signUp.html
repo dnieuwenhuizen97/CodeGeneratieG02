@@ -82,11 +82,11 @@
 <form id="signupform">
 
     <br>
-    <label>First Name:</label> <input name="firstName"><br>
-    <label>Last Name:</label> <input name="lastName"><br>
-    <label>Email: </label> <input name="email"><br>
-    <label>Password: </label> <input name="password" type="password"><br>
-    <label>User Type: </label> <input name="user_type"><br>
+    <label>User Type:</label><select name="user_type"><option value="customer">Customer</option><option value="employee">Employee</option></select><br>
+    <label>First Name:</label> <input name="firstName" placeholder="Example: John"><br>
+    <label>Last Name:</label> <input name="lastName" placeholder="Example: Doe"><br>
+    <label>Email: </label> <input name="email" placeholder="Example: johndoe@examplemail.com"><br>
+    <label>Password: </label> <input name="password" type="password" placeholder="Example: password"><br>
     <br />
     <button type="button" onclick="POSTUser()">Sign Up
     </button>

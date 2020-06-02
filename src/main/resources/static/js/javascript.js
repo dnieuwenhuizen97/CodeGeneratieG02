@@ -17,6 +17,21 @@ function getAllTransactions() {
     }
 }
 
+function DisplayCurrentUser() {
+     var userId = sessionStorage.getItem("UserId");
+           var loginbtn = document.getElementById("login");
+           var logoutbtn = document.getElementById("logout");
+
+           if (userId === null || userId === "") {
+               document.getElementById("currentuser").innerHTML = "Not logged in";
+               logoutbtn.style.display='none';
+           }
+           else {
+               GETCurrentUserById(userId);
+               loginbtn.style.display='none';
+           }
+}
+
 function CreateTableFromJSON(obj) {
     var col = [];
     for (var i = 0; i < obj.length; i++) {

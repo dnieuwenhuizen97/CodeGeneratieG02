@@ -85,10 +85,10 @@
     <form id="updateform">
 
         <br>
-        <label>Iban: </label> <input id="iban" name="iban"><br>
-        <label>Balance limit: </label> <input name="balanceLimit"><br>
-        <label>Transaction amount limit: </label> <input name="transactionAmountLimit"><br>
-        <label>Transaction day limit:</label> <input name="transactionDayLimit"><br>
+        <label>Iban: </label> <input id="iban" name="iban" placeholder="Example: NL00INHO0123456789"><br>
+        <label>Balance limit: </label> <input name="balanceLimit" placeholder="Example: 50000"><br>
+        <label>Transaction amount limit: </label> <input name="transactionAmountLimit" placeholder="Example: 5000"><br>
+        <label>Transaction day limit:</label> <input name="transactionDayLimit" placeholder="Example: 100"><br>
         <br />
         <button type="button" onclick="updateAccount()">Update</button>
     </form>
@@ -99,19 +99,7 @@
 <script>
 
 window.onload = function() {
-    var userId = sessionStorage.getItem("UserId");
-       var loginbtn = document.getElementById("login");
-       var logoutbtn = document.getElementById("logout");
-
-       if (userId === null || userId === "") {
-           document.getElementById("currentuser").innerHTML = "Not logged in";
-           logoutbtn.style.display='none';
-       }
-       else {
-           GETCurrentUserById(userId);
-           loginbtn.style.display='none';
-       }
-
+    DisplayCurrentUser();
     var id = sessionStorage.getItem("UpdateId");
 
     document.getElementById('iban').value = id;
