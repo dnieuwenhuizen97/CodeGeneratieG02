@@ -14,7 +14,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.StreamingHttpOutputMessage;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,8 +22,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.validation.Valid;
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.constraints.NotNull;
+
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-28T15:21:59.457Z[GMT]")
@@ -90,7 +91,7 @@ public class UsersApiController implements UsersApi {
         }
 
         try {
-            return new ResponseEntity<User>(userService.SignUpUser(body), HttpStatus.CREATED);
+            return new ResponseEntity<User>(userService.signUpUser(body), HttpStatus.CREATED);
         }
         catch (Exception e){
             System.out.println(e);
@@ -106,7 +107,7 @@ public class UsersApiController implements UsersApi {
         if(!authService.isUserAuthenticated(apiKeyAuth, 0, true))
             return new ResponseEntity(HttpStatus.FORBIDDEN);
 
-        return new ResponseEntity<Void>(HttpStatus.valueOf(userService.DeleteUserById(userId)));
+        return new ResponseEntity<Void>(HttpStatus.valueOf(userService.deleteUserById(userId)));
     }
 
     public ResponseEntity<List<Account>> getAccountsByUser(@ApiParam(value = "user of a specific account",required=true) @PathVariable("userId") Integer userId
@@ -145,7 +146,7 @@ public class UsersApiController implements UsersApi {
             }
         }
 
-        return new ResponseEntity<List<RegisterRequest>>(userService.FindAllRegisterRequests(), HttpStatus.OK);
+        return new ResponseEntity<List<RegisterRequest>>(userService.findAllRegisterRequests(), HttpStatus.OK);
     }
 
     public ResponseEntity<List<Transaction>> getAllTransactionsFromUser(@ApiParam(value = "Get details of transaction based on iban",required=true) @PathVariable("userId") Integer userId
@@ -178,13 +179,10 @@ public class UsersApiController implements UsersApi {
             ,@ApiParam(value = "The name the user should have") @Valid @RequestParam(value = "name", required = false) String name
             ,@ApiParam(value = "The email the user should have") @Valid @RequestParam(value = "email", required = false) String email
     ) {
-
         String accept = request.getHeader("Accept");
-
         String apiKeyAuth = request.getHeader("ApiKeyAuth");
         if(!authService.isUserAuthenticated(apiKeyAuth, 0, true))
             return new ResponseEntity(HttpStatus.FORBIDDEN);
-
         if (accept != null && accept.contains("application/json")) {
             try {
                 return new ResponseEntity<List<User>>(objectMapper.readValue("[ {\n  \"firstName\" : \"John\",\n  \"lastName\" : \"van Vuuren\",\n  \"password\" : \"thisismypassword3485\",\n  \"user_type\" : [ \"customer\", \"customer\" ],\n  \"user_id\" : 1,\n  \"email\" : \"john@vanVuuren.com\"\n}, {\n  \"firstName\" : \"John\",\n  \"lastName\" : \"van Vuuren\",\n  \"password\" : \"thisismypassword3485\",\n  \"user_type\" : [ \"customer\", \"customer\" ],\n  \"user_id\" : 1,\n  \"email\" : \"john@vanVuuren.com\"\n} ]", List.class), HttpStatus.NOT_IMPLEMENTED);
@@ -194,7 +192,18 @@ public class UsersApiController implements UsersApi {
             }
         }
 
-        return new ResponseEntity<List<User>>(userService.GetAllUsers(), HttpStatus.OK);
+        if (email != null) {
+            User u = userService.findUserByEmail(email);
+            List<User> users = new ArrayList<User>();
+            if (u == null)
+                return new ResponseEntity(HttpStatus.NOT_ACCEPTABLE);
+            users.add(u);
+            return new ResponseEntity<List<User>>(users, HttpStatus.OK);
+        }
+        else if (name != null) {
+            return new ResponseEntity<List<User>>(userService.findUserByName(name), HttpStatus.OK);
+        }
+        return new ResponseEntity<List<User>>(userService.getAllUsers(), HttpStatus.OK);
     }
 
     public ResponseEntity<User> getUserById(@ApiParam(value = "The id from the user",required=true) @PathVariable("userId") Integer userId
@@ -205,7 +214,7 @@ public class UsersApiController implements UsersApi {
         if(!authService.isUserAuthenticated(apiKeyAuth, userId, false))
             return new ResponseEntity(HttpStatus.FORBIDDEN);
 
-        return new ResponseEntity<User>(userService.FindUserById(userId),HttpStatus.OK);
+        return new ResponseEntity<User>(userService.findUserById(userId),HttpStatus.OK);
     }
 
     public ResponseEntity<Transaction> machineTransfer(@ApiParam(value = "",required=true) @PathVariable("userId") Integer userId
@@ -242,7 +251,7 @@ public class UsersApiController implements UsersApi {
             return new ResponseEntity(HttpStatus.FORBIDDEN);
 
         try {
-            return new ResponseEntity<User>(userService.UpdateUserById(body, userId), HttpStatus.OK);
+            return new ResponseEntity<User>(userService.updateUserById(body, userId), HttpStatus.OK);
         }
         catch (Exception e) {
             System.out.println(e);

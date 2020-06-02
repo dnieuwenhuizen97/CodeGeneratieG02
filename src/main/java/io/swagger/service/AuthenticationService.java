@@ -7,12 +7,11 @@ import io.swagger.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 @Service
 @Transactional
@@ -22,6 +21,7 @@ public class AuthenticationService {
     private RegisterRequestRepository registerRequestRepository;
     private GeneralMethodsService generalMethodsService;
     private BankAccount bankAccount = BankAccount.getBankAccount();
+    private DateTimeFormatter formatter;
 
 
     public AuthenticationService(AuthTokenRepository authTokenRepository, UserRepository userRepository, RegisterRequestRepository registerRequestRepository,GeneralMethodsService generalMethodsService) {
@@ -29,6 +29,7 @@ public class AuthenticationService {
         this.userRepository = userRepository;
         this.registerRequestRepository = registerRequestRepository;
         this.generalMethodsService = generalMethodsService;
+        this.formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
     }
 
     public RegisterRequest createRegisterRequest(RegisterRequest registerRequest)

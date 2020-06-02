@@ -2,15 +2,16 @@ package io.swagger.model;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.validation.annotation.Validated;
 
 import javax.persistence.*;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
+
 
 /**
  * AuthToken that gets returned if the specified username and password is correct.
@@ -30,7 +31,10 @@ public class AuthToken   {
   }
 
  private Integer userId = null;
+
+  @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy HH:mm")
   private LocalDateTime tokenCreated = null;
+  @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="dd-MM-yyyy HH:mm")
   private LocalDateTime tokenExpires = null;
 
   public AuthToken(String authToken, Integer userId, LocalDateTime tokenCreated, LocalDateTime tokenExpires) {

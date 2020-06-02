@@ -4,12 +4,12 @@ package io.swagger.service;
 import io.swagger.model.Account;
 import io.swagger.model.BankAccount;
 import io.swagger.repository.AccountRepository;
-import io.swagger.repository.UserRepository;
+
 import org.springframework.stereotype.Service;
 
 
 import java.util.List;
-import java.util.Random;
+
 
 @Service
 public class AccountService {
@@ -21,6 +21,8 @@ public class AccountService {
     }
 
     public Account getSpecificAccount(String iban) {
+        if(!accountRepository.existsById(iban))
+            return null;
         return accountRepository.findById(iban).get();
     }
 
@@ -44,7 +46,7 @@ public class AccountService {
     public Account createAccount(Account newAccount, Integer userId){
         //no checks on creating the account...
 
-            newAccount.setIban(CreateIban());
+            newAccount.setIban(createIban());
             newAccount.setOwner(userId);
 
             bankAccount.addAmountToBankBalance(newAccount.getBalance());
@@ -54,9 +56,11 @@ public class AccountService {
 
     public Integer deleteAccount(String iban)
     {
-        Account aboutToBeDeletedAccount = accountRepository.findById(iban).get();
         if(!accountRepository.existsById(iban))
             return 406;
+
+        Account aboutToBeDeletedAccount = accountRepository.findById(iban).get();
+
         if(aboutToBeDeletedAccount.getBalance() < 0.00)
             return 403;
         accountRepository.deleteById(iban);
@@ -65,6 +69,9 @@ public class AccountService {
 
     public Account updateAccount(Account account, String iban)
     {
+        if(!accountRepository.existsById(iban))
+            return null;
+
         Account oldAccount = accountRepository.findById(iban).get();
 
         oldAccount.setBalanceLimit(account.getBalanceLimit());
@@ -75,7 +82,7 @@ public class AccountService {
         return oldAccount;
     }
 
-    public String CreateIban()
+    public String createIban()
     {
         String iban = "NL54INHO0123456789";
 //        Random r = new Random();

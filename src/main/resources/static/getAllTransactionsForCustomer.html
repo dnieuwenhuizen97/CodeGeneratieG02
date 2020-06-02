@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Get All Transactions Customer</title>
     <link
             href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,700;1,300&display=swap"
             rel="stylesheet"
@@ -18,39 +17,54 @@
             type="text/css"
             href="css/style.css"
     />
-    <link
-            rel="stylesheet"
-            type="text/css"
-            href="css/javascript.js"
-    />
+    <title>Customer Transactions</title>
 </head>
 <body>
-
 <nav class="top-nav">
+    <div id="currentuser"></div>
     <ul>
-        <li>
-            <a href="">
+        <li class="dropdown">
+            <a href="http://localhost:8080/index.html">
                 Home
             </a>
         </li>
-        <li>
-            <a href="">
-                Accounts
-            </a>
+        <li class="dropdown">
+            <div class="dropbtn">Accounts
+            </div>
+            <div class="dropdown-content">
+                <a class="aNav" href="http://localhost:8080/getAccounts.html">Show accounts</a>
+                <a class="aNav" href="http://localhost:8080/updateAccount.html">Update account</a>
+                <a class="aNav" href="http://localhost:8080/createAccount.html">Create account</a>
+                <a class="aNav" href="http://localhost:8080/machine.html">Withdraw/Deposit</a>
+            </div>
         </li>
-        <li>
-            <a href="">
-                Users
-            </a>
+        <li class="dropdown">
+            <div class="dropbtn">Users
+            </div>
+            <div class="dropdown-content">
+                <a class="aNav" href="http://localhost:8080/signUp.html">SignUp</a>
+                <a class="aNav" href="http://localhost:8080/allUsers.html">Show Users</a>
+                <a class="aNav" href="http://localhost:8080/updateUser.html">Update User</a>
+                <a class="aNav" href="http://localhost:8080/registerRequests.html">Show Requests</a>
+            </div>
         </li>
-        <li>
-            <a href="">
-                Transactions
-            </a>
+        <li class="dropdown">
+            <div class="dropbtn">Transactions
+            </div>
+            <div class="dropdown-content">
+                <a class="aNav" href="http://localhost:8080/getAllTransactions.html">Show transactions</a>
+                <a class="aNav" href="http://localhost:8080/getAllTransactionsForCustomer.html">Show customer transactions</a>
+                <a class="aNav" href="http://localhost:8080/createtransaction.html">Create transaction</a>
+            </div>
         </li>
-        <li class="btn-login">
-            <a href="">
+        <li class="btn-login" id="login">
+            <a href="http://localhost:8080/login.html">
                 Login
+            </a>
+        </li>
+        <li class="btn-login" id="logout" onclick="DELETELogout()">
+            <a>
+                Logout
             </a>
         </li>
     </ul>
@@ -59,7 +73,7 @@
 <div id="section-landing">
     <div class="wrapper-landing">
         <h1>
-            All transactions
+            Customer transactions
         </h1>
         <a href="createtransaction.html" class="createtransaction-btn">
             Create Transaction
@@ -132,7 +146,7 @@
     </form>
 </div>
 
-<div class="content-transactions">
+<div class="content">
     <p id="datadisplay">
         <br>
     </p>
@@ -145,6 +159,7 @@
 <script src="/js/javascript.js"></script>
 <script>
     window.onload = function() {
+        DisplayCurrentUser();
         searchTransactionByCustomer();
     }
 </script>

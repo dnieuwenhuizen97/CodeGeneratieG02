@@ -13,9 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-
-import static junit.framework.TestCase.assertNotNull;
-import static junit.framework.TestCase.assertNull;
+import static junit.framework.TestCase.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -31,8 +29,9 @@ public class RegisterRequestRepositoryTest {
     @Test
     public void findRegisterRequestByExistingEmailShouldReturnNotNull() throws Exception
     {
-        RegisterRequest registerRequest = registerRequestRepository.findUserByEmail("pa@test.com");
-        assertNotNull(registerRequest);
+        RegisterRequest registerRequest = registerRequestRepository.findUserByEmail("su@test.com");
+        assertTrue(registerRequest != null);
+
     }
 
     @Test

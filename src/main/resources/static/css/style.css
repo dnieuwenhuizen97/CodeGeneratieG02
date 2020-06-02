@@ -44,6 +44,54 @@ body {
     transition: 0.15s ease-in;
 }
 
+.dropdown:hover
+{
+	color : #afafaf;
+}
+.dropbtn:hover
+{
+	color : #afafaf;
+}
+.dropdown
+{
+	overflow : hidden;
+	cursor : pointer;
+	color : white;
+}
+.dropbtn
+{
+	cursor : pointer;
+	color : white;
+	margin : none;
+}
+.dropdown .dropbtn
+{
+	border : none;
+	outline : none;
+	background-color : inherit;
+}
+.dropdown-content
+{
+	display : none;
+	position : absolute;
+	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+.dropdown-content a
+{
+	float : none;
+	padding : 1em;
+	display : block;
+	color : black;
+}
+.dropdown:hover .dropdown-content
+{
+	display : block;
+	background-color : black;
+}
+.dropdown-content a:hover {
+    color : #afafaf;
+}
+
 #section-landing {
     background: url('../img/bank-banner.jpg');
     background-size: cover;
@@ -60,7 +108,7 @@ body {
     text-shadow: 2px 2px #000000;
 }
 
-.introduction-transactions {
+.introduction-transactions, .introduction-users {
     margin: 0 auto;
     text-align: center;
 }
@@ -75,7 +123,7 @@ body {
 hr {
     width: 30px;
 }
-.introduction-transactions input {
+.introduction-transactions input, .introduction-users input {
     width: 15% !important;
     height: 30px;
     border: 1px solid #f4f4f4;
@@ -90,7 +138,7 @@ hr {
     font-style: italic;
     padding: 0px 0px 0px 8px;
 }
-.introduction-transactions button {
+.introduction-transactions button, .introduction-users button {
     box-shadow: 0px 0px 20px #000000;
     text-transform: uppercase;
     border: 1px solid #000000;
@@ -101,11 +149,12 @@ hr {
     width: 100px;
     margin: 0px 0px 0px 40px;
 }
-.introduction-transactions button:hover {
+.introduction-transactions button:hover, .introduction-users button:hover {
     background-color: #666666;
     transition: 0.25s ease-in;
+    cursor : pointer;
 }
-.content-transactions {
+.content {
     width: 80%;
     margin: 0 auto;
 }
@@ -128,9 +177,15 @@ td {
     width: 15%;
     border-bottom: 1px solid #f2f2f2;
 }
+th:hover, td:hover {
+    cursor : pointer;
+}
 .btn-login {
     border: 1px solid #ffffff;
     padding: 8px 26px;
+}
+.btn-login:hover {
+    cursor : pointer;
 }
 
 .createtransaction-btn {
@@ -233,4 +288,8 @@ td {
 }
 .introduction-transactions input {
     margin: 20px 0px 20px 0px;
+}
+#currentuser {
+    color : white;
+    padding : 1em;
 }

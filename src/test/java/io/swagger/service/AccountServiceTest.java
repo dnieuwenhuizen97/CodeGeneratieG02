@@ -27,7 +27,7 @@ public class AccountServiceTest {
     @Test
     public void CreateIbanShouldReturnNotNull() throws Exception
     {
-        String iban = accountService.CreateIban();
+        String iban = accountService.createIban();
         assertNotNull(iban);
     }
 }

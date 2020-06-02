@@ -2,116 +2,97 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link
+            href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,700;1,300&display=swap"
+            rel="stylesheet"
+    />
+    <link
+            rel="stylesheet"
+            href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+            integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
+            crossorigin="anonymous"
+    >
+    <link
+            rel="stylesheet"
+            type="text/css"
+            href="css/style.css"
+    />
     <title>Machine</title>
 </head>
 <body>
-<div class="navbar">
-    <a href="http://localhost:8080/login.html">Login</a>
-    <a href="http://localhost:8080/machine.html">Machine</a>
-    <a href="http://localhost:8080/index.html">Home</a>
+<nav class="top-nav">
+    <div id="currentuser"></div>
+    <ul>
+        <li class="dropdown">
+            <a href="http://localhost:8080/index.html">
+                Home
+            </a>
+        </li>
+        <li class="dropdown">
+            <div class="dropbtn">Accounts
+            </div>
+            <div class="dropdown-content">
+                <a class="aNav" href="http://localhost:8080/getAccounts.html">Show accounts</a>
+                <a class="aNav" href="http://localhost:8080/updateAccount.html">Update account</a>
+                <a class="aNav" href="http://localhost:8080/createAccount.html">Create account</a>
+                <a class="aNav" href="http://localhost:8080/machine.html">Withdraw/Deposit</a>
+            </div>
+        </li>
+        <li class="dropdown">
+            <div class="dropbtn">Users
+            </div>
+            <div class="dropdown-content">
+                <a class="aNav" href="http://localhost:8080/signUp.html">SignUp</a>
+                <a class="aNav" href="http://localhost:8080/allUsers.html">Show Users</a>
+                <a class="aNav" href="http://localhost:8080/updateUser.html">Update User</a>
+                <a class="aNav" href="http://localhost:8080/registerRequests.html">Show Requests</a>
+            </div>
+        </li>
+        <li class="dropdown">
+            <div class="dropbtn">Transactions
+            </div>
+            <div class="dropdown-content">
+                <a class="aNav" href="http://localhost:8080/getAllTransactions.html">Show transactions</a>
+                <a class="aNav" href="http://localhost:8080/getAllTransactionsForCustomer.html">Show customer transactions</a>
+                <a class="aNav" href="http://localhost:8080/createtransaction.html">Create transaction</a>
+            </div>
+        </li>
+        <li class="btn-login" id="login">
+            <a href="http://localhost:8080/login.html">
+                Login
+            </a>
+        </li>
+        <li class="btn-login" id="logout" onclick="DELETELogout()">
+            <a>
+                Logout
+            </a>
+        </li>
+    </ul>
+</nav>
+
+<div id="section-landing">
+    <div class="wrapper-landing">
+        <h1>
+            Machine
+        </h1>
+    </div>
 </div>
+
+<div class="introduction-users">
 <form id="machineTransferForm">
-    <label>Amount:</label> <input id="amount" type="text"><br>
+    <label>Amount:</label> <input id="amount" type="text" placeholder="Example: 15.00"><br>
     <label>Transfer type:</label><select id="transferType"><option value="withdraw">Withdraw</option><option value="deposit">Deposit</option></select>
     <br />
     <br>
 
-<input type="button" id="machineTransfer" value="Peform transfer" onclick="PostMachineTransfer()">
+<button type="button" onclick="PostMachineTransfer()">Perform Transfer</button>
 
 </form>
-
-<form id="userRequestsForm">
-    <input type="button" id="userRequests" value="Get requests" onclick="GetUserRequests()">
-</form>
-<table id="userRequestsTable"></table>
+</div>
 
 
-<script>
-function GetUserRequests()
-{
-  let table = document.getElementById("userRequestsTable");
-        table.innerHTML = "   <tr>\n" +
-            "       <th>Request id</th>\n" +
-            "       <th>Firstname</th>\n" +
-            "       <th>Lastname</th>\n" +
-            "       <th>Email</th>\n" +
-            "       <th>Accept/Decline</th>\n" +
-            "   </tr>";
-
-
-        var xhr =  new XMLHttpRequest();
-        xhr.open('GET','http://localhost:8080/users/requests');
-        xhr.setRequestHeader("ApiKeyAuth" ,sessionStorage.getItem("AuthToken"));
-        xhr.onload= (e) => {
-            alert(xhr.status);
-            let response = JSON.parse(xhr.response);
-            for (i=0;i<response.length;i++){
-                table.innerHTML+="<tr><td>%j</td><td>%k</td><td>%l</td><td>%m</td><td>%n</td></tr>"
-                    .replace("%j",JSON.stringify(response[i].registerId))
-                    .replace("%k",JSON.stringify(response[i].firstName))
-                    .replace("%l",JSON.stringify(response[i].lastName))
-                    .replace("%m",JSON.stringify(response[i].email))
-                    .replace("%n","<button onclick='acceptRequest("+ response[i].registerId+ ", "+ JSON.stringify(response[i].firstName) +","+ JSON.stringify(response[i].lastName)+ "," +JSON.stringify(response[i].password) + ","+JSON.stringify(response[i].email)+ ")'>Accept</button><button onclick='declineRequest("+ response[i].registerId+ ")'>Decline</button>")
-
-            }
-        }
-        xhr.send();
-}
-function acceptRequest(requestId, firstName, lastName, password, email)
-{
-
-        var xhr =  new XMLHttpRequest();
-        xhr.open('POST','http://localhost:8080/users');
-        xhr.setRequestHeader("Content-Type", "application/json");
-        xhr.setRequestHeader("ApiKeyAuth", sessionStorage.getItem("AuthToken"));
-        xhr.onload= (e) => {
-            alert(xhr.status);
-        }
-        xhr.send(JSON.stringify(
-            {
-                "firstName": firstName,
-                "lastName": lastName,
-                "email":  email,
-                "password": password,
-                "user_type": "customer"
-            }
-        ));
-}
-
-function declineRequest(requestId)
-{
-    var xhr =  new XMLHttpRequest();
-        xhr.open('DELETE','http://localhost:8080/users/requests/' + requestId);
-        xhr.setRequestHeader("ApiKeyAuth" ,sessionStorage.getItem("AuthToken"));
-        xhr.onload= (e) => {
-            alert(xhr.status);
-        }
-        xhr.send();;
-}
-
-function PostMachineTransfer()
-{
-        var amount = document.getElementById("amount").value;
-        var t = document.getElementById("transferType");
-        var transferType = t.options[t.selectedIndex].value;
-
-        var xhr =  new XMLHttpRequest();
-
-        xhr.open('POST','http://localhost:8080/users/'+sessionStorage.getItem("UserId")+ '/machine');
-        xhr.setRequestHeader("Content-Type", "application/json" );
-        xhr.setRequestHeader("ApiKeyAuth" ,sessionStorage.getItem("AuthToken"));
-        xhr.onload= (e) => {
-        //haal transactie op
-            alert(xhr.status);
-        }
-        xhr.send(JSON.stringify(
-            {
-                "amount": amount,
-                "transfer_type": transferType
-            }
-        ));
-}
-
+<script src="/js/javascript.js">
 </script>
+
 </body>
 </html>

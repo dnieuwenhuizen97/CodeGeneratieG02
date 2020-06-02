@@ -3,87 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <link
-        rel="stylesheet"
-        type="text/css"
-        href="css/style.css"
+            href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,700;1,300&display=swap"
+            rel="stylesheet"
     />
-    <title>Sign Up</title>
+    <link
+            rel="stylesheet"
+            href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+            integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
+            crossorigin="anonymous"
+    >
+    <link
+            rel="stylesheet"
+            type="text/css"
+            href="css/style.css"
+    />
+    <title>SignUp</title>
 </head>
 <body>
-<div class="bodydiv">
-    <div class="navbar">
-        <a class="aNav" href="http://localhost:8080/index.html">Home</a>
-        <a class="aNav" href="http://localhost:8080/login.html">Login</a>
-        <a class="aNav" href="http://localhost:8080/machine.html">Machine</a>
-        <div class="dropdown">
-            <button class="dropbtn">Users
-            </button>
-            <div class="dropdown-content">
-                <a class="aNav" href="http://localhost:8080/signUp.html">SignUp</a>
-                <a class="aNav" href="http://localhost:8080/allUsers.html">Show Users</a>
-                <a class="aNav" href="http://localhost:8080/updateUser.html">Update User</a>
+<nav class="top-nav">
+    <div id="currentuser"></div>
+    <ul>
+        <li class="dropdown">
+            <a href="http://localhost:8080/index.html">
+                Home
+            </a>
+        </li>
+        <li class="dropdown">
+            <div class="dropbtn">Accounts
             </div>
-        </div>
-        <div class="dropdown">
-            <button class="dropbtn">Accounts
-            </button>
             <div class="dropdown-content">
                 <a class="aNav" href="http://localhost:8080/getAccounts.html">Show accounts</a>
                 <a class="aNav" href="http://localhost:8080/updateAccount.html">Update account</a>
                 <a class="aNav" href="http://localhost:8080/createAccount.html">Create account</a>
+                <a class="aNav" href="http://localhost:8080/machine.html">Withdraw/Deposit</a>
             </div>
-        </div>
+        </li>
+        <li class="dropdown">
+            <div class="dropbtn">Users
+            </div>
+            <div class="dropdown-content">
+                <a class="aNav" href="http://localhost:8080/signUp.html">SignUp</a>
+                <a class="aNav" href="http://localhost:8080/allUsers.html">Show Users</a>
+                <a class="aNav" href="http://localhost:8080/updateUser.html">Update User</a>
+                <a class="aNav" href="http://localhost:8080/registerRequests.html">Show Requests</a>
+            </div>
+        </li>
+        <li class="dropdown">
+            <div class="dropbtn">Transactions
+            </div>
+            <div class="dropdown-content">
+                <a class="aNav" href="http://localhost:8080/getAllTransactions.html">Show transactions</a>
+                <a class="aNav" href="http://localhost:8080/getAllTransactionsForCustomer.html">Show customer transactions</a>
+                <a class="aNav" href="http://localhost:8080/createtransaction.html">Create transaction</a>
+            </div>
+        </li>
+        <li class="btn-login" id="login">
+            <a href="http://localhost:8080/login.html">
+                Login
+            </a>
+        </li>
+        <li class="btn-login" id="logout" onclick="DELETELogout()">
+            <a>
+                Logout
+            </a>
+        </li>
+    </ul>
+</nav>
 
-        <div id="currentuser"></div>
+<div id="section-landing">
+    <div class="wrapper-landing">
+        <h1>
+            Sign Up
+        </h1>
     </div>
+</div>
 
+<div class="introduction-users">
 <form id="signupform">
 
     <br>
-    <label>First Name:</label> <input name="firstName"><br>
-    <label>Last Name:</label> <input name="lastName"><br>
-    <label>Email: </label> <input name="email"><br>
-    <label>Password: </label> <input name="password" type="password"><br>
-    <label>User Type: </label> <input name="user_type"><br>
+    <label>User Type:</label><select name="user_type"><option value="customer">Customer</option><option value="employee">Employee</option></select><br>
+    <label>First Name:</label> <input name="firstName" placeholder="Example: John"><br>
+    <label>Last Name:</label> <input name="lastName" placeholder="Example: Doe"><br>
+    <label>Email: </label> <input name="email" placeholder="Example: johndoe@examplemail.com"><br>
+    <label>Password: </label> <input name="password" type="password" placeholder="Example: password"><br>
     <br />
-    <input type="button" id="signUpUser" class="buttons" value="SignUp" onclick="POSTUser()">
+    <button type="button" onclick="POSTUser()">Sign Up
+    </button>
 </form>
 </div>
 
-<script>
-
-    window.onload = function() {
-        var userId = sessionStorage.getItem("UserId");
-
-        if (userId === null) {
-            document.getElementById("currentuser").innerHTML = "Not logged in";
-        }
-        else {
-            document.getElementById("currentuser").innerHTML = "Hello user '" + userId + "'";
-        }
-    }
-
-    function POSTUser() {
-
-       var xhr =  new XMLHttpRequest();
-        xhr.open('POST','http://localhost:8080/users');
-        xhr.setRequestHeader("Content-Type", "application/json");
-        xhr.setRequestHeader("ApiKeyAuth", sessionStorage.getItem("AuthToken"));
-        xhr.onload= (e) => {
-            alert(xhr.status);
-            location.reload();
-        }
-        xhr.send(JSON.stringify(
-            {
-                "firstName": document.forms["signupform"]["firstName"].value ,
-                "lastName": document.forms["signupform"]["lastName"].value ,
-                "email": document.forms["signupform"]["email"].value ,
-                "password": document.forms["signupform"]["password"].value,
-                "user_type": document.forms["signupform"]["user_type"].value
-            }
-        ));
-
-    }
+<script src="/js/javascript.js">
 </script>
+
 </body>
 </html>

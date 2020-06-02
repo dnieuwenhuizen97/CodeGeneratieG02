@@ -6,15 +6,8 @@ import io.swagger.repository.RegisterRequestRepository;
 import io.swagger.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.regex.Pattern;
-import java.security.SecureRandom;
+
 
 @Service
 public class UserService {
@@ -30,15 +23,15 @@ public class UserService {
         this.generalMethodsService = generalMethodsService;
 
     }
-    public List<RegisterRequest> FindAllRegisterRequests(){return (List<RegisterRequest>) registerRequestRepository.findAll();};
+    public List<RegisterRequest> findAllRegisterRequests(){return (List<RegisterRequest>) registerRequestRepository.findAll();};
 
-    public User SignUpUser(User user) throws Exception {
+    public User signUpUser(User user) throws Exception {
         //register request will give an hashed password
         if(generalMethodsService.isPasswordHashed(user.getPassword())) {
             userRepository.save(user);
             return user;
         }
-        else if (FindUserByEmail(user.getEmail()) != null)
+        else if (findUserByEmail(user.getEmail()) != null)
             throw new Exception("User already exists");
         else if (!user.getEmail().matches("^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$"))
             throw new Exception("Invalid email");
@@ -52,7 +45,7 @@ public class UserService {
     }
 
 
-    public User FindUserById(int userId)
+    public User findUserById(int userId)
     {
         //to do user bestaat niet
 
@@ -60,14 +53,14 @@ public class UserService {
     }
 
 
-    private User FindUserByEmail(String email)
+    public User findUserByEmail(String email)
     {
         return userRepository.findUserByEmail(email);
     }
 
-    public List<User> FindUserByName(String name) {return userRepository.findUsersByLastName(name.toLowerCase()); }
+    public List<User> findUserByName(String name) {return userRepository.findUsersByLastName(name.toLowerCase()); }
 
-    public List<User> GetAllUsers() {
+    public List<User> getAllUsers() {
         return (List<User>)userRepository.findAll();
     }
 
@@ -76,7 +69,7 @@ public class UserService {
         userRepository.save(u);
     }
 
-    public Integer DeleteUserById(int userId)
+    public Integer deleteUserById(int userId)
     {
         if (!userRepository.existsById(userId))
             return 406;
@@ -85,7 +78,7 @@ public class UserService {
         return 204;
     }
 
-    public User UpdateUserById(User u, int userId) throws Exception {
+    public User updateUserById(User u, int userId) throws Exception {
 
         if (!userRepository.existsById(userId))
             throw new Exception("User does not exist");
@@ -94,7 +87,7 @@ public class UserService {
         else if (!u.getEmail().matches("^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$"))
             throw new Exception("Invalid email");
 
-        userRepository.updateUser(u.getFirstName(), u.getLastName(), u.getEmail(), u.getPassword(), userId);
+        userRepository.updateUser(u.getFirstName(), u.getLastName(), u.getEmail(), generalMethodsService.cryptWithMD5(u.getPassword()), userId);
         User updatedUser = userRepository.findById(userId).get();
         return updatedUser;
     }

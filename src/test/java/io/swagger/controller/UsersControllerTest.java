@@ -86,7 +86,7 @@ public class UsersControllerTest {
     //Get User By ID
     @Test
     public void getUserByIdWithValidTokenAndValidRoleShouldReturnOk() throws Exception {
-        mvc.perform(get("/users/100002")
+        mvc.perform(get("/users/100003")
                 .header("ApiKeyAuth", "1234-abcd-5678-efgh"))
                 .andExpect(status().isOk());
     }
@@ -122,7 +122,7 @@ public class UsersControllerTest {
                 .header("ApiKeyAuth", "1234-abcd-5678-efgh"))
                 .andExpect(status().isCreated())
                 .andExpect(content().json("{\n" +
-                        "    'user_id': 100005,\n" +
+                        "    'user_id': 100007,\n" +
                         "    'firstName': 'John',\n" +
                         "    'lastName': 'Doe',\n" +
                         "    'password': 'cef1fb1f60529028a71f58e54',\n" +
@@ -501,6 +501,7 @@ public class UsersControllerTest {
     @Test
     public void CreateAccountWithValidInputShouldReturnJsonObjectAndStatusCreated() throws Exception{
         JSONObject createAccount = new JSONObject();
+        createAccount.put("iban", "NL54INHO0123456789");
         createAccount.put("account_type", "current");
         createAccount.put("balance", 50);
         createAccount.put("transactionDayLimit", 100000);
@@ -519,12 +520,13 @@ public class UsersControllerTest {
                         "    'transactionDayLimit': 100000,\n" +
                         "    'transactionAmountLimit': 2000.0,\n" +
                         "    'balanceLimit': -500.0,\n" +
-                        "    'owner': 100002\n" +
+                        "    'owner': 100003\n" +
                         "}"));
     }
     @Test
     public void CreateAccountWithoutValidInputShouldReturnBadRequest() throws Exception{
         JSONObject createAccount = new JSONObject();
+        createAccount.put("iban", "");
         createAccount.put("account_type", "curr");
         createAccount.put("balance", 0);
         createAccount.put("transactionDayLimit", 100000);
@@ -538,61 +540,87 @@ public class UsersControllerTest {
                 .andExpect(status().isBadRequest());
     }
 
-    @Test
-    public void CreateAccountByUserNotAuthenticatedShouldReturnIsForbidden() throws Exception{
-        JSONObject createAccount = new JSONObject();
-        createAccount.put("account_type", "current");
-        createAccount.put("balance", 0);
-        createAccount.put("transactionDayLimit", 100000);
-        createAccount.put("transactionAmountLimit", 2000);
-        createAccount.put("balanceLimit", -500);
 
-        mvc.perform(post("/users/100002/accounts")
-                .header("ApiKeyAuth", "1234-abcd-5678-efgh")
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .content(createAccount.toString()))
-                .andExpect(status().isForbidden());
-    }
 
-    @Test
-    public void CreateAccountByUserWithoutValidTokenShouldReturnIsForbidden() throws Exception{
-        JSONObject createAccount = new JSONObject();
-        createAccount.put("account_type", "current");
-        createAccount.put("balance", 0);
-        createAccount.put("transactionDayLimit", 100000);
-        createAccount.put("transactionAmountLimit", 2000);
-        createAccount.put("balanceLimit", -500);
 
-        mvc.perform(post("/users/100002/accounts")
-                .header("ApiKeyAuth", "no valid token")
-                .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .content(createAccount.toString()))
-                .andExpect(status().isForbidden());
-    }
 
     @Test
     public void GetAccountByUserIdShouldReturnIsOk() throws Exception {
-        mvc.perform(get("/users/100053/accounts")
+        mvc.perform(get("/users/100003/accounts")
                 .header("ApiKeyAuth", "1234-abcd-5678-efgh"))
                 .andExpect(status().isOk());
     }
 
     @Test
     public void GetAccountByUserIdWithoutValidTokenShouldReturnIsForbidden() throws Exception {
-        mvc.perform(get("/users/100053/accounts")
+        mvc.perform(get("/users/100003/accounts")
                 .header("ApiKeyAuth", "no valid token"))
                 .andExpect(status().isForbidden());
     }
 
     @Test
     public void GetAccountByUserIdWithoutAuthenticationShouldReturnIsForbidden() throws Exception {
-        mvc.perform(get("/users/100053/accounts")
+        mvc.perform(get("/users/100003/accounts")
                 .header("ApiKeyAuth", "1235-abcd-5678-efgh"))
                 .andExpect(status().isForbidden());
     }
 
 
-    //transactions
-    //to do dary
+    //getAllTransactionsFromUser  - /users/{userId}/transactions
+    @Test
+    public void userGetsAllTransactionsFromUserIdWithValidAuthTokenShouldReturnOk() throws Exception{
+        mvc.perform(get("/users/100004/transactions")
+                .header("ApiKeyAuth", "1234-abcd-5678-efgh"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void userGetsAllTransactionsFromUserWithValidAuthTokenButInvalidUserIdShouldReturnUnprocessableEntity() throws Exception{
+        mvc.perform(get("/users/20001/transactions")
+                .header("ApiKeyAuth", "1234-abcd-5678-efgh"))
+                .andExpect(status().isUnprocessableEntity());
+    }
+
+    @Test
+    public void userGetsAllTransactionsFromUserWithValidAuthTokenButInvalidAuthenticationShouldReturnForbidden() throws Exception{
+        mvc.perform(get("/users/100002/transactions")
+                .header("ApiKeyAuth", ""))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
+    public void userGetsAllTransactionsFromUserWithLimitShouldReturnOk() throws Exception{
+        mvc.perform(get("/users/100004/transactions?limit=1")
+                .header("ApiKeyAuth", "1234-abcd-5678-efgh"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void userGetsAllTransactionsFromUserWithOffsetShouldReturnOk() throws Exception{
+        mvc.perform(get("/users/100004/transactions?offset=1")
+                .header("ApiKeyAuth", "1234-abcd-5678-efgh"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void userGetsAllTransactionsFromUserWithInvalidLimitShouldReturnUnprocessableEntity() throws Exception{
+        mvc.perform(get("/users/100002/transactions?limit=-1")
+                .header("ApiKeyAuth", "1234-abcd-5678-efgh"))
+                .andExpect(status().isUnprocessableEntity());
+    }
+
+    @Test
+    public void userGetsAllTransactionsFromUserWithInvalidRoleShouldReturnUnprocessableEntity() throws Exception{
+        mvc.perform(get("/users/999999/transactions?limit=1")
+                .header("ApiKeyAuth", "1234-abcd-5678-efgh"))
+                .andExpect(status().isUnprocessableEntity());
+    }
+
+    @Test
+    public void userGetsAllTransactionsFromUserWithOffsetAndLimitShouldReturnOk() throws Exception{
+        mvc.perform(get("/users/100004/transactions?limit=1&offset=1")
+                .header("ApiKeyAuth", "1234-abcd-5678-efgh"))
+                .andExpect(status().isOk());
+    }
 
 }

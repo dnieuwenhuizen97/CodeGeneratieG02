@@ -91,6 +91,8 @@ public class AccountsApiController implements AccountsApi {
                 return new ResponseEntity<Account>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
+        if(accountService.getSpecificAccount(iban) == null)
+            return new ResponseEntity<Account>(HttpStatus.valueOf(406));
 
         return new ResponseEntity<Account>(accountService.getSpecificAccount(iban), HttpStatus.OK);
     }
@@ -114,6 +116,8 @@ public class AccountsApiController implements AccountsApi {
             }
         }
 
+        if(accountService.updateAccount(body, iban) == null)
+            return new ResponseEntity<Account>(HttpStatus.valueOf(406));
 
         return new ResponseEntity<Account>(accountService.updateAccount(body, iban), HttpStatus.OK);
     }

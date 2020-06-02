@@ -46,7 +46,7 @@ public class RegisterControllerTest {
                 .content(user.toString()))
                 .andExpect(status().isCreated())
                 .andExpect(content().json("{\n" +
-                        " 'registerId' : 100002,\n" +
+                        " 'registerId' : 100004,\n" +
                         "  'firstName': 'Pascalle',\n" +
                         "  'lastName': 'Schipper',\n" +
                         "  'password': '2c103f2c4ed1e59cb4e2e1821',\n" +

@@ -2,18 +2,85 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Bank groep 2</title>
+    <link
+            href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,700;1,300&display=swap"
+            rel="stylesheet"
+    />
+    <link
+            rel="stylesheet"
+            href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+            integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
+            crossorigin="anonymous"
+    >
+    <link
+            rel="stylesheet"
+            type="text/css"
+            href="css/style.css"
+    />
+    <title>Home</title>
 </head>
 <body>
-<div class="navbar">
-    <a href="http://localhost:8080/login.html">Login</a>
-    <a href="http://localhost:8080/machine.html">Machine</a>
-    <a href="http://localhost:8080/index.html">Home</a>
-</div>
+<nav class="top-nav">
+    <div id="currentuser"></div>
+    <ul>
+        <li class="dropdown">
+            <a href="http://localhost:8080/index.html">
+                Home
+            </a>
+        </li>
+        <li class="dropdown">
+            <div class="dropbtn">Accounts
+            </div>
+            <div class="dropdown-content">
+                <a class="aNav" href="http://localhost:8080/getAccounts.html">Show accounts</a>
+                <a class="aNav" href="http://localhost:8080/updateAccount.html">Update account</a>
+                <a class="aNav" href="http://localhost:8080/createAccount.html">Create account</a>
+                <a class="aNav" href="http://localhost:8080/machine.html">Withdraw/Deposit</a>
+            </div>
+        </li>
+        <li class="dropdown">
+            <div class="dropbtn">Users
+            </div>
+            <div class="dropdown-content">
+                <a class="aNav" href="http://localhost:8080/signUp.html">SignUp</a>
+                <a class="aNav" href="http://localhost:8080/allUsers.html">Show Users</a>
+                <a class="aNav" href="http://localhost:8080/updateUser.html">Update User</a>
+                <a class="aNav" href="http://localhost:8080/registerRequests.html">Show Requests</a>
+            </div>
+        </li>
+        <li class="dropdown">
+            <div class="dropbtn">Transactions
+            </div>
+            <div class="dropdown-content">
+                <a class="aNav" href="http://localhost:8080/getAllTransactions.html">Show transactions</a>
+                <a class="aNav" href="http://localhost:8080/getAllTransactionsForCustomer.html">Show customer transactions</a>
+                <a class="aNav" href="http://localhost:8080/createtransaction.html">Create transaction</a>
+            </div>
+        </li>
+        <li class="btn-login" id="login">
+            <a href="http://localhost:8080/login.html">
+                Login
+            </a>
+        </li>
+        <li class="btn-login" id="logout" onclick="DELETELogout()">
+            <a>
+                Logout
+            </a>
+        </li>
+    </ul>
+</nav>
 
-<div class="main">
-    <p>Some text some text some text some text..</p>
+<div id="section-landing">
+    <div class="wrapper-landing">
+        <h1>
+            Home
+        </h1>
+        <a href="http://localhost:8080/login.html" class="createtransaction-btn">
+            Login
+        </a>
+    </div>
 </div>
-
+<script src="/js/javascript.js">
+</script>
 </body>
 </html>

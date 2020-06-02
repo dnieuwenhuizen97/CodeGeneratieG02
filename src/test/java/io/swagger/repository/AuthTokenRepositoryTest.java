@@ -30,7 +30,7 @@ public class AuthTokenRepositoryTest {
     @Test
     public void findAuthTokenByExistingUserIdShouldReturnNotNull() throws Exception
     {
-        AuthToken authToken = authTokenRepository.findAuthTokenByUser(100002);
+        AuthToken authToken = authTokenRepository.findAuthTokenByUser(100003);
         assertNotNull(authToken);
     }
 

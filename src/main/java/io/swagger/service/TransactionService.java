@@ -6,22 +6,12 @@ import io.swagger.repository.AuthTokenRepository;
 import org.springframework.stereotype.Service;
 import io.swagger.repository.TransactionRepository;
 import io.swagger.repository.UserRepository;
-
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
-
-import javax.validation.Valid;
-
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
 
 @Service
 public class TransactionService {
@@ -30,6 +20,7 @@ public class TransactionService {
     private UserRepository userRepository;
     private AuthTokenRepository authTokenRepository;
     private BankAccount bankAccount = BankAccount.getBankAccount();
+    private DateTimeFormatter formatter;
 
     public static String EXTERNAL_IBAN = "NL01INHO0000000001";
 
@@ -38,6 +29,7 @@ public class TransactionService {
         this.userRepository =  userRepository;
         this.accountRepository = accountRepository;
         this.authTokenRepository = authTokenRepository;
+        formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
     }
 
     public Transaction createMachineTransfer(int userId, MachineTransfer machineTransfer)
@@ -71,7 +63,7 @@ public class TransactionService {
         //only savings
         if(currentUserAccount == null)
             return null;
-        return transactionRepository.save(new Transaction(machineTransfer.getTransferType().toString(), LocalDateTime.now().withSecond(0).withNano(0), currentUserAccount, currentUserAccount, machineTransfer.getAmount(), userId));
+        return transactionRepository.save(new Transaction(machineTransfer.getTransferType().toString(), LocalDateTime.now(), currentUserAccount, currentUserAccount, machineTransfer.getAmount(), userId));
     }
 
 
@@ -107,10 +99,9 @@ public class TransactionService {
             List<Account> accounts = accountRepository.findAccountByOwner(loggedInUser.getUserId());
             for(Account account: accounts){
                 for(Transaction tans:allTransaction){
-                    if(tans.getAccountFrom().equals(account.getIban()) ||tans.getAccountFrom().equals(account.getIban())){
+                    if(tans.getAccountFrom().equals(account.getIban())){
                         allTransactionSet.add(tans);
                     }
-
                 }
             }
             allTransaction = new ArrayList<Transaction>(allTransactionSet);

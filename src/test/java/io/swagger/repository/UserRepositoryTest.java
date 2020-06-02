@@ -33,7 +33,7 @@ public class UserRepositoryTest {
     @Test
     public void findUserByExistingUserCredentialsShouldReturnNotNull() throws Exception
     {
-        User user = userRepository.findUserByUserCredentials("employee", "5f4dcc3b5aa765d61d8327deb");
+        User user = userRepository.findUserByUserCredentials("dylanEmail", "5f4dcc3b5aa765d61d8327deb");
         assertNotNull(user);
     }
 
@@ -46,7 +46,7 @@ public class UserRepositoryTest {
 
     @Test
     public void findUserByExistingEmailShouldNotReturnNull() throws Exception {
-        assertNotNull(userRepository.findUserByEmail("testuser@gmail.com"));
+        assertTrue(userRepository.findUserByEmail("dylanEmail") != null);
     }
 
     @Test
@@ -65,10 +65,11 @@ public class UserRepositoryTest {
         assertTrue(users.size() == 0);
     }
 
+
     @Test
     public void updateUserByExistingIdShouldSuccessfullyUpdateUser() throws Exception {
-        userRepository.updateUser("John", "Doe", "johndoe@gmail.com", "newPassword1!", 100054);
-        assertTrue(userRepository.findUserByUserCredentials("johndoe@gmail.com", "newPassword1!") != null);
+        userRepository.updateUser("John", "Doe", "suus@gmail.com", "password", 100006);
+        assertNotNull(userRepository.findUserByUserCredentials("suus@gmail.com", "password"));
     }
 
     @Test

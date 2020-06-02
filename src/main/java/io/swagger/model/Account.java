@@ -32,13 +32,14 @@ public class Account   {
     this.balance = balance;
   }
 
-  public Account(Integer transactionDayLimit, double transactionAmountLimit, double balanceLimit){
+  public Account(String iban, Integer transactionDayLimit, double transactionAmountLimit, double balanceLimit){
+    this.iban = iban;
     this.transactionDayLimit = transactionDayLimit;
     this.transactionAmountLimit = transactionAmountLimit;
     this.balanceLimit = balanceLimit;
   }
-
-  public Account(String accountType, double balance, Integer transactionDayLimit, double transactionAmountLimit, double balanceLimit){
+  public Account(String iban, String accountType, double balance, Integer transactionDayLimit, double transactionAmountLimit, double balanceLimit){
+    this.iban = iban;
     this.accountType = AccountTypeEnum.fromValue(accountType);
     this.balance = balance;
     this.transactionDayLimit = transactionDayLimit;

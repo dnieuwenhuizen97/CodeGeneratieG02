@@ -17,7 +17,7 @@
             type="text/css"
             href="css/style.css"
     />
-    <title>Update Account</title>
+    <title>Register Requests</title>
 </head>
 <body>
 <nav class="top-nav">
@@ -73,42 +73,24 @@
 <div id="section-landing">
     <div class="wrapper-landing">
         <h1>
-            Update Account
+            Register Requests
         </h1>
-        <a href="http://localhost:8080/getAccounts.html" class="createtransaction-btn">
-            Show all accounts
+        <a href="http://localhost:8080/registerRequests.html" class="createtransaction-btn">
+            Show all requests
         </a>
     </div>
 </div>
-
-<div class="introduction-users">
-    <form id="updateform">
-
-        <br>
-        <label>Iban: </label> <input id="iban" name="iban" placeholder="Example: NL00INHO0123456789"><br>
-        <label>Balance limit: </label> <input name="balanceLimit" placeholder="Example: 50000"><br>
-        <label>Transaction amount limit: </label> <input name="transactionAmountLimit" placeholder="Example: 5000"><br>
-        <label>Transaction day limit:</label> <input name="transactionDayLimit" placeholder="Example: 100"><br>
-        <br />
-        <button type="button" onclick="updateAccount()">Update</button>
-    </form>
+<div class="content">
+<table id="userRequestsTable"></table>
 </div>
 
 <script src="/js/javascript.js">
 </script>
 <script>
-
-window.onload = function() {
-    DisplayCurrentUser();
-    var id = sessionStorage.getItem("UpdateId");
-
-    document.getElementById('iban').value = id;
-}
-
-window.onbeforeunload = function(){
-    sessionStorage.removeItem("UpdateId");
-};
-
+    window.onload = function() {
+        DisplayCurrentUser();
+        GetUserRequests();
+    }
 </script>
 
 </body>

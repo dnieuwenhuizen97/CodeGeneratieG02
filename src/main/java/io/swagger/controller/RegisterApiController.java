@@ -2,11 +2,11 @@ package io.swagger.controller;
 
 import io.swagger.api.RegisterApi;
 import io.swagger.model.RegisterRequest;
-import io.swagger.model.User;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
 import io.swagger.service.AuthenticationService;
-import io.swagger.service.UserService;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;

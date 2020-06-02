@@ -2,11 +2,11 @@ package io.swagger.controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import io.swagger.api.TransactionsApi;
-import io.swagger.model.Account;
+
 import io.swagger.model.Transaction;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
-import io.swagger.model.User;
+
 import io.swagger.service.AuthenticationService;
 import io.swagger.service.TransactionService;
 import org.slf4j.Logger;
@@ -20,8 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.validation.Valid;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.ArrayList;
+
 import java.util.List;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2020-04-28T15:21:59.457Z[GMT]")
