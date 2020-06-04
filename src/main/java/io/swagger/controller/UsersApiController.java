@@ -71,6 +71,10 @@ public class UsersApiController implements UsersApi {
         String apiKeyAuth = request.getHeader("ApiKeyAuth");
         if(!authService.isUserAuthenticated(apiKeyAuth, userId, true))
             return new ResponseEntity(HttpStatus.FORBIDDEN);
+
+        if(accountService.createAccount(body, userId) == null)
+            return new ResponseEntity<Account>(HttpStatus.valueOf(406));
+
         return new ResponseEntity<Account>(accountService.createAccount(body, userId), HttpStatus.CREATED);
     }
 

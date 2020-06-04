@@ -39,21 +39,21 @@ public class AccountsControllerTest {
     }
 
     @Test
-    public void GetAllAccountsShouldReturnIsOk() throws Exception {
+    public void getAllAccountsShouldReturnIsOk() throws Exception {
         mvc.perform(get("/accounts")
                 .header("ApiKeyAuth", "2222-abcd-5678-efgh"))
                 .andExpect(status().isOk());
     }
 
     @Test
-    public void GetAllAccountsWithoutAuthenticationShouldReturnIsForbidden() throws Exception {
+    public void getAllAccountsWithoutAuthenticationShouldReturnIsForbidden() throws Exception {
         mvc.perform(get("/accounts")
                 .header("ApiKeyAuth", "1235-abcd-5678-efgh"))
                 .andExpect(status().isForbidden());
     }
 
     @Test
-    public void GetAllAccountsWithoutValidTokenShouldReturnIsForbidden() throws Exception {
+    public void getAllAccountsWithoutValidTokenShouldReturnIsForbidden() throws Exception {
         mvc.perform(get("/accounts")
                 .header("ApiKeyAuth", "no valid token"))
                 .andExpect(status().isForbidden());
@@ -61,7 +61,7 @@ public class AccountsControllerTest {
 
 
     @Test
-    public void GetAccountByIbanShouldReturnIsOk() throws Exception {
+    public void getAccountByIbanShouldReturnIsOk() throws Exception {
         mvc.perform(get("/accounts/NL05INHO0993873040")
                 .header("ApiKeyAuth", "2222-abcd-5678-efgh"))
                 .andExpect(status().isOk())
@@ -77,7 +77,7 @@ public class AccountsControllerTest {
     }
 
     @Test
-    public void GetAccountByIbanWithNotExistingIbanShouldReturnDeleted() throws Exception{
+    public void getAccountByIbanWithNotExistingIbanShouldReturnDeleted() throws Exception{
         mvc.perform(get("/accounts/NL11INHO0111111111")
                 .header("ApiKeyAuth", "2222-abcd-5678-efgh"))
                 .andExpect(status().isNotAcceptable());
@@ -86,7 +86,7 @@ public class AccountsControllerTest {
 
 
     @Test
-    public void GetAllAccountByIbanWithoutAuthenticationShouldReturnIsForbidden() throws Exception {
+    public void getAllAccountByIbanWithoutAuthenticationShouldReturnIsForbidden() throws Exception {
         mvc.perform(get("/accounts/NL05INHO0993873040")
                 .header("ApiKeyAuth", "1235-abcd-5678-efgh"))
                 .andExpect(status().isForbidden());
@@ -95,10 +95,9 @@ public class AccountsControllerTest {
 
 
     @Test
-    public void UpdateAccountWithValidInputShouldReturnJsonObjectAndStatusIsOk() throws Exception{
+    public void updateAccountWithValidInputShouldReturnJsonObjectAndStatusIsOk() throws Exception{
         JSONObject updateAccount = new JSONObject();
 
-        updateAccount.put("iban", "NL02INHO0463973769");
         updateAccount.put("transactionDayLimit", 150000);
         updateAccount.put("transactionAmountLimit", 6000);
         updateAccount.put("balanceLimit", 50);
@@ -120,7 +119,7 @@ public class AccountsControllerTest {
     }
 
     @Test
-    public void UpdateAccountWithInvalidInputShouldReturnStatusIsBadRequest() throws Exception{
+    public void updateAccountWithInvalidInputShouldReturnStatusIsBadRequest() throws Exception{
         JSONObject updateAccount = new JSONObject();
         updateAccount.put("transactionDayLimit", 150000);
         updateAccount.put("transactionAmountLimit", 6000);
@@ -134,10 +133,9 @@ public class AccountsControllerTest {
     }
 
     @Test
-    public void UpdateAccountWithoutAuthenticationShouldReturnStatusIsForbidden() throws Exception{
+    public void updateAccountWithoutAuthenticationShouldReturnStatusIsForbidden() throws Exception{
         JSONObject updateAccount = new JSONObject();
 
-        updateAccount.put("iban", "NL01INHO0463973769");
         updateAccount.put("transactionDayLimit", 1500);
         updateAccount.put("transactionAmountLimit", 60);
         updateAccount.put("balanceLimit", 0);
@@ -154,31 +152,48 @@ public class AccountsControllerTest {
 
 
     @Test
-    public void DeleteAccountShouldReturnIsNoContent() throws Exception{
+    public void deleteAccountShouldReturnIsNoContent() throws Exception{
         mvc.perform(delete("/accounts/NL01INHO0463973769")
                 .header("ApiKeyAuth", "2222-abcd-5678-efgh"))
                 .andExpect(status().isNoContent());
     }
 
     @Test
-    public void DeleteAccountWithNotExistingIbanShouldReturnIsNotAcceptable() throws Exception{
+    public void deleteAccountWithNotExistingIbanShouldReturnIsNotAcceptable() throws Exception{
         mvc.perform(delete("/accounts/NL99INHO0993873049")
                 .header("ApiKeyAuth", "2222-abcd-5678-efgh"))
                 .andExpect(status().isNotAcceptable());
     }
 
     @Test
-    public void DeleteAccountWithoutValidTokenShouldReturnIsForbidden() throws Exception{
+    public void deleteAccountWithoutValidTokenShouldReturnIsForbidden() throws Exception{
         mvc.perform(delete("/accounts/NL12INHO0123456789")
                 .header("ApiKeyAuth", "no valid token"))
                 .andExpect(status().isForbidden());
     }
 
     @Test
-    public void DeleteAccountWithoutAuthenticationShouldReturnIsForbidden() throws Exception {
+    public void deleteAccountWithoutAuthenticationShouldReturnIsForbidden() throws Exception {
         mvc.perform(delete("/accounts/NL12INHO0123456789")
                 .header("ApiKeyAuth", "1235-abcd-5678-efgh"))
                 .andExpect(status().isForbidden());
+    }
+    
+    
+    @Test
+    public void getAllAccountWithJSONHeaderShouldRetunIsNotImplemented() throws Exception {
+        mvc.perform(get("/accounts")
+        		.header("ApiKeyAuth", "2222-abcd-5678-efgh")
+                .header("Accept",MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isNotImplemented());
+    }
+    
+    @Test
+    public void getSpecificAccountWithJSONHeaderShouldRetunIsNotImplemented() throws Exception {
+        mvc.perform(get("/accounts/NL12INHO0123456789")
+        		.header("ApiKeyAuth", "2222-abcd-5678-efgh")
+                .header("Accept",MediaType.APPLICATION_JSON_VALUE))
+                .andExpect(status().isNotImplemented());
     }
 }
 

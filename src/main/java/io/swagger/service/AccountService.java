@@ -5,19 +5,23 @@ import io.swagger.model.Account;
 import io.swagger.model.BankAccount;
 import io.swagger.repository.AccountRepository;
 
+import io.swagger.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 
 import java.util.List;
+import java.util.Random;
 
 
 @Service
 public class AccountService {
     private AccountRepository accountRepository;
+    private UserRepository userRepository;
     private BankAccount bankAccount = BankAccount.getBankAccount();
 
-    public AccountService(AccountRepository repository) {
-        this.accountRepository = repository;
+    public AccountService(AccountRepository accountRepository, UserRepository userRepository) {
+        this.accountRepository = accountRepository;
+        this.userRepository = userRepository;
     }
 
     public Account getSpecificAccount(String iban) {
@@ -44,14 +48,33 @@ public class AccountService {
     }
 
     public Account createAccount(Account newAccount, Integer userId){
-        //no checks on creating the account...
+        // User does not exist
+        if(!userRepository.existsById(userId))
+            return null;
 
-            newAccount.setIban(createIban());
-            newAccount.setOwner(userId);
+        List<Account> ownersAccounts = getAllAccountsFromUser(userId);
 
-            bankAccount.addAmountToBankBalance(newAccount.getBalance());
-            accountRepository.save(newAccount);
-            return newAccount;
+        // User already has two accounts, a user is allowed to have only one current account and one savings account.
+        if(ownersAccounts.size() == 1) {
+            Account ownersAccount = ownersAccounts.get(0);
+            // User already has a current account
+            if(ownersAccount.getAccountType() == Account.AccountTypeEnum.CURRENT && newAccount.getAccountType() == Account.AccountTypeEnum.CURRENT)
+                return null;
+            // User already has a savings account
+            else if(ownersAccount.getAccountType() == Account.AccountTypeEnum.SAVINGS && newAccount.getAccountType() == Account.AccountTypeEnum.SAVINGS)
+                return null;
+        }
+        if(!(newAccount.getAccountType() == Account.AccountTypeEnum.CURRENT || newAccount.getAccountType() == Account.AccountTypeEnum.SAVINGS))
+            return null;
+
+        // User does not already have an account with the same accounttype, he is allowed to make another account.
+        newAccount.setIban(createIban());
+        newAccount.setOwner(userId);
+
+        bankAccount.addAmountToBankBalance(newAccount.getBalance());
+        accountRepository.save(newAccount);
+        return newAccount;
+
     }
 
     public Integer deleteAccount(String iban)
@@ -78,26 +101,30 @@ public class AccountService {
         oldAccount.setTransactionAmountLimit(account.getTransactionAmountLimit());
         oldAccount.setTransactionDayLimit(account.getTransactionDayLimit());
 
-        accountRepository.save(oldAccount);
-        return oldAccount;
+        return accountRepository.save(oldAccount);
     }
 
     public String createIban()
     {
-        String iban = "NL54INHO0123456789";
-//        Random r = new Random();
-//
-//        iban += "NL";
-//        for(int i = 1; i <=2; i++)
-//        {
-//            iban += Integer.toString(r.nextInt(10));
-//        }
-//
-//        iban += "INHO0";
-//        for(int i = 1; i <=9; i++)
-//        {
-//            iban += Integer.toString(r.nextInt(10));
-//        }
+        // This iban is used to add an iban for a new account.
+        String iban = "";
+        Random r = new Random();
+
+        iban += "NL";
+        for(int i = 1; i <=2; i++)
+        {
+            iban += Integer.toString(r.nextInt(10));
+        }
+
+        iban += "INHO0";
+        for(int i = 1; i <=9; i++)
+        {
+            iban += Integer.toString(r.nextInt(10));
+        }
+        if(accountRepository.existsById(iban))
+        {
+            return createIban();
+        }
         return iban;
     }
 }

@@ -99,9 +99,6 @@ public class MyApplicationRunner implements ApplicationRunner {
                         )
                 );
 
-
-
-
         transactionRepository.findAll()
                 .forEach(System.out::println);
 
@@ -113,12 +110,6 @@ public class MyApplicationRunner implements ApplicationRunner {
                 .forEach(System.out::println);
 
         accountRepository.findAll()
-                .forEach(System.out::println);
-
-        transactionRepository.findAll()
-                .forEach(System.out::println);
-
-        userRepository.findAll()
                 .forEach(System.out::println);
 
 

@@ -107,15 +107,6 @@ public class AccountsApiController implements AccountsApi {
         if(!authenticationService.isUserAuthenticated(apiKeyAuth, 0, true))
             return new ResponseEntity(HttpStatus.FORBIDDEN);
 
-        if (accept != null && accept.contains("application/json")) {
-            try {
-                return new ResponseEntity<Account>(objectMapper.readValue("{\n  \"owner\" : 0,\n  \"account_type\" : [ \"current\", \"current\" ],\n  \"transactionDayLimit\" : 100,\n  \"balance\" : 200,\n  \"transactionAmountLimit\" : 200,\n  \"iban\" : \"NLxxINHO0xxxxxxxxx\",\n  \"balanceLimit\" : -1200\n}", Account.class), HttpStatus.NOT_IMPLEMENTED);
-            } catch (IOException e) {
-                log.error("Couldn't serialize response for content type application/json", e);
-                return new ResponseEntity<Account>(HttpStatus.INTERNAL_SERVER_ERROR);
-            }
-        }
-
         if(accountService.updateAccount(body, iban) == null)
             return new ResponseEntity<Account>(HttpStatus.valueOf(406));
 

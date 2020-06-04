@@ -1,7 +1,7 @@
 function getAllTransactions() {
     var xhr =  new XMLHttpRequest();
 
-    var url = 'http://localhost:8080/transactions';
+    var url = 'http://nazaragency.nl/transactions';
 
     xhr.open("GET", url);
     xhr.setRequestHeader("ApiKeyAuth", sessionStorage.getItem("AuthToken"));
@@ -120,10 +120,10 @@ function CreateTableFromJSONUserPage(obj) {
     var id = idArr2[0];
     sessionStorage.setItem("UpdateId", id);
     if (id.length > 10) {
-        window.location.href = "http://localhost:8080/updateAccount.html";
+        window.location.href = "http://nazaragency.nl/updateAccount.html";
     }
     else {
-        window.location.href = "http://localhost:8080/updateUser.html";
+        window.location.href = "http://nazaragency.nl/updateUser.html";
     }
     var divContainer = document.getElementById("datadisplay");
     divContainer.innerHTML = sessionStorage.getItem("UpdateId");
@@ -139,7 +139,7 @@ function CreateTableFromJSONUserPage(obj) {
 function getAllTransactionsForUser(){
     var xhr =  new XMLHttpRequest();
     var user_id = sessionStorage.getItem("UserId");
-    var url = 'http://localhost:8080/users/'+user_id+'/transactions';
+    var url = 'http://nazaragency.nl/users/'+user_id+'/transactions';
     //alert(url);
     xhr.open("GET", url);
     xhr.setRequestHeader("ApiKeyAuth", sessionStorage.getItem("AuthToken"));
@@ -158,7 +158,7 @@ function getAllTransactionsForUser(){
 
 function getTransactionById() {
     var xhr =  new XMLHttpRequest();
-    var url = 'http://localhost:8080/users/'+document.forms["search"]["userId"].value+'/transactions';
+    var url = 'http://nazaragency.nl/users/'+document.forms["search"]["userId"].value+'/transactions';
     xhr.open("GET", url);
     xhr.setRequestHeader("ApiKeyAuth", sessionStorage.getItem("AuthToken"));
 
@@ -186,7 +186,7 @@ function getAllTransactionsWithPagination(command, url) {
         url = account_url+'&offset='+offset+'&limit='+limit;
     }
     else if(url==""){
-        url = 'http://localhost:8080/transactions?offset='+offset+'&limit='+limit;
+        url = 'http://nazaragency.nl/transactions?offset='+offset+'&limit='+limit;
     }else{
         url = url+'?offset='+offset+'&limit='+limit;
     }
@@ -247,7 +247,7 @@ function searchTransactionByIBAN(){
     if(iban== ''){
         alert("Please enter iban")
     }else{
-        var url = 'http://localhost:8080/transactions?iban='+iban;
+        var url = 'http://nazaragency.nl/transactions?iban='+iban;
         document.forms["search"]["url"].value= url;
         getTransactionNext();
     }
@@ -257,9 +257,9 @@ function searchTransactionByIBAN(){
 function getTransactionPrev(){
     //alert("getTransactionPrev");
     var user_id = document.forms["search"]["userId"].value;
-    var url = 'http://localhost:8080/transactions';
+    var url = 'http://nazaragency.nl/transactions';
     if(user_id != ''){
-        url = 'http://localhost:8080/users/'+document.forms["search"]["userId"].value+'/transactions';
+        url = 'http://nazaragency.nl/users/'+document.forms["search"]["userId"].value+'/transactions';
     }
     //alert(url);
     var offset = document.forms["search"]["offset"].value;
@@ -277,9 +277,9 @@ function getTransactionPrev(){
 
 function getTransactionNext(){
     var user_id = document.forms["search"]["userId"].value;
-    var url = 'http://localhost:8080/transactions';
+    var url = 'http://nazaragency.nl/transactions';
     if(user_id!=""){
-        url = 'http://localhost:8080/users/'+document.forms["search"]["userId"].value+'/transactions';
+        url = 'http://nazaragency.nl/users/'+document.forms["search"]["userId"].value+'/transactions';
     }
     var offset = Number(document.forms["search"]["offset"].value);
     var limit = Number(document.forms["search"]["limit"].value);
@@ -294,7 +294,7 @@ function GETAllUsers() {
 
     var xhr =  new XMLHttpRequest();
 
-    var url = 'http://localhost:8080/users';
+    var url = 'http://nazaragency.nl/users';
 
     xhr.open("GET", url);
     xhr.setRequestHeader("ApiKeyAuth", sessionStorage.getItem("AuthToken"));
@@ -315,7 +315,7 @@ function GETUserById() {
 
     var xhr =  new XMLHttpRequest();
 
-    var url = 'http://localhost:8080/users/'+document.forms["search"]["user_id"].value;
+    var url = 'http://nazaragency.nl/users/'+document.forms["search"]["user_id"].value;
 
     xhr.open("GET", url);
     xhr.setRequestHeader("ApiKeyAuth", sessionStorage.getItem("AuthToken"));
@@ -337,7 +337,7 @@ function GETCurrentUserById(userId) {
 
     var xhr =  new XMLHttpRequest();
 
-    var url = 'http://localhost:8080/users/'+userId;
+    var url = 'http://nazaragency.nl/users/'+userId;
 
     xhr.open("GET", url);
     xhr.setRequestHeader("ApiKeyAuth", sessionStorage.getItem("AuthToken"));
@@ -355,7 +355,7 @@ function GETUserByEmail() {
 
     var xhr =  new XMLHttpRequest();
 
-    var url = 'http://localhost:8080/users?email='+document.forms["search"]["email"].value;
+    var url = 'http://nazaragency.nl/users?email='+document.forms["search"]["email"].value;
 
     xhr.open("GET", url);
     xhr.setRequestHeader("ApiKeyAuth", sessionStorage.getItem("AuthToken"));
@@ -377,7 +377,7 @@ function GETUserByName() {
 
     var xhr =  new XMLHttpRequest();
 
-    var url = 'http://localhost:8080/users?name='+document.forms["search"]["lastName"].value;
+    var url = 'http://nazaragency.nl/users?name='+document.forms["search"]["lastName"].value;
 
     xhr.open("GET", url);
     xhr.setRequestHeader("ApiKeyAuth", sessionStorage.getItem("AuthToken"));
@@ -399,7 +399,7 @@ function DELETEUserById() {
 
     var xhr =  new XMLHttpRequest();
 
-    var url = 'http://localhost:8080/users/'+document.forms["search"]["user_id"].value;
+    var url = 'http://nazaragency.nl/users/'+document.forms["search"]["user_id"].value;
 
     xhr.open("DELETE", url);
     xhr.setRequestHeader("ApiKeyAuth", sessionStorage.getItem("AuthToken"));
@@ -420,7 +420,7 @@ function DELETEUserById() {
 function POSTUser() {
 
    var xhr =  new XMLHttpRequest();
-    xhr.open('POST','http://localhost:8080/users');
+    xhr.open('POST','http://nazaragency.nl/users');
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.setRequestHeader("ApiKeyAuth", sessionStorage.getItem("AuthToken"));
     xhr.onload= (e) => {
@@ -444,7 +444,7 @@ function PUTUser() {
    var userid = document.getElementById("uid").value;
 
    var xhr =  new XMLHttpRequest();
-    xhr.open('PUT','http://localhost:8080/users/'+userid);
+    xhr.open('PUT','http://nazaragency.nl/users/'+userid);
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.setRequestHeader("ApiKeyAuth", sessionStorage.getItem("AuthToken"));
     xhr.onload= (e) => {
@@ -465,7 +465,7 @@ function PUTUser() {
 function DELETELogout()
 {
   var xhr =  new XMLHttpRequest();
-    xhr.open('DELETE','http://localhost:8080/logout');
+    xhr.open('DELETE','http://nazaragency.nl/logout');
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.setRequestHeader("ApiKeyAuth", sessionStorage.getItem("AuthToken"));
     xhr.onload= (e) => {
@@ -479,7 +479,7 @@ function DELETELogout()
 function POSTRegister()
 {
     var xhr =  new XMLHttpRequest();
-    xhr.open('POST','http://localhost:8080/register');
+    xhr.open('POST','http://nazaragency.nl/register');
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.onload= (e) => {
         alert(xhr.status);
@@ -497,7 +497,7 @@ function POSTRegister()
 
 function POSTLogin(){
     var xhr =  new XMLHttpRequest();
-    xhr.open('POST','http://localhost:8080/login');
+    xhr.open('POST','http://nazaragency.nl/login');
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.onload= (e) => {
         alert(xhr.status);
@@ -528,7 +528,7 @@ function GetUserRequests()
 
 
         var xhr =  new XMLHttpRequest();
-        xhr.open('GET','http://localhost:8080/users/requests');
+        xhr.open('GET','http://nazaragency.nl/users/requests');
         xhr.setRequestHeader("ApiKeyAuth" ,sessionStorage.getItem("AuthToken"));
         xhr.onload= (e) => {
             alert(xhr.status);
@@ -549,7 +549,7 @@ function acceptRequest(requestId, firstName, lastName, password, email)
 {
 
         var xhr =  new XMLHttpRequest();
-        xhr.open('POST','http://localhost:8080/users');
+        xhr.open('POST','http://nazaragency.nl/users');
         xhr.setRequestHeader("Content-Type", "application/json");
         xhr.setRequestHeader("ApiKeyAuth", sessionStorage.getItem("AuthToken"));
         xhr.onload= (e) => {
@@ -571,7 +571,7 @@ function acceptRequest(requestId, firstName, lastName, password, email)
 function declineRequest(requestId)
 {
     var xhr =  new XMLHttpRequest();
-        xhr.open('DELETE','http://localhost:8080/users/requests/' + requestId);
+        xhr.open('DELETE','http://nazaragency.nl/users/requests/' + requestId);
         xhr.setRequestHeader("ApiKeyAuth" ,sessionStorage.getItem("AuthToken"));
         xhr.onload= (e) => {
             alert(xhr.status);
@@ -588,7 +588,7 @@ function PostMachineTransfer()
 
     var xhr =  new XMLHttpRequest();
 
-    xhr.open('POST','http://localhost:8080/users/'+sessionStorage.getItem("UserId")+ '/machine');
+    xhr.open('POST','http://nazaragency.nl/users/'+sessionStorage.getItem("UserId")+ '/machine');
     xhr.setRequestHeader("Content-Type", "application/json" );
     xhr.setRequestHeader("ApiKeyAuth" ,sessionStorage.getItem("AuthToken"));
     xhr.onload= (e) => {
@@ -607,7 +607,7 @@ function getAllAccounts() {
 
     var xhr =  new XMLHttpRequest();
 
-    var url = 'http://localhost:8080/accounts';
+    var url = 'http://nazaragency.nl/accounts';
 
     xhr.open("GET", url);
     xhr.setRequestHeader("ApiKeyAuth", sessionStorage.getItem("AuthToken"));
@@ -628,7 +628,7 @@ function getAccountByUserId() {
 
     var xhr =  new XMLHttpRequest();
 
-    var url = 'http://localhost:8080/users/'+document.forms["search"]["owner"].value+'/accounts';
+    var url = 'http://nazaragency.nl/users/'+document.forms["search"]["owner"].value+'/accounts';
 
     xhr.open("GET", url);
     xhr.setRequestHeader("ApiKeyAuth", sessionStorage.getItem("AuthToken"));
@@ -650,7 +650,7 @@ function getAccountByIban() {
 
     var xhr =  new XMLHttpRequest();
 
-    var url = 'http://localhost:8080/accounts/'+document.forms["search"]["iban"].value;
+    var url = 'http://nazaragency.nl/accounts/'+document.forms["search"]["iban"].value;
 
     xhr.open("GET", url);
     xhr.setRequestHeader("ApiKeyAuth", sessionStorage.getItem("AuthToken"));
@@ -672,7 +672,7 @@ function deleteAccountByIban() {
 
     var xhr =  new XMLHttpRequest();
 
-    var url = 'http://localhost:8080/accounts/'+document.forms["search"]["iban"].value;
+    var url = 'http://nazaragency.nl/accounts/'+document.forms["search"]["iban"].value;
 
     xhr.open("DELETE", url);
     xhr.setRequestHeader("ApiKeyAuth", sessionStorage.getItem("AuthToken"));
@@ -694,7 +694,7 @@ function deleteAccountByIban() {
 function updateAccount() {
 
    var xhr =  new XMLHttpRequest();
-    xhr.open('PUT','http://localhost:8080/accounts/'+document.forms["updateform"]["iban"].value);
+    xhr.open('PUT','http://nazaragency.nl/accounts/'+document.forms["updateform"]["iban"].value);
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.setRequestHeader("ApiKeyAuth", sessionStorage.getItem("AuthToken"));
     xhr.onload= (e) => {
@@ -703,7 +703,6 @@ function updateAccount() {
     }
     xhr.send(JSON.stringify(
         {
-            "iban": document.forms["updateform"]["iban"].value ,
             "balanceLimit": document.forms["updateform"]["balanceLimit"].value ,
             "transactionAmountLimit": document.forms["updateform"]["transactionAmountLimit"].value ,
             "transactionDayLimit": document.forms["updateform"]["transactionDayLimit"].value
@@ -716,7 +715,7 @@ function postAccount(){
     var t = document.getElementById("account_type");
 
     var userId = sessionStorage.getItem("UserId");
-    xhr.open('POST','http://localhost:8080/users/'+userId+'/accounts');
+    xhr.open('POST','http://nazaragency.nl/users/'+userId+'/accounts');
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.setRequestHeader("ApiKeyAuth", sessionStorage.getItem("AuthToken"));
     xhr.onload= (e) => {
@@ -725,7 +724,6 @@ function postAccount(){
     }
     xhr.send(JSON.stringify(
         {
-            "iban": "nl00inho0000000000" ,
             "account_type": t.options[t.selectedIndex].value,
             "balance": document.forms["createAccountForm"]["balance"].value ,
             "transactionDayLimit": document.forms["createAccountForm"]["transactionDayLimit"].value ,
@@ -738,7 +736,7 @@ function postAccount(){
 function createNewTransaction() {
 
     var xhr =  new XMLHttpRequest();
-    xhr.open('POST','http://localhost:8080/transactions');
+    xhr.open('POST','http://nazaragency.nl/transactions');
     xhr.setRequestHeader("Content-Type", "application/json");
     xhr.setRequestHeader("ApiKeyAuth", sessionStorage.getItem("AuthToken"));
     xhr.onload= (e) => {
