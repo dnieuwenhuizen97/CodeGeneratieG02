@@ -46,6 +46,7 @@ public class MyApplicationRunner implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments applicationArguments) throws Exception {
 
+
         Files.lines(Paths.get("src/main/resources/accounts.csv"))
                 .forEach(
                         line -> accountRepository.save(
@@ -58,6 +59,8 @@ public class MyApplicationRunner implements ApplicationRunner {
                                         Double.parseDouble(line.split(",")[6]))
                         )
                 );
+
+
         Files.lines(Paths.get("src/main/resources/users.csv"))
                 .forEach(
                         line -> userRepository.save(
@@ -69,15 +72,6 @@ public class MyApplicationRunner implements ApplicationRunner {
                         )
                 );
 
-        Files.lines(Paths.get("src/main/resources/authTokens.csv"))
-                .forEach(
-                        line -> authTokenRepository.save(
-                                new AuthToken(line.split(",")[0],
-                                        Integer.parseInt(line.split(",")[1]),
-                                        LocalDateTime.now(),
-                                        LocalDateTime.now().plusMinutes(30))
-                        )
-                );
         Files.lines(Paths.get("src/main/resources/registerRequests.csv"))
                 .forEach(
                         line -> registerRequestRepository.save(
@@ -96,6 +90,16 @@ public class MyApplicationRunner implements ApplicationRunner {
                                         line.split(",")[3],
                                         Double.parseDouble(line.split(",")[4]),
                                         Integer.parseInt(line.split(",")[5]))
+                        )
+                );
+
+        Files.lines(Paths.get("src/main/resources/authTokens.csv"))
+                .forEach(
+                        line -> authTokenRepository.save(
+                                new AuthToken(line.split(",")[0],
+                                        Integer.parseInt(line.split(",")[1]),
+                                        LocalDateTime.now(),
+                                        LocalDateTime.now().plusMinutes(30))
                         )
                 );
 

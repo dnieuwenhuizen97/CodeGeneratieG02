@@ -25,11 +25,8 @@ import java.util.List;
 public class AccountsApiController implements AccountsApi {
 
     private static final Logger log = LoggerFactory.getLogger(AccountsApiController.class);
-
     private final ObjectMapper objectMapper;
-
     private final HttpServletRequest request;
-
     private AccountService accountService;
     private AuthenticationService authenticationService;
 

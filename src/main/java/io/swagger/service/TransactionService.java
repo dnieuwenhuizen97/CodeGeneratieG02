@@ -1,6 +1,12 @@
 package io.swagger.service;
 
-import io.swagger.model.*;
+import io.swagger.model.Account;
+import io.swagger.model.BankAccount;
+import io.swagger.model.MachineTransfer;
+import io.swagger.model.Transaction;
+import io.swagger.model.User;
+import io.swagger.model.AuthToken;
+
 import io.swagger.repository.AccountRepository;
 import io.swagger.repository.AuthTokenRepository;
 import org.springframework.stereotype.Service;
@@ -13,6 +19,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+
 @Service
 public class TransactionService {
     private TransactionRepository transactionRepository;
@@ -22,7 +29,6 @@ public class TransactionService {
     private BankAccount bankAccount = BankAccount.getBankAccount();
     private DateTimeFormatter formatter;
 
-    public static String EXTERNAL_IBAN = "NL01INHO0000000001";
 
     public TransactionService(TransactionRepository transactionRepository, UserRepository userRepository, AccountRepository accountRepository, AuthTokenRepository authTokenRepository) {
         this.transactionRepository = transactionRepository;
@@ -243,23 +249,17 @@ public class TransactionService {
      * @param transaction
      */
     private void updateAccountToBalance(Transaction transaction) {
-        Account account = null;
         if(accountRepository.findById(transaction.getAccountTo()).isPresent()){
             //This is internal bank account
-            account = accountRepository.findById(transaction.getAccountTo()).get();
+            Account account = accountRepository.findById(transaction.getAccountTo()).get();
             double newBalance = account.getBalance()+transaction.getAmount();
             account.setBalance(newBalance);
+            accountRepository.save(account);
         }else{
-            //This is external bank account
-            account = accountRepository.findById(EXTERNAL_IBAN).get();
-            double newBalance = account.getBalance()-transaction.getAmount();
-
-            //money will be removed from bank so also from the bank own account
+            //money will be removed from the bank own account
             bankAccount.removeAmountFromBankBalance(transaction.getAmount());
-            account.setBalance(newBalance);
         }
 
-        accountRepository.save(account);
     }
 
     /**

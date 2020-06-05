@@ -237,7 +237,9 @@ public class UsersApiController implements UsersApi {
                 return new ResponseEntity<Transaction>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
         }
+
         Transaction machineTransfer = transactionService.createMachineTransfer(userId, body);
+        //if machine transfer is invalid (no current account, amount to low)
         if(machineTransfer == null)
             return new ResponseEntity<Transaction>(HttpStatus.NOT_ACCEPTABLE);
 

@@ -130,7 +130,6 @@ public class GeneralMethodsService {
                 return false;
             }
         }
-
         return true;
     }
 }

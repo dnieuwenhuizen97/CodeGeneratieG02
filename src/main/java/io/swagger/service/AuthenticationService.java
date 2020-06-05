@@ -1,6 +1,12 @@
 package io.swagger.service;
 
-import io.swagger.model.*;
+
+import io.swagger.model.BankAccount;
+import io.swagger.model.User;
+import io.swagger.model.Login;
+import io.swagger.model.RegisterRequest;
+import io.swagger.model.AuthToken;
+
 import io.swagger.repository.AuthTokenRepository;
 import io.swagger.repository.RegisterRequestRepository;
 import io.swagger.repository.UserRepository;
@@ -64,7 +70,7 @@ public class AuthenticationService {
 
     public boolean isUserAuthenticated(String token, int userId, boolean isEmployeeRequest)
     {
-        //token exist
+        //token does not exist
         if(!authTokenRepository.existsById(token))
             return false;
 
@@ -76,10 +82,11 @@ public class AuthenticationService {
 
         User.UserTypeEnum userType = userRepository.findById(authToken.getUserId()).get().getUserType();
 
+        //wrong role
         if(isEmployeeRequest && (userType == User.UserTypeEnum.CUSTOMER))
             return false;
 
-        //if user in path given check if user connected to token is requesting
+        //if user in path given check if user connected to token is requesting or its an employee
         if(userId != 0) {
             //employee requested
             if (userType == User.UserTypeEnum.EMPLOYEE || userType == User.UserTypeEnum.CUSTOMERANDEMPLOYEE)

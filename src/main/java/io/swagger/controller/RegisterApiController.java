@@ -42,9 +42,10 @@ public class RegisterApiController implements RegisterApi {
 
         RegisterRequest request = authenticationService.createRegisterRequest(body);
 
-        //sign up user will return respond code 406: already exist, 201: created
+        //if no there already exist a request or email/password is invalid
         if(request == null)
             return new ResponseEntity<RegisterRequest>(HttpStatus.valueOf(406));
+
         return new ResponseEntity<RegisterRequest>(request, HttpStatus.CREATED);
     }
 
