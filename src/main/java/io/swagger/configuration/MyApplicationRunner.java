@@ -99,7 +99,7 @@ public class MyApplicationRunner implements ApplicationRunner {
                                 new AuthToken(line.split(",")[0],
                                         Integer.parseInt(line.split(",")[1]),
                                         LocalDateTime.now(),
-                                        LocalDateTime.now().plusMinutes(30))
+                                        LocalDateTime.now().plusYears(1))
                         )
                 );
 
